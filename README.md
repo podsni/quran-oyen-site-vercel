@@ -1,6 +1,6 @@
 # Quran Oyen
 
-Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Repositori ini berisi berkas situs yang dipublikasikan di [alquran.bangundwir.my.id](https://alquran.bangundwir.my.id/).
+Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Repositori ini berisi berkas situs yang dipublikasikan di [quran-oyen-site.vercel.app](https://quran-oyen-site.vercel.app/).
 
 ## Fitur
 
@@ -11,7 +11,7 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 - **Hadis dan tafsir lengkap per surat** tersedia dari satu panel. Pengguna dapat membuka hadis Arab/Indonesia berdasarkan kitab dan nomor, mencari teks Indonesia secara lokal pada edisi Bukhari, Muslim, Abu Dawud, Tirmidhi, Nasa'i, Ibn Majah, atau Malik, serta mencari lintas koleksi memakai teks Inggris UmmahAPI. Tafsir EQuran.id dapat dibuka untuk masing-masing dari 114 surat.
 - Hadis dapat disimpan dari tampilan detail maupun hasil pencarian. Maksimal 50 teks tersimpan secara lokal pada perangkat dan bisa dibuka kembali tanpa koneksi; simpanan tidak disinkronkan ke akun atau perangkat lain.
 - **Pencarian semantik ayat dan tafsir** menggunakan Vector Search EQuran.id. Hasil menampilkan teks Arab, transliterasi Latin bila tersedia, terjemahan/tafsir, tingkat kecocokan, serta tautan untuk membuka, mendengarkan, atau melihat tafsir ayat terkait.
-- **Doa dan wirid** dari katalog EQuran.id dapat dicari dan disaring berdasarkan kategori. Tab Maulid dan Tahlil menautkan langsung ke bacaan resmi Quran NU Online.
+- **Doa, wirid, Maulid, dan Tahlil** tersedia sebagai bacaan lokal: 227 rekaman katalog EQuran.id, 18 bab Maulid Barzanji beserta doa penutup, dan 28 bagian Tahlil. Tab bacaan tidak mengalihkan ke situs lain; data yang telah dimuat bisa disajikan dari cache service worker. Satu rekaman katalog hanya menyediakan keterangan naratif, tanpa teks doa Arab, Latin, atau arti, dan UI menyatakannya apa adanya.
 - **Jadwal sholat bulanan** dapat dihitung dari lokasi saat ini dengan izin GPS atau dipilih manual per provinsi/kota. Jadwal hari ini ditonjolkan dan kalender bulanan dapat dibuka; pilihan manual disimpan di perangkat, sedangkan koordinat GPS hanya digunakan untuk permintaan saat itu dan tidak disimpan.
 - **Pencarian Al-Qur’an** mendukung kata Arab, kata dalam terjemahan Indonesia, dan arti kata bahasa Inggris. Pencocokan persis berjalan di browser; ejaan Arab dinormalisasi agar beberapa variasi penulisan tetap dapat ditemukan.
 - **Jelajahi akar kata** melalui peta hubungan atau tampilan titik ayat. Pilih sebuah kata untuk menyorot kemunculan akar katanya di seluruh Al-Qur’an.

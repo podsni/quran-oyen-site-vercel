@@ -2,6 +2,13 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 5 November 2026 — Bacaan ibadah lebih nyaman di ponsel dan offline
+
+- **Ponsel:** Target sentuh panel bacaan diperbesar menjadi sekurangnya 44 px; input memakai ukuran teks yang mencegah zoom otomatis pada iOS, dan sheet mengikuti tinggi viewport dinamis.
+- **Kelengkapan sumber:** 227 rekaman katalog tetap disajikan. Entri 42 kini dirender sebagai keterangan berbahasa Indonesia, bukan teks Arab; UI menjelaskan kolom Arab/Latin/arti yang memang tidak tersedia di sumber. Tidak ada teks agama yang ditebak.
+- **Bacaan lokal:** Semua bagian Maulid Barzanji (18 bab dan doa penutup) serta Tahlil (28 bagian) tetap dibaca langsung di situs dan tidak mengalihkan ke halaman luar.
+- **Pengembang:** Jalankan `node --test tools/test_local_readings.mjs`, `python3 tools/test_ibadah_browser.py`, `python3 tools/test_mobile_offline_readings_browser.py`, dan `python3 tools/stamp_sw.py` sebelum deploy.
+
 ## 2 November 2026 — Gulir dan ganti ayat lebih andal
 
 - **Navigasi:** Feed memuat pilihan berikutnya menjelang akhir guliran. Tombol panah maju/mundur membantu berpindah ayat, termasuk dari teks panjang; fokus keyboard di ujung teks dapat melanjutkan ke kartu berikutnya.

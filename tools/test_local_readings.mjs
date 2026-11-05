@@ -18,10 +18,22 @@ const [doa, maulid, tahlil, html, ibadah, sw] = await Promise.all([
 
 test('Doa and wird catalogue is a local EQuran snapshot with a useful catalogue size', () => {
   assert.equal(doa.status, 'success');
-  assert.ok(doa.data.length >= 200);
+  assert.equal(doa.total, 227);
+  assert.equal(doa.data.length, 227);
+  assert.deepEqual(doa.data.map((item) => item.id), Array.from({ length: 227 }, (_, index) => index + 1));
   assert.ok(doa.data.every((item) => item.nama && item.ar));
-  assert.ok(doa.data.filter((item) => item.tr && item.idn).length >= doa.data.length - 1);
+  assert.equal(doa.data.filter((item) => item.tr && item.idn).length, 226);
   assert.match(ibadah, /localRequest\('data\/ibadah\/doa\.json'/);
+});
+
+test('catalogue prose in the Arabic field is identified instead of being replaced by invented prayer text', () => {
+  const entry = doa.data.find((item) => item.id === 42);
+  assert.equal(entry.nama, 'Bila Ada Sesuatu Yang Menggembirakan');
+  assert.match(entry.ar, /^Nabi Shallallahu/);
+  assert.equal(entry.tr, '');
+  assert.equal(entry.idn, '');
+  assert.match(ibadah, /hasArabicScript/);
+  assert.match(ibadah, /sourceOnlyEntry/);
 });
 
 test('Maulid includes 18 Arabic chapters plus the closing dua, with the source limitation stated', () => {

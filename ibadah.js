@@ -10,6 +10,7 @@ const el = (tag, props = {}, ...children) => {
   node.append(...children);
   return node;
 };
+const hasArabicScript = (value) => /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(String(value ?? ''));
 
 const TEXT = {
   id: {
@@ -22,7 +23,7 @@ const TEXT = {
     openAyah: 'Buka ayat', openTafsir: 'Buka tafsir ayat', playAyah: 'Putar ayat', latin: 'Latin', translation: 'Terjemahan',
     doaPanel: 'Bacaan ibadah', doaHint: 'Kumpulan doa dengan teks Arab, Latin, dan arti. Cari bacaan atau pilih kategori.', wiridHint: 'Wirid dan dzikir dari katalog EQuran.id. Untuk koleksi lengkap, buka sumber resmi NU Online.', doaSearch: 'Cari doa, wirid, atau kata…', doaCategory: 'Kategori', allGroups: 'Semua kategori', doaLoading: 'Memuat daftar doa dan dzikir…', doaError: 'Daftar doa belum dapat dimuat. Periksa koneksi lalu coba lagi.', doaEmpty: 'Tidak ada bacaan yang cocok dengan pencarian ini.', wiridEmpty: 'Belum ada bacaan wirid yang cocok. Coba kata lain atau buka koleksi resmi NU Online.',
     doaTab: 'Doa', wiridTab: 'Wirid', maulidTab: 'Maulid', tahlilTab: 'Tahlil', maulidTitle: 'Bacaan Maulid', maulidDescription: 'Buka kumpulan Maulid dari sumber resmi Quran NU Online.', maulidOpen: 'Buka bacaan Maulid', tahlilTitle: 'Bacaan Tahlil', tahlilDescription: 'Buka kumpulan Tahlil dari sumber resmi Quran NU Online.', tahlilOpen: 'Buka bacaan Tahlil',
-    readLatin: 'Bacaan Latin', meaning: 'Arti', moreInfo: 'Keterangan dan sumber', tags: 'Tag',
+    readLatin: 'Bacaan Latin', meaning: 'Arti', moreInfo: 'Keterangan dan sumber', tags: 'Tag', sourceNoteLabel: 'Keterangan sumber', sourceOnlyEntry: 'Sumber katalog tidak menyertakan teks doa Arab, bacaan Latin, atau arti Indonesia untuk entri ini.',
     prayerPanel: 'Jadwal sholat', prayerHint: 'Pakai lokasi saat ini atau pilih provinsi dan kota secara manual.', prayerUseLocation: 'Gunakan lokasi saat ini', prayerLocationPrivacy: 'Jika Anda menekan tombol ini, koordinat akan dikirim ke AlAdhan untuk menghitung jadwal; koordinat tidak disimpan di perangkat.', prayerGpsLoading: 'Meminta izin lokasi dan menghitung jadwal…', prayerGpsDenied: 'Izin lokasi ditolak. Izinkan akses lokasi di browser atau pilih kota secara manual.', prayerGpsUnavailable: 'Lokasi tidak dapat ditentukan. Periksa pengaturan lokasi perangkat atau pilih kota secara manual.', prayerGpsTimeout: 'Permintaan lokasi terlalu lama. Coba lagi atau pilih kota secara manual.', currentLocation: (lat, lon) => `Lokasi saat ini · ${lat.toFixed(2)}, ${lon.toFixed(2)}`, province: 'Provinsi', city: 'Kabupaten/kota', chooseProvince: 'Pilih provinsi', chooseCity: 'Pilih kabupaten/kota',
     prayerLoadingProvince: 'Memuat daftar provinsi…', prayerLoadingCity: 'Memuat kabupaten/kota…', prayerLoading: 'Memuat jadwal sholat…', prayerError: 'Jadwal belum dapat dimuat. Periksa koneksi lalu coba lagi.', chooseLocation: 'Gunakan lokasi saat ini atau pilih provinsi dan kabupaten/kota.',
     today: 'Jadwal hari ini', monthSchedule: 'Jadwal satu bulan', todayNone: 'Tidak ada jadwal untuk tanggal ini pada bulan yang dipilih.', previousMonth: 'Bulan sebelumnya', nextMonth: 'Bulan berikutnya', currentMonth: 'Kembali ke bulan ini',
@@ -39,7 +40,7 @@ const TEXT = {
     openAyah: 'Open ayah', openTafsir: 'Open ayah tafsir', playAyah: 'Play ayah', latin: 'Latin', translation: 'Translation',
     doaPanel: 'Worship readings', doaHint: 'Browse duas with Arabic, transliteration, and meaning. Search or choose a category.', wiridHint: 'Wird and dhikr from the EQuran.id catalogue. Open NU Online for its full collection.', doaSearch: 'Search dua, wird, or a word…', doaCategory: 'Category', allGroups: 'All categories', doaLoading: 'Loading duas and dhikr…', doaError: 'The dua list is unavailable. Check your connection and try again.', doaEmpty: 'No readings match this search.', wiridEmpty: 'No matching wird readings. Try another word or open the official NU Online collection.',
     doaTab: 'Dua', wiridTab: 'Wird', maulidTab: 'Mawlid', tahlilTab: 'Tahlil', maulidTitle: 'Mawlid readings', maulidDescription: 'Open the Mawlid collection from the official Quran NU Online source.', maulidOpen: 'Open Mawlid readings', tahlilTitle: 'Tahlil readings', tahlilDescription: 'Open the Tahlil collection from the official Quran NU Online source.', tahlilOpen: 'Open Tahlil readings',
-    readLatin: 'Latin transliteration', meaning: 'Meaning (Indonesian)', moreInfo: 'Notes and source', tags: 'Tags',
+    readLatin: 'Latin transliteration', meaning: 'Meaning (Indonesian)', moreInfo: 'Notes and source', tags: 'Tags', sourceNoteLabel: 'Source note', sourceOnlyEntry: 'The catalogue source does not provide Arabic prayer text, Latin transliteration, or an Indonesian meaning for this entry.',
     prayerPanel: 'Prayer times', prayerHint: 'Use your current location or choose a province and city manually.', prayerUseLocation: 'Use current location', prayerLocationPrivacy: 'If you tap this button, your coordinates are sent to AlAdhan to calculate the schedule; they are not saved on this device.', prayerGpsLoading: 'Requesting location permission and calculating times…', prayerGpsDenied: 'Location permission was denied. Allow location in your browser or choose a city manually.', prayerGpsUnavailable: 'Your location is unavailable. Check device location settings or choose a city manually.', prayerGpsTimeout: 'The location request took too long. Try again or choose a city manually.', currentLocation: (lat, lon) => `Current location · ${lat.toFixed(2)}, ${lon.toFixed(2)}`, province: 'Province', city: 'City / regency', chooseProvince: 'Choose a province', chooseCity: 'Choose a city / regency',
     prayerLoadingProvince: 'Loading provinces…', prayerLoadingCity: 'Loading cities…', prayerLoading: 'Loading prayer times…', prayerError: 'Prayer times are unavailable. Check your connection and try again.', chooseLocation: 'Use your current location or choose a province and city.',
     today: 'Today’s prayer times', monthSchedule: 'Monthly schedule', todayNone: 'No schedule for this date in the selected month.', previousMonth: 'Previous month', nextMonth: 'Next month', currentMonth: 'Back to this month',
@@ -546,7 +547,12 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
       const heading = el('div', { className: 'ibadah-card-head' }, el('span', { className: 'ibadah-badge dua', textContent: String(item.grup ?? w.doaPanel) }));
       if (item.id != null) heading.append(el('span', { className: 'ibadah-score', textContent: `#${formatNumber(item.id, lang)}` }));
       card.append(heading, el('h3', { className: 'ibadah-reference', textContent: String(item.nama ?? w.doaPanel) }));
-      if (item.ar) card.append(el('p', { className: 'ibadah-arabic dua-arabic', lang: 'ar', dir: 'rtl', textContent: String(item.ar) }));
+      if (item.ar && hasArabicScript(item.ar)) {
+        card.append(el('p', { className: 'ibadah-arabic dua-arabic', lang: 'ar', dir: 'rtl', textContent: String(item.ar) }));
+      } else if (item.ar) {
+        card.append(el('p', { className: 'ibadah-prose dua-source-text', dir: 'auto' }, el('b', { className: 'ibadah-field-label', textContent: `${w.sourceNoteLabel}: ` }), String(item.ar)));
+        if (!item.tr && !item.idn) card.append(el('p', { className: 'ibadah-note ibadah-data-note', textContent: w.sourceOnlyEntry }));
+      }
       if (item.tr) card.append(el('p', { className: 'ibadah-latin' }, el('b', { textContent: `${w.readLatin}: ` }), String(item.tr)));
       if (item.idn) card.append(el('p', { className: 'ibadah-prose', dir: 'auto' }, el('b', { className: 'ibadah-field-label', textContent: `${w.meaning}: ` }), String(item.idn)));
       if (item.tentang) {

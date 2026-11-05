@@ -207,11 +207,11 @@
   #doa-panel { width: min(720px, calc(100vw - 32px)); }
   .ilm-panel { width: min(680px, calc(100vw - 32px)); }
   .ibadah-panel .panel-head h2 { min-width: 0; }
-  .ibadah-panel .panel-body { gap: 11px; padding: 2px 16px max(18px, var(--sab)); }
+  .ibadah-panel .panel-body { min-width: 0; gap: 11px; padding: 2px 16px max(18px, var(--sab)); }
   .ibadah-panel [hidden] { display: none !important; }
   .ilm-tabs { position: sticky; top: 0; z-index: 4; padding: 6px 0; background: var(--app); }
   .reading-tabs { position: sticky; top: 0; z-index: 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; padding: 5px 0; background: var(--app); }
-  .reading-tabs button { min-width: 0; padding-inline: 5px; }
+  .reading-tabs button { min-width: 0; min-height: 44px; padding-inline: 5px; }
   .reading-resource { display: grid; gap: 9px; padding: 18px; border-color: rgb(240 137 46 / .28); background: linear-gradient(145deg, var(--oyen-soft), var(--sheet) 78%); }
   .reading-resource[hidden] { display: none; }
   .reading-resource h3 { margin: 0; font: 700 18px/24px var(--sans); }
@@ -219,7 +219,7 @@
   .reading-resource .btn { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; }
   .reading-section-field { margin-top: 3px; }
   .reading-navigation { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 7px; }
-  .reading-navigation .pill { min-height: 38px; padding-inline: 10px; white-space: nowrap; }
+  .reading-navigation .pill { min-width: 0; min-height: 44px; padding-inline: 10px; white-space: nowrap; }
   .reading-progress { min-width: 0; overflow: hidden; color: var(--ink-3); font: 600 11px/16px var(--sans) !important; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
   .reading-card { display: grid; gap: 13px; min-width: 0; padding: 15px; border: 1px solid var(--hair); border-radius: 15px; background: var(--sheet); }
   .reading-arabic { margin: 0; color: var(--ink); font: 400 clamp(26px, 4.8vw, 34px)/2.08 var(--quran, var(--serif)); direction: rtl; text-align: right; white-space: pre-line; overflow-wrap: anywhere; }
@@ -227,7 +227,7 @@
   .reading-field[hidden] { display: none; }
   .reading-field-label { color: var(--oyen-ink); font: 650 12px/18px var(--sans); }
   .reading-field p { margin: 0; color: var(--ink-2); font: 400 15px/25px var(--serif); overflow-wrap: anywhere; white-space: pre-line; }
-  .reading-copy { justify-self: start; min-height: 38px; }
+  .reading-copy { justify-self: start; min-height: 44px; }
   .reading-resource .ibadah-source { margin-top: 1px; line-height: 18px; }
   .hadith-collections { display: flex; gap: 8px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 5px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .hadith-collections::-webkit-scrollbar { display: none; }
@@ -252,7 +252,7 @@
   .ibadah-form, .ibadah-form-grid { display: grid; gap: 9px; }
   .ibadah-form-grid { grid-template-columns: minmax(0, 1fr) minmax(130px, .55fr); align-items: end; }
   .ibadah-field { display: grid; gap: 5px; min-width: 0; color: var(--ink-3); font: 600 12px/17px var(--sans); }
-  .ibadah-panel input, .ibadah-panel select { width: 100%; min-width: 0; height: 43px; border: 1px solid var(--rule-strong); border-radius: 12px; background: var(--sheet); color: var(--ink); padding: 0 11px; font: 450 14px/20px var(--sans); }
+  .ibadah-panel input, .ibadah-panel select { width: 100%; min-width: 0; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 12px; background: var(--sheet); color: var(--ink); padding: 0 11px; font: 450 14px/20px var(--sans); }
   .ibadah-panel input:focus-visible, .ibadah-panel select:focus-visible { border-color: var(--copper); outline-offset: 1px; }
   .ibadah-panel button:disabled { opacity: .55; cursor: wait; }
   .ibadah-status { min-height: 18px; margin: 0; color: var(--ink-3); font: 400 12px/18px var(--sans); }
@@ -303,6 +303,9 @@
     .ibadah-form-grid, .prayer-location { grid-template-columns: 1fr; }
     .prayer-time-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .ibadah-panel .panel-head { padding-inline: 16px 12px; }
+    .ibadah-panel input, .ibadah-panel select { font-size: 16px; }
+    .reading-navigation { gap: 4px; }
+    .reading-navigation .pill { padding-inline: 7px; font-size: 12px; }
   }
   @media (max-width: 480px) {
     .equran-tools { padding: 12px; border-radius: 17px; gap: 10px; }
@@ -681,7 +684,7 @@
     border: 1px solid var(--edge); border-radius: 20px; background: var(--app); box-shadow: 0 2px 4px rgb(var(--shadow-ink) / 0.1), 0 28px 64px -16px rgb(var(--shadow-ink) / 0.38); overflow: hidden; }
   .panel-head { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px 10px 20px; }
   .panel-head h2 { margin: 0; font: 700 20px/25px var(--sans); letter-spacing: -0.012em; }
-  .done { border: 0; background: none; padding: 6px 4px; font: 600 17px/22px var(--sans); color: var(--oyen-ink); cursor: pointer; }
+  .done { display: grid; place-items: center; min-width: 44px; min-height: 44px; border: 0; background: none; padding: 6px 4px; font: 600 17px/22px var(--sans); color: var(--oyen-ink); cursor: pointer; }
   /* A column, not a grid: grid rows would shrink the groups (overflow: hidden) to fit a short phone and clip them. */
   .panel-body { min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 2px 16px 18px; display: flex; flex-direction: column; gap: 14px; }
   .panel-body > * { flex: none; }
@@ -694,7 +697,7 @@
   .row.link i { font-style: normal; font-size: 20px; color: var(--ink-3); }
   .row[hidden] { display: none; }
   .panel .seg { background: var(--panel); }
-  .panel .seg button { padding: 6px 12px; font-size: 13px; }
+  .panel .seg button { min-height: 44px; padding: 6px 12px; font-size: 13px; }
   .switch { flex: none; position: relative; width: 51px; height: 31px; border: 0; border-radius: 16px; background: var(--panel-2); cursor: pointer; transition: background-color 200ms; }
   .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px rgb(0 0 0 / 0.2); transition: transform 260ms var(--spring); }
   .switch[aria-checked="true"] { background: var(--oyen); }
@@ -821,6 +824,7 @@
     .same-n { grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 8px; }
     .same-n b { font-size: 28px; }
     .same-detail { grid-column: 1; }
+    @supports (height: 100dvh) { .panel { max-height: calc(100dvh - var(--sat) - 10px); } }
   }
   @media (prefers-reduced-motion: reduce) { #bar, .switch::after, .scrim { transition: none; } }
   #map-gpu { text-transform: none; letter-spacing: 0; font: 400 12.5px/17px var(--sans); color: var(--ink-3); }

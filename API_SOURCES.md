@@ -18,7 +18,9 @@ Panel Doa/Wirid, Maulid, dan Tahlil membaca file JSON dari origin situs sendiri 
 
 - **Maulid Barzanji:** 18 bab dan doa penutup, naskah Arab beserta arti Indonesia dari <https://www.alkhoirot.org/2024/11/teks-bacaan-maulid-nabi-barzanji.html>. Transliterasi Latin lengkap tidak tersedia di teks lengkap yang dipakai, sehingga aplikasi tidak membuat transliterasi yang belum diverifikasi.
 - **Tahlil & Doa Arwah:** teks Arab, Latin, dan arti Indonesia dari <https://quran.nu.or.id/tahlil>, disusun sebagai 28 bagian agar mudah dibaca dan dinavigasi.
-- **Doa/Wirid:** katalog EQuran.id dari <https://equran.id/api/doa>.
+- **Doa/Wirid:** semua 227 rekaman pada snapshot katalog EQuran.id dari <https://equran.id/api/doa>. Ketentuan EQuran.id mengizinkan berbagi konten dengan atribusi dan penggunaan API secara wajar; data tidak dijual. Lihat <https://equran.id/terms>.
+
+Satu rekaman katalog (ID 42, “Bila Ada Sesuatu Yang Menggembirakan”) menempatkan keterangan berbahasa Indonesia pada field `ar`, dan sumber tidak menyediakan teks doa Arab, transliterasi Latin, atau arti Indonesia untuk rekaman tersebut. UI menampilkannya sebagai keterangan sumber dan menyatakan kolom yang tidak tersedia; teks agama tidak dilengkapi dengan hasil tebakan. Rekaman lain tetap disajikan apa adanya, termasuk bila sumber tidak mengisi keterangan tambahan.
 
 Sumber ditampilkan sebagai atribusi teks di panel. Data bacaan disajikan langsung oleh situs ini; pilihan waktu sholat berbasis lokasi dan pencarian tafsir/vektor tetap menggunakan layanan eksternal yang dijelaskan di bagian masing-masing.
 

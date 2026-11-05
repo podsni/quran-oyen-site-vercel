@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mobile browser regression for worship-reading, hadith, and GPS prayer features."""
+"""Mobile browser regression for local worship readings, hadith, and prayer times."""
 import datetime as dt
 import os
 from playwright.sync_api import sync_playwright
@@ -11,9 +11,10 @@ with sync_playwright() as p:
     browser = p.chromium.launch(executable_path='/usr/bin/chromium', headless=True, args=['--no-sandbox'])
     context = browser.new_context(
         viewport={'width': 390, 'height': 844},
+        is_mobile=True, has_touch=True,
         locale='id-ID', timezone_id='Asia/Jakarta',
         permissions=['geolocation'], geolocation={'latitude': -6.2, 'longitude': 106.8167},
-        reduced_motion='reduce',
+        reduced_motion='reduce', service_workers='block',
     )
     page = context.new_page()
     errors = []
@@ -22,12 +23,6 @@ with sync_playwright() as p:
 
     def fulfill(route, payload):
         route.fulfill(status=200, content_type='application/json', headers={'Access-Control-Allow-Origin': '*'}, json=payload)
-
-    def doa(route):
-        fulfill(route, {'status': 'success', 'data': [
-            {'id': 1, 'grup': 'Lafal Dzikir Dan Keutamaannya', 'nama': 'Dzikir pagi', 'ar': 'ذِكْرٌ', 'tr': 'dzikir', 'idn': 'Mengingat Allah', 'tag': ['dzikir']},
-            {'id': 2, 'grup': 'Doa Harian', 'nama': 'Doa belajar', 'ar': 'دُعَاءٌ', 'tr': 'doa belajar', 'idn': 'Tambahkan ilmu', 'tag': ['doa']},
-        ]})
 
     def provinces(route):
         fulfill(route, {'code': 200, 'data': ['DKI Jakarta']})
@@ -50,7 +45,6 @@ with sync_playwright() as p:
             'timings': {'Imsak': '03:55 (WIB)', 'Fajr': '04:05 (WIB)', 'Sunrise': '05:25 (WIB)', 'Dhuhr': '11:35 (WIB)', 'Asr': '14:52 (WIB)', 'Maghrib': '17:45 (WIB)', 'Isha': '18:57 (WIB)'},
         }]})
 
-    page.route('https://equran.id/api/doa', doa)
     page.route('https://equran.id/api/v2/shalat/provinsi', provinces)
     page.route('https://equran.id/api/v2/shalat/kabkota', cities)
     page.route('https://equran.id/api/v2/shalat', manual_schedule)
@@ -60,18 +54,46 @@ with sync_playwright() as p:
 
     page.locator('#feature-doa').click()
     page.locator('#doa-panel').wait_for(state='visible')
-    page.locator('#doa-list .ibadah-card').first.wait_for()
-    assert page.locator('#doa-list .ibadah-card').count() == 2
+    page.wait_for_function("document.querySelectorAll('#doa-list .dua-card').length === 227")
+    assert page.locator('#doa-list .dua-card').count() == 227
+    assert '227' in page.locator('#doa-status').inner_text()
+
+    source_entry = page.locator('#doa-list .dua-card').filter(has_text='Bila Ada Sesuatu Yang Menggembirakan')
+    assert source_entry.count() == 1
+    assert source_entry.locator('.dua-arabic').count() == 0
+    assert source_entry.locator('.dua-source-text').is_visible()
+    assert 'Nabi Shallallahu' in source_entry.inner_text()
+    assert 'tidak menyertakan teks doa Arab' in source_entry.inner_text()
+
     page.locator('#doa-tab-wirid').click()
-    assert page.locator('#doa-list .ibadah-card').count() == 1
-    assert 'Dzikir pagi' in page.locator('#doa-list').inner_text()
-    assert page.locator('#doa-wirid-link').is_visible()
-    assert page.locator('#doa-wirid-link').get_attribute('href') == 'https://quran.nu.or.id/wirid'
+    page.wait_for_function("document.querySelectorAll('#doa-list .dua-card').length > 0")
+    assert page.locator('#doa-list .dua-card').count() > 0
+
     page.locator('#doa-tab-maulid').click()
-    assert page.locator('#doa-maulid-view').is_visible()
-    assert page.locator('#doa-maulid-link').get_attribute('href') == 'https://quran.nu.or.id/maulid'
+    page.locator('#doa-maulid-view').wait_for(state='visible')
+    page.wait_for_function("document.querySelector('#doa-maulid-select').options.length === 19")
+    assert page.locator('#doa-maulid-status').inner_text().startswith('19 bagian')
+    assert page.locator('#doa-maulid-ar').inner_text().strip()
+    assert page.locator('#doa-maulid-latin-field').is_hidden()
+    assert page.locator('#doa-maulid-meaning-field').is_visible()
+    assert 'Alkhoirot.org' in page.locator('#doa-maulid-source').inner_text()
+    page.locator('#doa-maulid-select').select_option('18')
+    assert '19 dari 19' in page.locator('#doa-maulid-progress').inner_text()
+    assert page.locator('#doa-maulid-ar').inner_text().strip()
+
     page.locator('#doa-tab-tahlil').click()
-    assert page.locator('#doa-tahlil-link').get_attribute('href') == 'https://quran.nu.or.id/tahlil'
+    page.locator('#doa-tahlil-view').wait_for(state='visible')
+    page.wait_for_function("document.querySelector('#doa-tahlil-select').options.length === 28")
+    assert page.locator('#doa-tahlil-status').inner_text().startswith('28 bagian')
+    assert page.locator('#doa-tahlil-ar').inner_text().strip()
+    assert page.locator('#doa-tahlil-latin-field').is_visible()
+    assert page.locator('#doa-tahlil-meaning-field').is_visible()
+    assert 'Quran NU Online' in page.locator('#doa-tahlil-source').inner_text()
+    page.locator('#doa-tahlil-select').select_option('27')
+    assert '28 dari 28' in page.locator('#doa-tahlil-progress').inner_text()
+    assert page.locator('#doa-tahlil-ar').inner_text().strip()
+    assert not page.locator('#doa-panel a[href*="quran.nu.or.id"]').count()
+    assert page.url == BASE + '/'
     page.locator('#doa-close').click()
 
     page.locator('#feature-ilm').click()
@@ -97,4 +119,5 @@ with sync_playwright() as p:
     assert not errors, errors
     context.close()
     browser.close()
-print('ibadah browser tests: ok · mobile readings/wirid/maulid/tahlil, hadith collection chips, GPS prayer schedule')
+
+print('ibadah browser tests: ok · 227 local duas, local Maulid/Tahlil, source caveat, hadith, GPS and manual prayer times')
