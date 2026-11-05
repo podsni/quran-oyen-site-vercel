@@ -35,6 +35,18 @@ Progres khusus mode Gulir dihitung setelah ayat terlihat sekurangnya 1,5 detik, 
 
 Shell Gulir dan data yang pernah dimuat tersedia offline melalui service worker. Unduh seluruh data dari pembaca utama untuk ketersediaan 114 surah tanpa jaringan. Dua tafsir lokal di `tafsir/` dimuat per surah sesuai kebutuhan dan tidak memperbesar paket **Unduh semua data** lama; surat tafsir yang sudah dibuka dapat dibaca offline selama cache tersimpan. Kemenag memakai cache IndexedDB yang sudah ada; audio tetap memerlukan jaringan. Ketentuan serta provenance ada di [`tafsir/SOURCES.md`](tafsir/SOURCES.md).
 
+## Rencana Belajar
+
+Buka **Rencana Belajar** dari beranda atau `/learning-plans.html`. Katalog awal berisi **12 rencana dan 51 pelajaran** orisinal berbahasa Indonesia, dengan pencarian, filter surah/jenis/durasi, urutan, serta tab **Jelajahi**, **Diikuti**, dan **Selesai**. Detail rencana menyediakan tujuan, garis besar harian, tautan berbagi, dan tombol lanjut yang tetap terlihat. Semua hari boleh dibuka kapan saja; jadwal tidak mengunci pelajaran.
+
+Setiap sesi menghubungkan ayat Arab dan terjemahan dari data lokal dengan renungan, pertanyaan, latihan sederhana, catatan pribadi, audio, tautan pembaca, dan tafsir Kemenag melalui EQuran.id. Renungan adalah pendamping membaca, **bukan tafsir resmi atau materi salinan Quran.com**; tidak ada klaim penelaahan ulama, ulasan, atau jumlah peserta buatan. Tampilan dan alurnya terinspirasi fitur publik rujukan, tanpa menyalin kode atau ilustrasi khusus.
+
+Progres dihitung hanya ketika pengguna menekan **Tandai hari ini selesai**. Catatan tersimpan otomatis dengan batas 2.000 karakter per hari. Keduanya memakai key `quran-oyen.learning-plans.v1` di `localStorage`, terpisah dari fitur lama, **tanpa akun atau sinkronisasi antarperangkat**. Menghapus progres meminta konfirmasi untuk satu rencana saja. Penyimpanan yang ditolak atau penuh beralih ke memori dan menampilkan peringatan bahwa data tidak permanen.
+
+Shell dan katalog masuk cache PWA. **Siapkan bacaan offline** mengunduh berkas ayat/terjemahan/hubungan hanya untuk surah dalam rencana, lalu memeriksa kelengkapan cache. Ayat yang belum tersimpan menampilkan pesan coba lagi saat offline, tanpa menghilangkan renungan. Audio tetap memerlukan koneksi, sedangkan tafsir yang pernah dibuka mengikuti cache EQuran.id yang sudah ada.
+
+Uji unit: `node tools/test_learning_plans_state.mjs`. Untuk uji browser Chromium, jalankan server pada port 8765 lalu `python3 tools/test_learning_plans_browser.py`; variabel `BASE_URL` dapat diarahkan ke deployment Vercel. Tes memakai profil browser sementara dan mencakup empat ukuran layar, seluruh 51 sesi, filter, berbagi, catatan, progres, reset terisolasi, kegagalan penyimpanan, serta offline.
+
 ## Batasan salinan mandiri
 
 Repositori ini berisi situs statis, bukan server lengkap dari situs sumber. Pencarian persis dan sebagian besar fitur baca berjalan di perangkat. **Pencarian semantik memakai API publik EQuran.id dan memerlukan koneksi internet; pencarian terkait makna melalui GPU tetap tidak tersambung** karena layanan GPU sumber tidak disertakan, sehingga pilihan GPU dinonaktifkan.
@@ -46,8 +58,8 @@ Peta akar kata memakai WebGPU bila tersedia dan memiliki jalur perhitungan cadan
 Tidak diperlukan proses build, framework, atau instalasi paket. Karena situs menggunakan JavaScript modules, bukalah melalui server HTTP lokal—jangan membuka `index.html` langsung dengan skema `file://`.
 
 ```bash
-git clone https://github.com/podsni/quran-oyen-site.git
-cd quran-oyen-site
+git clone https://github.com/podsni/quran-oyen-site-vercel.git
+cd quran-oyen-site-vercel
 python3 -m http.server 8000
 ```
 
@@ -63,7 +75,7 @@ Sebelum menerbitkan perubahan pada aset aplikasi, jalankan `python3 tools/stamp_
 
 ### Vercel
 
-1. Di dashboard Vercel, pilih **Add New… > Project**, hubungkan GitHub, lalu impor `podsni/quran-oyen-site` (atau fork Anda). Beri Vercel akses ke repository bila diminta.
+1. Di dashboard Vercel, pilih **Add New… > Project**, hubungkan GitHub, lalu impor `podsni/quran-oyen-site-vercel` (atau fork Anda). Beri Vercel akses ke repository bila diminta.
 2. Atur **Root Directory** ke `./` (root repository) dan **Framework Preset** ke **Other**.
 3. Pada pengaturan build, aktifkan override **Build Command** lalu biarkan kosong agar Vercel melewati build. Tidak ada perintah install atau dependency aplikasi yang perlu dijalankan. Set **Output Directory** ke `.`; repository ini tidak memiliki direktori `public` atau folder hasil build.
 4. Pilih branch produksi `main`, lalu pilih **Deploy**. Jika proyek dihubungkan ke Git, push berikutnya ke branch produksi akan memicu deployment baru.

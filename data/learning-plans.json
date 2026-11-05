@@ -1,0 +1,1320 @@
+{
+  "version": 1,
+  "plans": [
+    {
+      "id": "al-fatihah",
+      "title": "Al-Fatihah: Memulai dari Doa",
+      "subtitle": "Tujuh Hari Menata Hati",
+      "description": "Rencana tujuh hari untuk membaca Al-Fatihah dengan perhatian yang lebih utuh. Setiap sesi mengajak kita mengamati satu rangkaian makna: memulai dengan menyebut nama Allah, mengenali pujian dan kasih sayang-Nya, mengingat pertanggungjawaban, menyadari kebutuhan akan pertolongan, lalu memohon arah yang lurus. Renungan ini adalah pendamping sederhana, bukan tafsir resmi, sehingga setiap praktik dibuat dekat dengan keseharian. Bacaan singkatnya dirancang untuk membantu doa hadir dalam rutinitas secara sadar.",
+      "category": "Surah",
+      "color": "amber",
+      "surahs": [
+        1
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Membaca Al-Fatihah dengan jeda dan perhatian pada hubungan antarayat.",
+        "Menghubungkan tema pujian, pertolongan, dan petunjuk dengan pilihan sehari-hari.",
+        "Membangun kebiasaan doa yang jujur, tenang, dan disertai langkah nyata."
+      ],
+      "lessons": [
+        {
+          "title": "Memulai dengan Nama dan Kasih Sayang",
+          "refs": [
+            {
+              "s": 1,
+              "a": 1
+            }
+          ],
+          "paragraphs": [
+            "Ayat pembuka mengajak kita memulai dengan menyebut nama Allah Yang Maha Pemurah dan Maha Penyayang. Perhatikan bagaimana permulaan ini mengubah suasana batin: sebelum mengejar hasil atau menyelesaikan masalah, kita mengingat kemurahan dan kasih sayang sebagai dasar untuk berbicara, bekerja, dan memperlakukan orang lain.",
+            "Menyebut nama Allah bukan sekadar tanda pembuka, melainkan kesempatan menata niat. Kita dapat bertanya apakah kegiatan yang akan dilakukan selaras dengan kebaikan yang ingin kita bawa. Kasih sayang juga mengundang kelembutan kepada diri sendiri: mengakui kekurangan tanpa berhenti berusaha memperbaiki arah."
+          ],
+          "reflect": "Dalam kegiatan apa hari ini saya perlu menata niat dengan mengingat kemurahan dan kasih sayang Allah?",
+          "practice": "Sebelum memulai satu tugas penting, berhenti sejenak, sebut nama Allah dalam hati, lalu pilih satu sikap penuh kasih yang akan dijaga."
+        },
+        {
+          "title": "Melihat Kebaikan yang Menyeluruh",
+          "refs": [
+            {
+              "s": 1,
+              "a": 2
+            },
+            {
+              "s": 1,
+              "a": 3
+            }
+          ],
+          "paragraphs": [
+            "Al-Fatihah mengarahkan pujian kepada Allah, Tuhan semesta alam, lalu mengulang gambaran tentang kemurahan dan kasih sayang. Pengulangan ini dapat menjadi latihan melihat kebaikan secara lebih luas: bukan hanya yang menguntungkan diri sendiri, tetapi juga kehidupan yang saling terhubung dan membutuhkan perhatian.",
+            "Ketika hari terasa penuh tuntutan, pujian membantu kita berhenti sejenak dari daftar kekurangan. Ini bukan berarti menutup mata terhadap kesulitan. Kita justru belajar menyebut hal yang patut disyukuri dengan jujur, sehingga rasa syukur dapat mendorong kepedulian, bukan membuat kita mengabaikan orang yang sedang membutuhkan dukungan."
+          ],
+          "reflect": "Kebaikan apa yang sering saya terima tetapi jarang saya sadari atau hargai?",
+          "practice": "Tuliskan tiga kebaikan nyata hari ini dan balas salah satunya dengan ucapan terima kasih atau bantuan kecil."
+        },
+        {
+          "title": "Membawa Kesadaran pada Akhir",
+          "refs": [
+            {
+              "s": 1,
+              "a": 4
+            }
+          ],
+          "paragraphs": [
+            "Ayat tentang Hari Pembalasan mengingatkan bahwa hidup memiliki pertanggungjawaban. Renungan ini tidak perlu berubah menjadi kecemasan; ia dapat menjadi kompas yang menolong kita menilai tindakan melampaui pujian, keuntungan, atau penilaian sesaat. Apa yang kita pilih tetap bermakna ketika tidak ada orang lain yang melihat.",
+            "Mengingat akhir juga menolong kita menunda reaksi yang merugikan. Sebelum membalas pesan dengan marah atau mengambil jalan pintas, kita punya ruang untuk bertanya: apakah keputusan ini pantas dipertanggungjawabkan? Kesadaran tersebut membuat kejujuran, kesabaran, dan tanggung jawab terasa sebagai pilihan yang hidup, bukan sekadar slogan."
+          ],
+          "reflect": "Keputusan apa yang perlu saya lihat kembali dengan pertimbangan pertanggungjawaban, bukan sekadar hasil cepat?",
+          "practice": "Sebelum satu keputusan penting hari ini, tulis satu alasan mengapa pilihan itu tetap baik jika diketahui orang yang Anda hormati."
+        },
+        {
+          "title": "Mengakui Ketergantungan yang Sehat",
+          "refs": [
+            {
+              "s": 1,
+              "a": 5
+            }
+          ],
+          "paragraphs": [
+            "Ayat kelima memadukan pengabdian dan permohonan pertolongan: hanya kepada Allah kita menyembah dan hanya kepada-Nya kita meminta bantuan. Keduanya menjaga keseimbangan. Kita tidak menjadikan diri pusat segalanya, tetapi juga tidak berhenti berikhtiar. Kerendahan hati berjalan bersama keberanian untuk bertindak sesuai nilai yang diyakini.",
+            "Meminta pertolongan dapat membuat doa lebih jujur. Kita boleh mengakui bahwa tenaga, pengetahuan, dan kendali kita terbatas. Setelah mengakuinya, kita dapat mencari bantuan yang tepat dari orang tepercaya, belajar hal yang belum dikuasai, dan mengambil langkah kecil tanpa menganggap hasil sepenuhnya berada di tangan kita."
+          ],
+          "reflect": "Di bagian mana saya perlu meminta pertolongan dengan rendah hati sekaligus tetap melakukan ikhtiar?",
+          "practice": "Hubungi satu orang tepercaya untuk meminta bantuan yang spesifik, lalu kerjakan satu langkah yang berada dalam kendali Anda."
+        },
+        {
+          "title": "Memohon Arah yang Lurus",
+          "refs": [
+            {
+              "s": 1,
+              "a": 6
+            }
+          ],
+          "paragraphs": [
+            "Permohonan agar ditunjukkan jalan yang lurus mengakui bahwa arah hidup perlu dicari dan dijaga. Jalan yang baik tidak selalu menjadi pilihan paling mudah atau paling ramai. Doa ini mengajak kita meminta kejernihan untuk membedakan dorongan sesaat dari langkah yang mendekatkan kita pada kejujuran dan kebaikan.",
+            "Petunjuk sering tampak melalui keputusan kecil: cara berbicara, cara menggunakan waktu, dan cara memperlakukan orang yang tidak dapat memberi keuntungan. Karena itu, memohon arah tidak berhenti pada perasaan tenang. Kita perlu mengamati pilihan, memperbaiki kesalahan, dan bersedia mengubah langkah ketika menyadari arah kita mulai menyimpang."
+          ],
+          "reflect": "Pilihan kecil apa hari ini yang paling membutuhkan kejernihan agar tetap berada di arah yang baik?",
+          "practice": "Pilih satu keputusan hari ini dan tulis dua pilihan yang tersedia, lalu pilih yang paling jujur dan bermanfaat bagi lebih banyak orang."
+        },
+        {
+          "title": "Belajar dari Jalan yang Diberi Nikmat",
+          "refs": [
+            {
+              "s": 1,
+              "a": 7
+            }
+          ],
+          "paragraphs": [
+            "Penutup Al-Fatihah menggambarkan jalan orang-orang yang telah diberi nikmat, sekaligus memohon dijauhkan dari jalan yang mendatangkan murka dan kesesatan. Kita dapat membacanya sebagai latihan memilih teladan: memperhatikan kualitas tindakan yang membawa kebaikan, bukan hanya mengagumi hasil atau penampilan seseorang secara lahiriah.",
+            "Permohonan ini juga menumbuhkan kewaspadaan terhadap arah yang keliru. Kesalahan dapat dimulai dari pembenaran kecil, kebiasaan menunda kejujuran, atau mengikuti tekanan tanpa berpikir. Dengan menyadarinya, kita dapat memeriksa ulang kebiasaan dan mencari nasihat yang membantu, tanpa tergesa-gesa menghakimi diri sendiri maupun orang lain."
+          ],
+          "reflect": "Teladan perilaku baik apa yang ingin saya pelajari, dan kebiasaan apa yang perlu saya waspadai?",
+          "practice": "Amati satu orang yang berperilaku baik hari ini, catat tindakan konkretnya, lalu tiru satu tindakan itu dengan cara yang wajar."
+        },
+        {
+          "title": "Menyatukan Doa dan Langkah",
+          "refs": [
+            {
+              "s": 1,
+              "a": 1
+            },
+            {
+              "s": 1,
+              "a": 5
+            },
+            {
+              "s": 1,
+              "a": 6
+            },
+            {
+              "s": 1,
+              "a": 7
+            }
+          ],
+          "paragraphs": [
+            "Pada sesi terakhir, baca kembali Al-Fatihah sebagai alur yang utuh: memulai dengan kasih sayang, memuji Tuhan semesta alam, mengingat pertanggungjawaban, mengakui kebutuhan akan pertolongan, lalu memohon arah yang lurus. Alur ini membantu doa menjadi lebih dari rangkaian kata; ia menjadi cara menata perhatian sebelum menjalani hari.",
+            "Biarkan pembacaan ulang menghasilkan satu komitmen sederhana, bukan tuntutan untuk berubah sekaligus. Doa memohon jalan yang baik dapat diterjemahkan menjadi tindakan yang dapat dilihat: berkata benar, meminta bantuan, berterima kasih, atau memperbaiki kesalahan. Dengan begitu, renungan tetap membumi dan dapat diulang ketika kita kembali membutuhkan arah."
+          ],
+          "reflect": "Bagaimana saya dapat membawa satu tema Al-Fatihah ke dalam kebiasaan yang akan saya ulang setelah tujuh hari ini?",
+          "practice": "Buat satu kalimat komitmen berdasarkan Al-Fatihah, simpan di tempat yang terlihat, dan jalankan selama tujuh hari berikutnya."
+        }
+      ]
+    },
+    {
+      "id": "al-ikhlas",
+      "title": "Al-Ikhlas: Mengenal Keesaan Allah",
+      "subtitle": "Tiga langkah mengenal tauhid",
+      "description": "Rencana tiga hari untuk membaca Al-Ikhlas dengan tenang dan menghubungkan setiap ayat dengan sikap sehari-hari. Kita mulai dari mengakui keesaan Allah, lalu menyadari bahwa semua kebutuhan kembali kepada-Nya, dan akhirnya menjaga cara pandang yang tidak menyamakan-Nya dengan siapa pun. Setiap sesi berlangsung sekitar tujuh menit dan mengajak satu tindakan kecil yang dapat dipraktikkan tanpa menganggapnya sebagai tafsir resmi atau fatwa.",
+      "category": "Surah",
+      "color": "sage",
+      "surahs": [
+        112
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Mengenali pesan utama setiap bagian Surah Al-Ikhlas melalui terjemahan ayat.",
+        "Menghubungkan pengakuan tentang Allah dengan sikap rendah hati dan bergantung secara sadar.",
+        "Membawa satu langkah praktis dari bacaan ke pilihan dan kebiasaan harian."
+      ],
+      "lessons": [
+        {
+          "title": "Hari 1 — Memusatkan pengakuan kepada Allah",
+          "refs": [
+            {
+              "s": 112,
+              "a": 1
+            },
+            {
+              "s": 112,
+              "a": 2
+            }
+          ],
+          "paragraphs": [
+            "Ayat pertama mengajak kita mengarahkan pengakuan kepada Allah Yang Maha Esa. Bacaan ini dapat menjadi jeda dari banyak hal yang berebut perhatian. Selama beberapa menit, amati apa yang biasanya paling menguasai pikiran, lalu kembalikan pusat keyakinan kepada satu Tuhan, tanpa perlu membandingkan pengalaman pribadi dengan orang lain.",
+            "Ayat kedua menggambarkan Allah sebagai Tuhan tempat segala sesuatu bergantung. Renungan ini bukan alasan untuk pasif, melainkan kesempatan mengenali keterbatasan diri dengan jujur. Kita tetap berusaha, meminta bantuan, dan menerima bahwa hasil tidak sepenuhnya berada dalam kendali kita. Kesadaran itu dapat menumbuhkan ketenangan sekaligus tanggung jawab."
+          ],
+          "reflect": "Dalam urusan apa hari ini saya perlu mengingat bahwa usaha saya penting, tetapi saya tidak mengendalikan segalanya?",
+          "practice": "Sebelum memulai satu tugas, luangkan satu menit untuk menyebutkan niat bergantung kepada Allah lalu kerjakan langkah pertama dengan sungguh-sungguh."
+        },
+        {
+          "title": "Hari 2 — Menata cara meminta dan berharap",
+          "refs": [
+            {
+              "s": 112,
+              "a": 2
+            },
+            {
+              "s": 112,
+              "a": 3
+            }
+          ],
+          "paragraphs": [
+            "Kembali pada ayat kedua, kita diajak melihat kebutuhan dengan arah yang lebih jernih: segala sesuatu bergantung kepada Allah. Dalam praktiknya, ini membantu kita membedakan antara meminta dukungan dari manusia dan menempatkan harapan terdalam kepada Allah. Keduanya dapat berjalan bersama, selama hati tidak menjadikan makhluk sebagai tumpuan mutlak.",
+            "Ayat ketiga menegaskan bahwa Allah tidak beranak dan tidak pula diperanakkan. Kita cukup menerima pernyataan ayat sesuai bunyinya, tanpa menambahkan spekulasi. Renungan sederhana hari ini adalah menjaga batas antara mengenal melalui wahyu dan mengaku mengetahui hal yang tidak dijelaskan. Sikap hati-hati dapat membuat belajar terasa rendah hati."
+          ],
+          "reflect": "Ketika membutuhkan sesuatu, bagaimana saya dapat meminta bantuan dengan baik tanpa menggantungkan seluruh harapan pada manusia?",
+          "practice": "Tuliskan satu kebutuhan yang sedang dipikirkan, pisahkan bagian yang bisa diusahakan, lalu panjatkan permohonan dan lakukan satu langkah yang realistis."
+        },
+        {
+          "title": "Hari 3 — Menjaga keunikan Allah dalam keseharian",
+          "refs": [
+            {
+              "s": 112,
+              "a": 3
+            },
+            {
+              "s": 112,
+              "a": 4
+            },
+            {
+              "s": 112,
+              "a": 1
+            }
+          ],
+          "paragraphs": [
+            "Ayat ketiga dan keempat menutup surah dengan penegasan bahwa Allah tidak memiliki padanan. Pesan ini menolong kita memeriksa kebiasaan menyamakan semua hal: ukuran keberhasilan, sosok yang dikagumi, atau sumber rasa aman. Manusia dan benda dapat bermanfaat, tetapi tidak layak ditempatkan sebagai tandingan bagi keunikan Allah.",
+            "Mengulang ayat pertama setelah penutup membuat bacaan terasa seperti lingkaran pengingat: pengenalan kepada Allah dimulai dan berakhir pada keesaan-Nya. Bawalah gagasan ini secara sederhana ketika memilih, berbicara, dan menilai diri. Tujuannya bukan merasa lebih tinggi, melainkan mengurangi kesombongan serta memelihara ketulusan dalam tindakan kecil."
+          ],
+          "reflect": "Hal apa yang paling mudah saya jadikan ukuran mutlak, dan bagaimana pengakuan tentang keunikan Allah dapat menata ulang sikap saya?",
+          "practice": "Hari ini, ubah satu keputusan kecil agar lebih jujur dan tidak didorong kebutuhan untuk terlihat unggul di hadapan orang lain."
+        }
+      ]
+    },
+    {
+      "id": "perlindungan",
+      "title": "Al-Falaq & An-Nas: Berlindung kepada Allah",
+      "subtitle": "Empat langkah menuju ketenangan",
+      "description": "Rencana empat hari untuk membaca Al-Falaq dan An-Nas dengan perhatian yang tenang. Setiap sesi mengajak kita melihat bentuk perlindungan yang disebutkan dalam ayat: dari keburukan yang tampak, gelapnya malam, rasa iri, dan bisikan yang melemahkan. Bacaan singkat ini menjadi pendamping refleksi pribadi, bukan tafsir resmi atau fatwa. Luangkan sekitar tujuh menit untuk membaca, merenung, lalu mencoba satu tindakan sederhana yang realistis.",
+      "category": "Surah",
+      "color": "night",
+      "surahs": [
+        113,
+        114
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Membaca Al-Falaq dan An-Nas secara perlahan dengan memperhatikan kepada siapa perlindungan diminta.",
+        "Mengenali beberapa sumber gangguan lahir dan batin yang digambarkan oleh ayat-ayat pilihan.",
+        "Mengubah renungan menjadi satu kebiasaan kecil yang membantu menjaga hati, ucapan, dan tindakan."
+      ],
+      "lessons": [
+        {
+          "title": "Hari 1 — Menata arah perlindungan",
+          "refs": [
+            {
+              "s": 113,
+              "a": 1
+            },
+            {
+              "s": 114,
+              "a": 1
+            },
+            {
+              "s": 114,
+              "a": 2
+            },
+            {
+              "s": 114,
+              "a": 3
+            }
+          ],
+          "paragraphs": [
+            "Al-Falaq membuka bacaan dengan ajakan memohon kepada Tuhan yang menguasai subuh, sementara An-Nas mengarahkan permohonan kepada Tuhan, Raja, dan Sembahan manusia. Tiga sebutan itu membantu kita berhenti sejenak: perlindungan bukan sekadar mencari rasa aman, melainkan menata kembali arah hati kepada Penguasa dan Pemelihara kehidupan.",
+            "Membaca kedua pembuka ini berdampingan memberi ruang untuk mengenali kebutuhan kita tanpa harus merinci semua kecemasan. Kita dapat datang dengan jujur, lalu mengingat bahwa manusia memiliki tempat kembali. Renungan hari ini bukan janji bahwa semua masalah segera hilang, tetapi latihan untuk memulai langkah dengan kesadaran dan kebergantungan."
+          ],
+          "reflect": "Ketika merasa tidak aman, kepada siapa dan kepada apa biasanya saya paling dahulu mencari pegangan?",
+          "practice": "Sebelum membuka ponsel pada pagi atau malam hari, duduklah satu menit dan sebutkan dalam hati satu hal yang ingin Anda serahkan kepada Allah."
+        },
+        {
+          "title": "Hari 2 — Menghadapi keburukan yang tampak",
+          "refs": [
+            {
+              "s": 113,
+              "a": 2
+            },
+            {
+              "s": 113,
+              "a": 3
+            },
+            {
+              "s": 113,
+              "a": 4
+            }
+          ],
+          "paragraphs": [
+            "Ayat-ayat ini menyebut kejahatan makhluk, malam ketika gelap gulita, dan gambaran tindakan yang dilakukan pada buhul-buhul. Bacalah sebagai ajakan untuk mengakui bahwa ada keadaan yang terasa mengancam atau tidak kita pahami. Teks ini tidak meminta kita hidup dalam ketakutan, melainkan mengajarkan sikap waspada sambil mencari perlindungan kepada Allah.",
+            "Kegelapan dapat menjadi gambaran suasana yang membuat penilaian terasa kabur; gangguan orang lain juga dapat meninggalkan rasa tidak nyaman. Karena itu, kewaspadaan dapat berjalan bersama tindakan yang bertanggung jawab: mencari informasi yang benar, menjaga batas, dan meminta bantuan ketika perlu. Renungan ini tetap sederhana, tanpa menyimpulkan sebab tertentu bagi pengalaman pribadi."
+          ],
+          "reflect": "Situasi apa yang akhir-akhir ini terasa menggelapkan penilaian saya, dan batas sehat apa yang dapat saya tegakkan?",
+          "practice": "Pilih satu sumber gangguan yang nyata hari ini, lalu kurangi paparannya dengan langkah aman seperti mematikan notifikasi atau meninggalkan percakapan yang merendahkan."
+        },
+        {
+          "title": "Hari 3 — Menjaga hati dari iri",
+          "refs": [
+            {
+              "s": 113,
+              "a": 5
+            },
+            {
+              "s": 113,
+              "a": 2
+            },
+            {
+              "s": 114,
+              "a": 5
+            }
+          ],
+          "paragraphs": [
+            "Penutup Al-Falaq menyebut kejahatan pendengki ketika kedengkian bekerja, sedangkan An-Nas menggambarkan bisikan yang masuk ke dada manusia. Keduanya mengajak kita memperhatikan pengaruh yang tidak selalu terlihat: perbandingan, prasangka, atau dorongan buruk dapat tumbuh perlahan sebelum memengaruhi ucapan dan keputusan sehari-hari.",
+            "Merenungkan ayat-ayat ini tidak berarti menuduh orang tertentu atau menganggap setiap kesulitan berasal dari iri. Justru kita diajak memeriksa diri dengan rendah hati: kapan hati mulai panas, kapan keberhasilan orang lain terasa mengancam, dan kapan bisikan itu perlu dihentikan. Kesadaran tersebut dapat membuka jalan bagi doa, syukur, dan pilihan yang lebih baik dan lebih jernih."
+          ],
+          "reflect": "Saat melihat kelebihan orang lain, pikiran atau ucapan apa yang ingin saya ubah agar tidak dikuasai iri?",
+          "practice": "Hari ini, ubah satu perbandingan menjadi doa baik atau apresiasi tulus yang disampaikan tanpa merendahkan diri sendiri."
+        },
+        {
+          "title": "Hari 4 — Mengenali bisikan dan kembali",
+          "refs": [
+            {
+              "s": 114,
+              "a": 4
+            },
+            {
+              "s": 114,
+              "a": 5
+            },
+            {
+              "s": 114,
+              "a": 6
+            },
+            {
+              "s": 113,
+              "a": 1
+            }
+          ],
+          "paragraphs": [
+            "An-Nas menggambarkan pembisik kejahatan yang biasa bersembunyi dan membisikkan sesuatu ke dalam dada, dari golongan jin dan manusia. Ayat ini mengingatkan bahwa pengaruh buruk dapat datang melalui sumber yang beragam dan tidak selalu terasa terang. Membaca dengan tenang membantu kita memberi jarak antara bisikan sesaat dan keputusan yang sungguh ingin kita ambil.",
+            "Setelah mengenali gangguan batin, kita kembali kepada pola yang dibuka kedua surah: berlindung kepada Allah. Kembali bukan berarti menolak tanggung jawab, melainkan memilih jeda sebelum bereaksi, memeriksa niat, dan mencari dukungan yang bijak. Empat hari ini dapat ditutup dengan komitmen kecil untuk mengulang kebiasaan sadar tersebut saat diperlukan."
+          ],
+          "reflect": "Bisikan atau dorongan apa yang paling sering membuat saya bereaksi tergesa-gesa, dan jeda apa yang bisa menolong?",
+          "practice": "Saat muncul dorongan untuk membalas dengan marah, berhenti sejenak, baca kembali ayat pilihan hari ini, lalu pilih respons yang tidak memperbesar kerusakan."
+        }
+      ]
+    },
+    {
+      "id": "al-asr",
+      "title": "Al-Asr: Mengisi Waktu dengan Makna",
+      "subtitle": "Tiga langkah memaknai waktu",
+      "description": "Rencana tiga hari untuk membaca Surah Al-Asr secara perlahan dan menghubungkan pesannya dengan pilihan sehari-hari. Setiap sesi mengajak kita memperhatikan nilai waktu, mengenali tanda hidup yang tidak sia-sia, lalu menumbuhkan kebiasaan saling menguatkan dalam kebenaran dan kesabaran. Bacaan singkat ini adalah pendamping renungan, bukan tafsir resmi, sehingga ruang untuk berpikir dan menerapkan tetap terbuka. Luangkan tujuh menit untuk membaca, merenung, dan memilih satu langkah nyata.",
+      "category": "Surah",
+      "color": "rose",
+      "surahs": [
+        103
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Menyadari waktu sebagai amanah yang perlu diisi dengan pilihan bermakna.",
+        "Menghubungkan iman dan amal saleh dengan kebiasaan kecil yang nyata.",
+        "Melatih keberanian mengingatkan dalam kebenaran dengan sikap sabar dan bijaksana."
+      ],
+      "lessons": [
+        {
+          "title": "Hari 1 — Menyadari nilai waktu",
+          "refs": [
+            {
+              "s": 103,
+              "a": 1
+            }
+          ],
+          "paragraphs": [
+            "Mulailah dengan berhenti sejenak dan memperhatikan bagaimana waktu mengalir hari ini. Ayat pembuka mengarahkan perhatian kepada masa, bukan untuk membuat kita cemas, melainkan agar kita jujur melihat cara memakai kesempatan. Waktu sering terasa biasa ketika berjalan, tetapi setiap pilihan kecil memberi arah pada hari yang sedang kita jalani.",
+            "Renungan ini tidak meminta jadwal sempurna. Cukup kenali satu bagian hari yang biasanya berlalu tanpa kesadaran, lalu hadir lebih utuh di sana. Dengan begitu, membaca menjadi latihan memperhatikan: apa yang sedang dikerjakan, mengapa itu dipilih, dan apakah pilihan tersebut mendekatkan kita pada hidup yang lebih berarti."
+          ],
+          "reflect": "Bagian waktu mana hari ini yang paling ingin saya jalani dengan kesadaran dan tujuan yang lebih jelas?",
+          "practice": "Pilih satu kegiatan rutin hari ini dan lakukan selama beberapa menit tanpa membuka pengalih perhatian."
+        },
+        {
+          "title": "Hari 2 — Iman yang menjadi tindakan",
+          "refs": [
+            {
+              "s": 103,
+              "a": 2
+            },
+            {
+              "s": 103,
+              "a": 3
+            }
+          ],
+          "paragraphs": [
+            "Pesan surah menggambarkan kerugian secara luas, lalu membuka pengecualian melalui iman dan amal saleh. Ini mengajak kita melihat keyakinan bukan sebagai gagasan yang berhenti di dalam hati, tetapi sebagai arah yang tampak dalam perbuatan. Tindakan baik boleh sederhana: menepati janji, membantu tanpa diminta, atau menyelesaikan tanggung jawab dengan jujur.",
+            "Hari ini, hubungkan satu nilai yang Anda yakini dengan satu tindakan yang dapat diamati. Jangan mengejar kesan besar; perhatikan ketulusan, manfaat, dan konsistensinya. Setelah membaca, tanyakan apakah pilihan itu membuat waktu lebih bernilai bagi diri sendiri atau bagi orang lain. Catatan singkat dapat membantu melihat perubahan tanpa menghakimi proses."
+          ],
+          "reflect": "Nilai apa yang saya yakini, tetapi masih perlu saya wujudkan lebih jelas melalui tindakan hari ini?",
+          "practice": "Selesaikan satu tanggung jawab kecil yang tertunda dengan jujur dan tanpa menunggu pujian."
+        },
+        {
+          "title": "Hari 3 — Saling menguatkan dengan sabar",
+          "refs": [
+            {
+              "s": 103,
+              "a": 3
+            }
+          ],
+          "paragraphs": [
+            "Bagian akhir surah mempertemukan dua cara saling menguatkan: mengingatkan tentang kebenaran dan menguatkan dalam kesabaran. Keduanya membutuhkan kepedulian, tetapi juga kelembutan. Kebenaran tidak harus disampaikan dengan nada yang melukai, dan kesabaran bukan berarti membiarkan diri atau orang lain berjalan tanpa arah. Keseimbangan itu dapat dilatih dalam percakapan sederhana.",
+            "Pilih satu hubungan yang ingin Anda rawat hari ini. Dengarkan lebih dahulu, sampaikan hal yang penting dengan jelas, lalu beri ruang bagi proses. Renungan ini bukan ajakan menjadi hakim atas orang lain, melainkan kesempatan memeriksa cara kita berbicara, menerima nasihat, dan bertahan dalam kebaikan ketika hasil belum segera terlihat."
+          ],
+          "reflect": "Bagaimana saya dapat menyampaikan hal yang benar dengan kepedulian sekaligus menerima bahwa perubahan membutuhkan kesabaran?",
+          "practice": "Kirimkan satu pesan penguatan yang jujur kepada seseorang, tanpa menggurui dan tanpa menuntut balasan."
+        }
+      ]
+    },
+    {
+      "id": "harapan",
+      "title": "Ad-Duha & Asy-Syarh: Merawat Harapan",
+      "subtitle": "Menata hati, melangkah teguh",
+      "description": "Rencana empat hari untuk membaca Ad-Duha dan Asy-Syarh dengan perhatian pada harapan yang tumbuh melalui pertolongan, kelapangan, dan tanggung jawab. Setiap sesi mengajak pembaca memperhatikan pesan ayat, menghubungkannya dengan pengalaman sehari-hari, lalu memilih langkah kecil yang nyata. Ini pendamping membaca dan renungan sederhana, bukan tafsir resmi atau fatwa. Bacalah ayat dari dataset aplikasi, gunakan renungan sebagai ruang refleksi, dan beri waktu bagi makna untuk meresap tanpa tergesa-gesa.",
+      "category": "Surah",
+      "color": "amber",
+      "surahs": [
+        93,
+        94
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Mengenali cara ayat menumbuhkan harapan melalui keyakinan bahwa Tuhan tidak meninggalkan hamba-Nya.",
+        "Merenungkan hubungan antara kelapangan, pengalaman menerima pertolongan, dan kepedulian kepada sesama.",
+        "Mengubah hasil bacaan menjadi satu tindakan sederhana yang dilakukan dengan sungguh-sungguh setiap hari."
+      ],
+      "lessons": [
+        {
+          "title": "Saat sunyi tidak berarti ditinggalkan",
+          "refs": [
+            {
+              "s": 93,
+              "a": 1
+            },
+            {
+              "s": 93,
+              "a": 2
+            },
+            {
+              "s": 93,
+              "a": 3
+            }
+          ],
+          "paragraphs": [
+            "Bacalah ayat-ayat ini perlahan dan perhatikan perubahan suasana dari terang pagi menuju malam yang sunyi. Setelah gambaran itu, muncul peneguhan bahwa Tuhan tidak meninggalkan dan tidak membenci. Pesannya bukan meniadakan rasa sepi, melainkan mengajak kita tidak menjadikan kesunyian sebagai bukti bahwa diri kita telah dilupakan.",
+            "Harapan dapat dimulai dari cara menafsirkan jeda dalam hidup. Ketika jawaban belum terlihat, kita bisa menahan kesimpulan yang terlalu cepat dan tetap membuka ruang bagi kebaikan. Catat satu keadaan yang terasa hening minggu ini, lalu tuliskan sikap yang ingin kamu pilih selain menyerah atau menyalahkan diri sendiri."
+          ],
+          "reflect": "Dalam keadaan sunyi apa kamu paling mudah mengira bahwa dirimu ditinggalkan?",
+          "practice": "Luangkan tujuh menit tanpa gawai untuk membaca rujukan ini dan menulis satu kalimat peneguhan bagi dirimu."
+        },
+        {
+          "title": "Memandang hari depan dengan lapang",
+          "refs": [
+            {
+              "s": 93,
+              "a": 4
+            },
+            {
+              "s": 93,
+              "a": 5
+            }
+          ],
+          "paragraphs": [
+            "Ayat-ayat ini mengarahkan pandangan dari keadaan sekarang menuju hari kemudian yang lebih baik, lalu menyebut pemberian yang membawa kepuasan hati. Arah tersebut membantu kita membedakan harapan dari tuntutan untuk segera memiliki semuanya. Harapan memberi orientasi; ia membuat langkah hari ini tetap berarti meski hasil akhirnya belum berada di tangan.",
+            "Merenungkan masa depan tidak harus berupa rencana besar atau kepastian lengkap. Cukup tanyakan kebaikan apa yang ingin kamu rawat, lalu pilih bagian yang bisa dikerjakan sekarang. Dengan begitu, rasa puas tidak hanya menunggu pencapaian; ia juga hadir ketika kita menyadari bahwa sebuah langkah kecil sudah sejalan dengan nilai yang dipercaya."
+          ],
+          "reflect": "Kebaikan apa yang ingin kamu tuju tanpa memaksa hasilnya hadir seketika?",
+          "practice": "Tulis satu tujuan yang bermakna dan satu langkah kecil yang dapat kamu selesaikan hari ini."
+        },
+        {
+          "title": "Mengingat pertolongan, meluaskan kepedulian",
+          "refs": [
+            {
+              "s": 93,
+              "a": 6
+            },
+            {
+              "s": 93,
+              "a": 7
+            },
+            {
+              "s": 93,
+              "a": 8
+            },
+            {
+              "s": 93,
+              "a": 9
+            },
+            {
+              "s": 93,
+              "a": 10
+            }
+          ],
+          "paragraphs": [
+            "Rangkaian ayat ini mengingatkan pengalaman dilindungi, diberi petunjuk, dan dicukupkan, kemudian mengarahkan perhatian kepada anak yatim serta orang yang meminta. Kenangan atas pertolongan tidak berhenti sebagai rasa syukur pribadi. Ia menjadi alasan untuk memperlakukan orang rentan dengan hormat, tidak berlaku sewenang-wenang, dan tidak menghardik ketika seseorang datang membutuhkan.",
+            "Kepedulian yang sesuai ayat bisa dimulai tanpa menunggu kemampuan besar. Dengarkan seseorang sampai selesai, jawab permintaan dengan lembut, atau bantu kebutuhan yang jelas melalui cara yang aman. Yang penting adalah menghubungkan kesadaran atas pertolongan yang pernah diterima dengan perilaku yang membuat orang lain merasa tetap memiliki martabat."
+          ],
+          "reflect": "Siapa di sekitarmu yang membutuhkan sikap lebih lembut dan penghormatan darimu?",
+          "practice": "Berikan bantuan kecil atau perhatian penuh kepada seseorang yang membutuhkan, tanpa merendahkan atau mengungkitnya."
+        },
+        {
+          "title": "Dari kesulitan menuju kesungguhan",
+          "refs": [
+            {
+              "s": 94,
+              "a": 1
+            },
+            {
+              "s": 94,
+              "a": 2
+            },
+            {
+              "s": 94,
+              "a": 3
+            },
+            {
+              "s": 94,
+              "a": 5
+            },
+            {
+              "s": 94,
+              "a": 8
+            }
+          ],
+          "paragraphs": [
+            "Ayat-ayat ini menggambarkan kelapangan dada, pengangkatan beban, dan pengulangan pesan bahwa bersama kesulitan ada kemudahan. Bacaan ini tidak menjanjikan bahwa masalah langsung hilang atau semua proses terasa ringan. Ia menolong kita melihat kemungkinan kelapangan di tengah beban, sambil menjaga harapan tetap terarah kepada Tuhan, bukan kepada hasil yang kita kendalikan.",
+            "Penutupnya menghubungkan selesai mengerjakan satu urusan dengan kesungguhan pada urusan lain, lalu mengarahkan harapan hanya kepada Tuhan. Dalam praktik, ini berarti menyelesaikan satu tugas dengan hadir penuh, beristirahat secukupnya, dan melanjutkan langkah berikut tanpa kehilangan arah. Harapan dirawat melalui ritme yang tekun, bukan melalui tekanan tanpa batas."
+          ],
+          "reflect": "Beban apa yang dapat kamu hadapi dengan satu langkah sungguh-sungguh dan harapan yang lebih terarah?",
+          "practice": "Pilih satu urusan yang tertunda, kerjakan selama dua puluh menit dengan fokus, lalu catat kelapangan kecil yang kamu rasakan."
+        }
+      ]
+    },
+    {
+      "id": "quraisy",
+      "title": "Quraisy: Syukur dalam Keseharian",
+      "subtitle": "Mengenali nikmat yang dekat",
+      "description": "Rencana tiga hari untuk membaca Surah Quraisy dengan perhatian pada nikmat yang menopang keseharian: kebiasaan yang tertata, perjalanan, makanan, dan rasa aman. Setiap sesi mengajak kita berhenti sejenak, menghubungkan pesan ayat dengan pengalaman nyata, lalu memilih satu tindakan sederhana sebagai ungkapan syukur. Materi ini adalah pendamping membaca dan renungan pribadi, bukan tafsir resmi atau penetapan hukum. Sisihkan waktu tenang agar pembacaan terasa dekat.",
+      "category": "Surah",
+      "color": "sage",
+      "surahs": [
+        106
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Mengenali hubungan antara rutinitas, perjalanan, dan nikmat yang sering dianggap biasa.",
+        "Merenungkan makanan serta rasa aman sebagai pemberian yang patut disyukuri.",
+        "Menerjemahkan syukur menjadi perhatian dan tindakan sederhana dalam keseharian."
+      ],
+      "lessons": [
+        {
+          "title": "Melihat nikmat di balik rutinitas",
+          "refs": [
+            {
+              "s": 106,
+              "a": 1
+            },
+            {
+              "s": 106,
+              "a": 2
+            }
+          ],
+          "paragraphs": [
+            "Ayat pertama mengajak kita memperhatikan kebiasaan yang telah melekat pada suatu kelompok. Ayat berikutnya menyebut perjalanan pada musim dingin dan musim panas. Rutinitas itu tampak biasa, tetapi sebenarnya memuat kesempatan, arah, dan kelancaran hidup. Membaca bagian ini dapat melatih kita mengenali hal-hal yang terus berjalan sebelum buru-buru menganggapnya sebagai sesuatu yang otomatis.",
+            "Coba hadirkan kembali perjalanan harianmu: berangkat, bekerja, belajar, mengurus rumah, atau bertemu orang lain. Di balik kebiasaan itu ada waktu, tenaga, jalan, dan orang-orang yang membantu. Renungan ini tidak meminta kita merasa bersalah atas kenyamanan, melainkan mengubah kebiasaan melihat agar nikmat yang dekat tidak luput dari perhatian dan syukur."
+          ],
+          "reflect": "Rutinitas apa yang hari ini terasa biasa, padahal menyimpan banyak kemudahan dan dukungan?",
+          "practice": "Sebelum memulai kegiatan utama, sebutkan dalam hati tiga kemudahan yang membuat rutinitasmu dapat berlangsung."
+        },
+        {
+          "title": "Mengembalikan arah kepada Pemberi nikmat",
+          "refs": [
+            {
+              "s": 106,
+              "a": 3
+            },
+            {
+              "s": 106,
+              "a": 4
+            }
+          ],
+          "paragraphs": [
+            "Setelah menyebut kebiasaan perjalanan, ayat ketiga mengarahkan perhatian kepada Tuhan Pemilik rumah ini. Arah syukur tidak berhenti pada sarana, tempat, atau hasil yang terlihat. Kita diajak mengingat sumber yang membuat kehidupan dapat berlangsung. Dengan begitu, kesibukan dan keberhasilan tidak menjadi pusat mutlak, tetapi kesempatan untuk menata kembali orientasi hati.",
+            "Ayat keempat menyebut makanan yang menghilangkan lapar dan keamanan yang meredakan ketakutan. Dua kebutuhan ini sangat mendasar, namun sering baru terasa nilainya ketika terganggu. Membaca ayat-ayat tersebut dapat menumbuhkan sikap rendah hati: menikmati kecukupan sambil mengingat bahwa manusia tetap membutuhkan pertolongan, pemeliharaan, dan perhatian dari Yang Maha Memberi."
+          ],
+          "reflect": "Ketika kebutuhanmu terpenuhi, kepada siapa atau kepada apa biasanya perhatian dan rasa terima kasihmu pertama-tama tertuju?",
+          "practice": "Saat makan atau merasa aman di rumah, berhentilah sejenak untuk menyampaikan syukur dengan kalimat sederhana dan sadar."
+        },
+        {
+          "title": "Membawa syukur menjadi kepedulian",
+          "refs": [
+            {
+              "s": 106,
+              "a": 1
+            },
+            {
+              "s": 106,
+              "a": 4
+            }
+          ],
+          "paragraphs": [
+            "Surah ini mempertemukan perjalanan yang teratur dengan kebutuhan paling dasar: terbebas dari lapar dan rasa takut. Pertemuan itu membuka pertanyaan tentang bagaimana nikmat membentuk cara kita memperlakukan orang lain. Orang yang menyadari kecukupan dapat menjadi lebih peka terhadap mereka yang sedang kesulitan, tanpa merasa lebih tinggi atau menganggap pengalamannya berlaku sama bagi semua orang.",
+            "Syukur dapat diwujudkan melalui perhatian yang tidak ramai: berbagi makanan secukupnya, membantu seseorang merasa lebih aman, atau menjaga lingkungan yang mendukung perjalanan bersama. Tindakan ini bukan cara membeli kepastian, melainkan latihan merespons nikmat dengan tanggung jawab. Mulailah dari satu pilihan yang realistis, dilakukan dengan tulus, dan tidak merendahkan penerima."
+          ],
+          "reflect": "Nikmat makanan atau rasa aman apa yang bisa mendorongmu memberi perhatian nyata kepada orang di sekitarmu?",
+          "practice": "Pilih satu tindakan kepedulian hari ini, seperti berbagi makanan atau menanyakan kabar seseorang dengan sungguh-sungguh."
+        }
+      ]
+    },
+    {
+      "id": "al-maun",
+      "title": "Al-Maun: Iman yang Peduli",
+      "subtitle": "Iman hadir dalam kepedulian",
+      "description": "Rencana empat hari untuk membaca Surah Al-Ma’un secara perlahan dan menghubungkan pesannya dengan sikap sehari-hari. Setiap sesi mengajak kita memperhatikan cara memperlakukan anak yatim, orang miskin, waktu shalat, niat, serta kesediaan berbagi barang yang berguna. Renungan ini bukan tafsir resmi atau fatwa, melainkan pendamping sederhana agar bacaan ayat mendorong kepekaan, ketulusan, dan tindakan kecil yang nyata di rumah maupun lingkungan sekitar.",
+      "category": "Surah",
+      "color": "rose",
+      "surahs": [
+        107
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Membaca Surah Al-Ma’un dengan perhatian pada hubungan iman, ibadah, dan kepedulian sosial.",
+        "Mengenali kebiasaan yang dapat membuat kita kurang peka terhadap kebutuhan orang lain atau kurang hadir dalam ibadah.",
+        "Memilih tindakan kecil yang tulus dan berguna untuk dilakukan setelah setiap sesi."
+      ],
+      "lessons": [
+        {
+          "title": "Iman terlihat dari cara memperlakukan yang lemah",
+          "refs": [
+            {
+              "s": 107,
+              "a": 1
+            },
+            {
+              "s": 107,
+              "a": 2
+            }
+          ],
+          "paragraphs": [
+            "Ayat pertama mengajak kita berhenti sejenak di depan pertanyaan tentang orang yang mendustakan agama. Ayat berikutnya menunjukkan salah satu tandanya melalui sikap menghardik anak yatim. Bacaan ini mengarahkan perhatian dari pengakuan lisan menuju cara kita memperlakukan orang yang berada dalam posisi rentan, tanpa tergesa-gesa menghakimi diri sendiri maupun orang lain.",
+            "Anak yatim dalam bacaan ini mengingatkan bahwa kebutuhan seseorang tidak selalu tampak sebagai permintaan terbuka. Nada bicara, kesabaran, dan kesediaan memberi ruang juga bagian dari kepedulian. Hari ini, amati apakah respons kita kepada orang yang lebih lemah sudah menjaga martabatnya, terutama ketika kita sedang terburu-buru atau merasa terganggu."
+          ],
+          "reflect": "Dalam situasi apa saya perlu mengganti respons yang keras dengan perhatian yang lebih menjaga martabat orang lain?",
+          "practice": "Berikan waktu untuk mendengar seseorang yang membutuhkan perhatian, lalu tanggapi dengan lembut tanpa memotong pembicaraannya."
+        },
+        {
+          "title": "Kepedulian perlu dianjurkan dan dibagikan",
+          "refs": [
+            {
+              "s": 107,
+              "a": 3
+            },
+            {
+              "s": 107,
+              "a": 4
+            }
+          ],
+          "paragraphs": [
+            "Ayat ketiga menyoroti orang yang tidak menganjurkan memberi makan orang miskin. Pesannya tidak hanya tentang tindakan pribadi, tetapi juga tentang kemauan mendorong kebaikan bersama. Perhatian kepada kebutuhan dasar sesama dapat dimulai dari hal yang dekat: mengetahui siapa yang kesulitan, menyebut kebutuhannya dengan hormat, dan mengajak bantuan tanpa mempermalukannya.",
+            "Lalu bacaan beralih dengan peringatan kepada orang-orang yang shalat. Pergeseran ini mengajak kita melihat bahwa ibadah dan kepedulian tidak sebaiknya dipisahkan sebagai dua wilayah yang tidak berhubungan. Sambil menunaikan kewajiban, kita dapat memeriksa apakah sikap kepada orang lapar, miskin, atau tersisih ikut dibentuk oleh kesadaran beragama."
+          ],
+          "reflect": "Siapa di sekitar saya yang kebutuhannya mungkin belum saya perhatikan, dan bagaimana saya dapat mengajak bantuan secara bermartabat?",
+          "practice": "Bagikan makanan atau dukungan kebutuhan dasar melalui cara yang menjaga privasi dan harga diri penerimanya."
+        },
+        {
+          "title": "Hadir dalam shalat, jujur dalam niat",
+          "refs": [
+            {
+              "s": 107,
+              "a": 5
+            },
+            {
+              "s": 107,
+              "a": 6
+            }
+          ],
+          "paragraphs": [
+            "Ayat kelima menyebut orang-orang yang lalai dari shalatnya, dan ayat keenam menyebut orang-orang yang berbuat riya. Kita dapat membacanya sebagai ajakan memeriksa kehadiran dan ketulusan diri, bukan sebagai alasan memberi cap kepada orang lain. Perhatian dalam shalat tumbuh melalui usaha sederhana untuk kembali sadar ketika pikiran mengembara.",
+            "Ketulusan tidak berarti semua ibadah harus disembunyikan atau kita menunggu perasaan sempurna. Yang penting adalah mengingat kepada siapa ibadah diarahkan dan tidak menjadikan penilaian manusia sebagai tujuan utama. Sebelum atau sesudah shalat hari ini, luangkan beberapa napas untuk menata niat, mengenali gangguan, lalu kembali dengan tenang."
+          ],
+          "reflect": "Apa yang biasanya paling mengalihkan perhatian saya dalam shalat, dan langkah kecil apa yang bisa membantu saya kembali hadir?",
+          "practice": "Sebelum shalat berikutnya, jauhkan satu gangguan yang mudah dihindari dan nyatakan niat untuk beribadah dengan lebih sadar."
+        },
+        {
+          "title": "Jangan menahan barang yang berguna",
+          "refs": [
+            {
+              "s": 107,
+              "a": 7
+            },
+            {
+              "s": 107,
+              "a": 3
+            }
+          ],
+          "paragraphs": [
+            "Ayat ketujuh menegur orang yang enggan menolong dengan barang berguna. Barang sederhana dapat berarti besar ketika seseorang sedang membutuhkannya, sehingga kepedulian tidak selalu menuntut kemampuan luar biasa. Bacaan ini mengajak kita melihat kembali apa yang tersimpan, dipakai berlebihan, atau sengaja ditahan, padahal dapat membantu orang lain secara aman dan tepat.",
+            "Menghubungkan ayat ini dengan anjuran memberi makan orang miskin membuat perhatian kita menjadi lebih konkret. Bantuan yang baik mempertimbangkan kebutuhan nyata, persetujuan, dan kemampuan penerima, bukan sekadar keinginan kita untuk terlihat murah hati. Pilih satu bentuk berbagi yang berguna dan lakukan tanpa menunggu pujian, sambil tetap menghormati batas serta martabat sesama."
+          ],
+          "reflect": "Barang atau bantuan apa yang sebenarnya dapat saya bagikan dengan tulus dan benar-benar berguna bagi orang lain?",
+          "practice": "Sediakan satu barang layak pakai atau bantuan kebutuhan harian untuk diberikan melalui jalur yang tepercaya dan menghormati penerimanya."
+        }
+      ]
+    },
+    {
+      "id": "al-mulk",
+      "title": "Al-Mulk: Merenungi Tanda Kebesaran",
+      "subtitle": "Melihat, Mendengar, Bersyukur",
+      "description": "Rencana tujuh hari untuk membaca seluruh Surah Al-Mulk sambil memperhatikan tanda kebesaran Allah dalam kehidupan. Setiap sesi mengajak kita menghubungkan ayat dengan sikap rendah hati, tanggung jawab, kewaspadaan, dan rasa syukur. Bacalah ayat dari teks aplikasi, renungkan maknanya secara sederhana, lalu lakukan satu langkah kecil yang nyata. Materi ini adalah pendamping membaca dan refleksi pribadi, bukan tafsir resmi atau fatwa.",
+      "category": "Surah",
+      "color": "night",
+      "surahs": [
+        67
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Membaca seluruh 30 ayat Surah Al-Mulk dengan perhatian yang lebih utuh.",
+        "Mengenali ajakan ayat untuk mengamati ciptaan, mengingat keterbatasan diri, dan bersyukur.",
+        "Mengubah hasil renungan menjadi kebiasaan kecil yang dapat dilakukan setiap hari."
+      ],
+      "lessons": [
+        {
+          "title": "Kerajaan dan ukuran amal",
+          "refs": [
+            {
+              "s": 67,
+              "a": 1
+            },
+            {
+              "s": 67,
+              "a": 2
+            },
+            {
+              "s": 67,
+              "a": 3
+            },
+            {
+              "s": 67,
+              "a": 4
+            }
+          ],
+          "paragraphs": [
+            "Ayat pembuka mengarahkan perhatian pada kekuasaan Allah atas segala sesuatu. Hidup dan mati disebut sebagai ruang ujian, bukan sekadar rangkaian kejadian. Ukuran yang ditekankan adalah amal yang lebih baik, sehingga kualitas niat, ketekunan, dan dampak perbuatan patut diperiksa dalam rutinitas kecil hari ini.",
+            "Gambaran langit yang berlapis dan pencarian berulang terhadap cacat mengajak kita memperhatikan dengan sabar. Penglihatan akhirnya kembali tanpa menemukan ketidakseimbangan, sementara manusia merasakan keterbatasan dirinya. Kekaguman yang sehat bukan alasan untuk merasa sudah memahami semuanya, melainkan dorongan untuk melihat, belajar, dan merendahkan hati."
+          ],
+          "reflect": "Dalam kegiatan hari ini, apakah saya lebih mengejar banyaknya perbuatan atau memperbaiki niat dan mutunya?",
+          "practice": "Pilih satu tugas rutin dan kerjakan dengan perhatian penuh, niat yang baik, serta tanpa mencari pujian."
+        },
+        {
+          "title": "Peringatan yang didengarkan",
+          "refs": [
+            {
+              "s": 67,
+              "a": 5
+            },
+            {
+              "s": 67,
+              "a": 6
+            },
+            {
+              "s": 67,
+              "a": 7
+            },
+            {
+              "s": 67,
+              "a": 8
+            }
+          ],
+          "paragraphs": [
+            "Ayat-ayat ini menampilkan langit yang dihiasi bintang sekaligus mengingatkan adanya akibat bagi penolakan terhadap Tuhan. Peringatan itu terasa tegas, bukan untuk memuaskan rasa takut, melainkan untuk menyadarkan bahwa pilihan batin dan tindakan memiliki arah. Kita diajak tidak menunda perhatian terhadap nasihat yang benar.",
+            "Suara neraka dan pertanyaan para penjaganya menggambarkan penyesalan ketika peringatan baru diakui setelah terlambat. Membaca bagian ini dapat menjadi latihan mendengar sebelum keadaan memaksa. Nasihat yang baik perlu diterima dengan jujur, dipikirkan, lalu diuji dalam perubahan perilaku, bukan hanya diakui dengan kata-kata."
+          ],
+          "reflect": "Peringatan atau nasihat apa yang selama ini saya dengar tetapi terus saya tunda untuk dipikirkan?",
+          "practice": "Luangkan sepuluh menit untuk menuliskan satu nasihat tepercaya dan satu perubahan kecil yang akan Anda mulai."
+        },
+        {
+          "title": "Mengakui kesalahan dan berharap",
+          "refs": [
+            {
+              "s": 67,
+              "a": 9
+            },
+            {
+              "s": 67,
+              "a": 10
+            },
+            {
+              "s": 67,
+              "a": 11
+            },
+            {
+              "s": 67,
+              "a": 12
+            }
+          ],
+          "paragraphs": [
+            "Pengakuan bahwa mereka mendustakan dan tidak mau mendengar menunjukkan bahaya menutup diri. Ayat berikutnya menghubungkan mendengar dengan berpikir; keduanya membantu seseorang menilai keyakinan dan langkahnya. Renungan hari ini bukan untuk menghakimi orang lain, tetapi untuk menemukan bagian diri yang sering menolak koreksi.",
+            "Setelah pengakuan dosa, ayat juga menyebut orang yang takut kepada Tuhannya meski tidak melihat-Nya dan menerima ampunan serta pahala besar. Ini menumbuhkan harapan yang disertai kewaspadaan. Rasa takut yang sehat tidak mematikan langkah; ia menjaga kejujuran, sementara harapan mendorong kita kembali memperbaiki diri."
+          ],
+          "reflect": "Kapan saya terakhir kali mengakui kesalahan tanpa menyalahkan keadaan atau orang lain?",
+          "practice": "Sampaikan permintaan maaf yang spesifik kepada seseorang jika ada kesalahan yang masih dapat Anda perbaiki hari ini."
+        },
+        {
+          "title": "Yang tersembunyi tetap diketahui",
+          "refs": [
+            {
+              "s": 67,
+              "a": 13
+            },
+            {
+              "s": 67,
+              "a": 14
+            },
+            {
+              "s": 67,
+              "a": 15
+            },
+            {
+              "s": 67,
+              "a": 16
+            }
+          ],
+          "paragraphs": [
+            "Ayat-ayat ini menyatakan bahwa perkataan yang dirahasiakan maupun dilahirkan berada dalam pengetahuan Allah, begitu pula isi hati. Kesadaran tersebut mengundang kejujuran batin: tidak hanya mengatur kesan di depan manusia, tetapi juga merapikan maksud yang tersembunyi. Pengetahuan Allah digambarkan bersama kelembutan dan pemahaman yang mendalam.",
+            "Bumi dibuat mudah dijelajahi dan rezeki dapat dinikmati, tetapi perjalanan itu tetap berujung pada kembali kepada-Nya. Kemudahan bukan izin untuk lalai atau menguasai sesuka hati. Ia menjadi kesempatan untuk bekerja, bergerak, dan menggunakan pemberian dengan tanggung jawab serta kesadaran bahwa hidup memiliki pertanggungjawaban."
+          ],
+          "reflect": "Niat tersembunyi apa yang perlu saya luruskan agar tindakan saya lebih jujur dan bertanggung jawab?",
+          "practice": "Sebelum memulai satu pekerjaan, berhenti sejenak dan ucapkan dalam hati tujuan baik yang ingin Anda jaga."
+        },
+        {
+          "title": "Waspada terhadap rasa aman palsu",
+          "refs": [
+            {
+              "s": 67,
+              "a": 17
+            },
+            {
+              "s": 67,
+              "a": 18
+            },
+            {
+              "s": 67,
+              "a": 19
+            },
+            {
+              "s": 67,
+              "a": 20
+            }
+          ],
+          "paragraphs": [
+            "Pertanyaan tentang guncangan bumi dan badai batu menggugah kita untuk tidak menganggap keamanan sebagai sesuatu yang otomatis. Ayat juga mengingatkan bahwa pendustaan umat terdahulu memiliki akibat. Renungan ini menolong kita membedakan ketenangan yang bijaksana dari rasa aman palsu yang membuat kita mengabaikan tanda dan tanggung jawab.",
+            "Burung yang mengembangkan dan mengatupkan sayap menjadi pemandangan yang mengarahkan perhatian kepada pemeliharaan Allah. Pertanyaan tentang siapa penolong selain Dia juga menantang ketergantungan berlebihan pada kekuatan manusia. Kita tetap berusaha dan saling menolong, tetapi tidak membiarkan keberhasilan membuat hati lupa pada sumber pertolongan."
+          ],
+          "reflect": "Di bidang apa saya merasa terlalu aman sehingga berhenti mengevaluasi pilihan dan tanggung jawab saya?",
+          "practice": "Periksa satu kebiasaan atau rencana yang berisiko, lalu lakukan satu langkah pencegahan yang masuk akal."
+        },
+        {
+          "title": "Arah, rezeki, dan syukur",
+          "refs": [
+            {
+              "s": 67,
+              "a": 21
+            },
+            {
+              "s": 67,
+              "a": 22
+            },
+            {
+              "s": 67,
+              "a": 23
+            },
+            {
+              "s": 67,
+              "a": 24
+            },
+            {
+              "s": 67,
+              "a": 25
+            }
+          ],
+          "paragraphs": [
+            "Pertanyaan tentang rezeki dan kesombongan mengajak kita melihat hubungan antara kebutuhan, usaha, dan sikap hati. Saat pemberian terasa lancar, manusia mudah mengira semuanya hasil kendali sendiri. Ayat-ayat ini mengembalikan kesadaran bahwa rezeki perlu diterima dengan syukur, bukan dijadikan alasan untuk menjauh atau merendahkan sesama.",
+            "Perbandingan orang yang berjalan terjungkal dengan orang yang berjalan tegap menggambarkan pentingnya arah, bukan sekadar gerak. Pendengaran, penglihatan, dan hati adalah bekal yang seharusnya melahirkan syukur. Kehadiran kita di bumi juga menuju pengumpulan kembali, sehingga cara memakai kemampuan hari ini layak dipertimbangkan dengan serius."
+          ],
+          "reflect": "Apakah penggunaan pendengaran, penglihatan, dan hati saya hari ini lebih banyak menghasilkan syukur atau keluhan?",
+          "practice": "Catat tiga bentuk rezeki yang Anda terima hari ini dan gunakan salah satunya untuk membantu kebutuhan orang lain."
+        },
+        {
+          "title": "Ilmu yang terbatas dan sumber kehidupan",
+          "refs": [
+            {
+              "s": 67,
+              "a": 26
+            },
+            {
+              "s": 67,
+              "a": 27
+            },
+            {
+              "s": 67,
+              "a": 28
+            },
+            {
+              "s": 67,
+              "a": 29
+            },
+            {
+              "s": 67,
+              "a": 30
+            }
+          ],
+          "paragraphs": [
+            "Jawaban tentang waktu ancaman menegaskan bahwa ilmu mengenai hal itu berada di sisi Allah, sedangkan tugas manusia adalah memberi peringatan dengan jelas. Sikap ini mengajarkan batas pengetahuan dan pentingnya tidak berspekulasi seolah-olah memiliki kepastian mutlak. Kerendahan hati dapat berjalan bersama keberanian menyampaikan kebenaran yang dipahami.",
+            "Penutup surah mengarahkan perhatian pada air: bila sumbernya menjadi kering, siapa yang menghadirkan aliran? Pertanyaan sederhana itu membuat kebutuhan harian terasa sebagai karunia yang tidak boleh dianggap biasa. Setelah menyelesaikan bacaan, bawalah kesadaran ini ke tindakan merawat sumber daya, menghemat, dan berterima kasih."
+          ],
+          "reflect": "Kebutuhan dasar apa yang sering saya anggap pasti, padahal sebenarnya sangat bergantung pada pemberian dan pemeliharaan Allah?",
+          "practice": "Hemat air sepanjang hari dan lakukan satu tindakan nyata untuk menjaga kebersihan atau ketersediaan air di sekitar Anda."
+        }
+      ]
+    },
+    {
+      "id": "al-fil",
+      "title": "Al-Fil: Kuasa Allah dan Keterbatasan Kita",
+      "subtitle": "Mengenal kuasa, menata sikap",
+      "description": "Rencana tiga hari untuk membaca Surah Al-Fil secara perlahan dan menghubungkan gambaran tentang kuasa Allah, gagalnya kesombongan, serta keterbatasan manusia dengan sikap sehari-hari. Setiap sesi mengajak pembaca memperhatikan alur ayat, memeriksa cara memandang kekuatan, lalu memilih tindakan sederhana yang lebih rendah hati dan bertanggung jawab. Gunakan waktu singkat ini untuk membaca teks dari dataset aplikasi, berhenti pada gagasan utama, dan menuliskan respons pribadi. Ini pendamping membaca dan renungan pribadi, bukan tafsir resmi atau fatwa.",
+      "category": "Surah",
+      "color": "sage",
+      "surahs": [
+        105
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Mengikuti alur Surah Al-Fil berdasarkan terjemahan ayat yang dibaca.",
+        "Merenungkan perbedaan antara rencana manusia dan kuasa Allah tanpa menyamakan renungan dengan tafsir resmi.",
+        "Menerapkan kerendahan hati dan tanggung jawab melalui satu tindakan nyata setiap hari."
+      ],
+      "lessons": [
+        {
+          "title": "Melihat kuasa di balik peristiwa",
+          "refs": [
+            {
+              "s": 105,
+              "a": 1
+            },
+            {
+              "s": 105,
+              "a": 2
+            }
+          ],
+          "paragraphs": [
+            "Ayat pembuka mengarahkan perhatian kepada cara Tuhan bertindak terhadap pasukan bergajah. Pertanyaan itu mengajak kita berhenti sejenak: sejarah tidak hanya berisi ukuran pasukan atau besarnya ancaman. Ada kuasa Allah yang melampaui perhitungan kita. Membaca dengan tenang membantu kita mengakui bahwa pandangan manusia selalu terbatas.",
+            "Ayat berikutnya menyebut siasat untuk menghancurkan Ka'bah menjadi sia-sia. Renungan ini bukan alasan untuk menganggap semua kegagalan sebagai hukuman, melainkan kesempatan memeriksa kesombongan dalam rencana kita. Kekuatan, jabatan, dan persiapan tidak otomatis menjadikan tujuan benar atau hasil berada sepenuhnya dalam kendali manusia."
+          ],
+          "reflect": "Dalam rencana yang sedang saya bangun, bagian mana yang perlu saya serahkan kepada kuasa Allah dan tidak saya klaim sebagai kendali pribadi?",
+          "practice": "Tuliskan satu rencana hari ini, lalu tambahkan satu kalimat yang mengingatkan diri untuk tetap rendah hati terhadap hasilnya."
+        },
+        {
+          "title": "Kekuatan tidak selalu seperti dugaan",
+          "refs": [
+            {
+              "s": 105,
+              "a": 3
+            },
+            {
+              "s": 105,
+              "a": 4
+            }
+          ],
+          "paragraphs": [
+            "Gambaran burung yang datang berbondong-bondong dan membawa lemparan dari tanah terbakar memperluas cara kita memahami pertolongan Allah. Ayat-ayat ini tidak mengajak kita menebak pola kejadian masa kini. Kita diajak memperhatikan bahwa sarana yang tampak kecil atau tidak disangka dapat berada dalam rangkaian tindakan yang melampaui perkiraan manusia.",
+            "Membaca bagian ini dapat menumbuhkan kewaspadaan terhadap kebiasaan menilai kemampuan hanya dari penampilan. Kita sering mengagungkan alat, jumlah, atau pengaruh, lalu meremehkan hal yang sederhana. Renungan yang sehat menahan kita dari kesimpulan tergesa-gesa: tetap berusaha dengan cermat, tetapi tidak menjadikan sumber daya sebagai ukuran mutlak atas keberhasilan."
+          ],
+          "reflect": "Kapan saya terakhir kali meremehkan orang, cara, atau bantuan karena bentuknya tidak sesuai dengan gambaran kekuatan saya?",
+          "practice": "Hari ini, dengarkan sungguh-sungguh satu masukan sederhana yang biasanya saya abaikan sebelum mengambil keputusan."
+        },
+        {
+          "title": "Mengenali batas dan memilih sikap",
+          "refs": [
+            {
+              "s": 105,
+              "a": 5
+            },
+            {
+              "s": 105,
+              "a": 1
+            }
+          ],
+          "paragraphs": [
+            "Penutup surah menggambarkan pasukan itu dalam keadaan hancur, lalu mengembalikan kita kepada pertanyaan tentang tindakan Tuhan. Alurnya menempatkan kekuatan manusia dalam batas yang nyata. Kita tidak perlu membangun rasa takut berlebihan; cukup membawa kesadaran bahwa keangkuhan dapat runtuh dan bahwa hidup menuntut pertanggungjawaban atas cara kita memakai kemampuan.",
+            "Merenungkan keterbatasan bukan berarti pasif atau berhenti merencanakan. Justru, kita dapat bekerja lebih jujur, meminta bantuan saat perlu, dan memperlakukan orang lain tanpa merasa paling berkuasa. Surah ini menjadi cermin untuk menata sikap: berani menghadapi tugas, namun tidak menyamakan keberanian dengan keyakinan bahwa semua hasil pasti tunduk pada kemauan kita."
+          ],
+          "reflect": "Sikap apa yang ingin saya ubah agar keberanian menjalankan tanggung jawab tidak berubah menjadi kesombongan?",
+          "practice": "Pilih satu tugas yang saya kuasai dan kerjakan dengan memberi ruang bagi bantuan, koreksi, atau kebutuhan orang lain."
+        }
+      ]
+    },
+    {
+      "id": "al-kausar",
+      "title": "Al-Kausar: Nikmat dan Ibadah",
+      "subtitle": "Mengenali nikmat, menata ibadah",
+      "description": "Rencana tiga hari untuk membaca Surah Al-Kausar dengan langkah singkat dan terarah. Setiap sesi mengajak pembaca memperhatikan satu bagian pesan: menyadari keluasan nikmat, menghubungkan syukur dengan ibadah yang tulus, lalu merespons sikap bermusuhan dengan keteguhan. Renungan dan latihan sederhana membantu menghubungkan bacaan dengan pilihan nyata sehari-hari secara sadar, tanpa menggantikan tafsir resmi atau nasihat keagamaan dari pihak berwenang.",
+      "category": "Surah",
+      "color": "amber",
+      "surahs": [
+        108
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Mengenali cara ayat menggambarkan nikmat yang luas dan menumbuhkan rasa syukur.",
+        "Menghubungkan syukur dengan ibadah yang diarahkan kepada Tuhan secara sadar.",
+        "Melatih keteguhan dan sikap baik ketika menghadapi penolakan atau kebencian."
+      ],
+      "lessons": [
+        {
+          "title": "Hari 1: Menyadari nikmat yang luas",
+          "refs": [
+            {
+              "s": 108,
+              "a": 1
+            }
+          ],
+          "paragraphs": [
+            "Ayat pertama membuka bacaan dengan pernyataan tentang pemberian nikmat yang banyak. Berhentilah sejenak pada keluasan maknanya: nikmat tidak harus selalu berupa sesuatu yang besar atau terlihat. Kesempatan belajar, orang yang mendukung, kesehatan, waktu, dan kemampuan untuk memperbaiki diri juga dapat menjadi alasan untuk menyadari kebaikan yang hadir.",
+            "Membaca ayat ini bukan sekadar menghitung hal menyenangkan, melainkan mengubah cara memandang hari. Ketika perhatian diarahkan pada pemberian yang sudah ada, keluhan tidak perlu menjadi satu-satunya suara. Rasa syukur dapat menjadi awal yang tenang untuk memakai kesempatan dengan lebih bertanggung jawab dan tidak menganggap bantuan orang lain sebagai sesuatu yang otomatis."
+          ],
+          "reflect": "Nikmat apa yang sering kamu anggap biasa, padahal paling membantu langkahmu hari ini?",
+          "practice": "Tuliskan tiga nikmat konkret hari ini dan satu cara merawat atau membagikan manfaat masing-masing."
+        },
+        {
+          "title": "Hari 2: Syukur yang diwujudkan dalam ibadah",
+          "refs": [
+            {
+              "s": 108,
+              "a": 2
+            }
+          ],
+          "paragraphs": [
+            "Ayat kedua mengarahkan respons kepada Tuhan melalui shalat dan pengorbanan. Pesannya mengajak kita melihat syukur sebagai tindakan, bukan hanya perasaan dalam hati. Ibadah menjadi ruang untuk mengingat sumber pertolongan, menata niat, dan mengakui bahwa kemampuan yang kita miliki tidak berdiri sendirian tanpa pemberian dan pemeliharaan Tuhan.",
+            "Renungkan kualitas tindakan, bukan penampilan di hadapan orang lain. Shalat dapat dijaga dengan hadirnya perhatian, sedangkan pengorbanan dapat dipahami sebagai kesediaan memberikan sesuatu yang bernilai demi kebaikan. Mulailah dari langkah yang jujur dan sanggup dilakukan, lalu biarkan kebiasaan itu membentuk kepedulian yang lebih nyata kepada sesama."
+          ],
+          "reflect": "Bagaimana kamu dapat membuat ibadah hari ini lebih sadar sebagai ungkapan syukur, bukan sekadar rutinitas?",
+          "practice": "Pilih satu ibadah yang akan kamu lakukan dengan menyiapkan niat dan menyingkirkan satu gangguan sebelum memulainya."
+        },
+        {
+          "title": "Hari 3: Tetap teguh saat disakiti",
+          "refs": [
+            {
+              "s": 108,
+              "a": 3
+            }
+          ],
+          "paragraphs": [
+            "Ayat ketiga menyebut orang yang membenci dan menggambarkan mereka sebagai pihak yang terputus. Bacalah bagian ini dengan hati-hati sebagai pengingat bahwa penilaian dan kebencian orang lain tidak perlu menentukan nilai dirimu. Ayat tersebut dapat menumbuhkan keteguhan, tanpa mengajak kita membalas dengan kebencian atau mengarang kepastian tentang keadaan seseorang.",
+            "Keteguhan tidak berarti menutup mata terhadap luka. Kita dapat mengakui rasa sakit, menjaga batas yang sehat, dan memilih ucapan yang tidak memperpanjang permusuhan. Saat diperlakukan tidak adil, berhenti sejenak sebelum merespons; pertimbangkan tindakan yang menjaga martabat, mencari bantuan yang tepat, dan tetap selaras dengan nilai ibadah serta kebaikan."
+          ],
+          "reflect": "Ketika menghadapi sikap yang menyakitkan, nilai apa yang ingin tetap kamu pegang dalam responsmu?",
+          "practice": "Sebelum membalas pesan atau ucapan yang memancing emosi, tunggu beberapa menit lalu pilih respons singkat yang tegas dan tidak merendahkan."
+        }
+      ]
+    },
+    {
+      "id": "tawakal",
+      "title": "Tawakal: Berikhtiar dengan Hati Tenang",
+      "subtitle": "Usaha, doa, dan ketenangan",
+      "description": "Rencana lima hari ini mengajak pembaca memahami tawakal sebagai sikap yang menyatukan ikhtiar, doa, keteguhan, dan penerimaan terhadap ketetapan Allah. Setiap sesi berpijak pada ayat dari tiga surah pilihan, lalu menghubungkannya dengan keputusan dan kebiasaan sehari-hari. Bacalah ayat melalui teks resmi aplikasi, renungkan maknanya dengan rendah hati, dan lakukan satu langkah kecil yang dapat diamati dengan sabar, jujur, dan bertahap.",
+      "category": "Tematik",
+      "color": "night",
+      "surahs": [
+        3,
+        13,
+        65
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Mengenali hubungan antara usaha yang sungguh-sungguh dan berserah diri kepada Allah.",
+        "Melatih hati agar tetap tenang ketika hasil belum sesuai harapan.",
+        "Menerapkan tawakal melalui keputusan, komunikasi, dan tindakan kecil yang bertanggung jawab."
+      ],
+      "lessons": [
+        {
+          "title": "Menyerahkan hasil, menata langkah",
+          "refs": [
+            {
+              "s": 3,
+              "a": 159
+            },
+            {
+              "s": 13,
+              "a": 11
+            }
+          ],
+          "paragraphs": [
+            "Ayat pertama mengajarkan kelembutan, memaafkan, dan musyawarah sebelum mengambil keputusan, lalu mengarahkan hati untuk bertawakal setelah tekad dibulatkan. Tawakal bukan alasan untuk menunda tindakan. Ia hadir setelah kita mendengar dengan baik, menimbang pilihan, dan berusaha sebaik mungkin, sambil menyadari bahwa hasil akhir bukan seluruhnya berada dalam kendali kita.",
+            "Ayat kedua mengingatkan bahwa perubahan keadaan berawal dari perubahan yang diupayakan manusia. Pesan ini menyeimbangkan doa dengan tanggung jawab: kenali kebiasaan yang ingin dibenahi, pilih satu langkah yang realistis, lalu kerjakan tanpa menuntut hasil seketika. Ketenangan tumbuh ketika usaha kita jelas dan penyerahan diri tidak bergantung pada kepastian hasil."
+          ],
+          "reflect": "Dalam persoalan apa saya perlu memperbaiki langkah sebelum menyerahkan hasilnya kepada Allah?",
+          "practice": "Tuliskan satu keputusan yang sedang dihadapi, mintalah masukan orang tepercaya, lalu lakukan langkah pertama hari ini."
+        },
+        {
+          "title": "Menjaga hati di tengah ketidakpastian",
+          "refs": [
+            {
+              "s": 13,
+              "a": 28
+            },
+            {
+              "s": 3,
+              "a": 8
+            }
+          ],
+          "paragraphs": [
+            "Ayat tentang ketenteraman hati menunjukkan bahwa ingatan kepada Allah dapat menjadi tempat kembali ketika pikiran dipenuhi kecemasan. Ketenangan bukan berarti semua masalah langsung selesai atau emosi harus disembunyikan. Kita boleh mengakui takut dan bingung, kemudian mengarahkan perhatian kepada hal yang dapat dilakukan dengan jujur, sabar, dan tidak merugikan orang lain.",
+            "Doa agar hati tidak menyimpang setelah mendapat petunjuk mengajarkan kerendahan hati. Keyakinan perlu dirawat, bukan dianggap otomatis selalu kuat. Saat ragu muncul, kita dapat kembali membaca, bertanya kepada sumber tepercaya, dan memeriksa niat. Dengan begitu, tawakal menjadi proses menjaga arah sambil menerima bahwa pemahaman kita tetap terbatas."
+          ],
+          "reflect": "Apa yang biasanya membuat hati saya goyah, dan bagaimana saya dapat kembali kepada arah yang baik?",
+          "practice": "Luangkan lima menit untuk mengingat Allah dengan tenang, lalu catat satu kekhawatiran dan satu tindakan sehat yang berada dalam kendali Anda."
+        },
+        {
+          "title": "Mengubah cemas menjadi ikhtiar",
+          "refs": [
+            {
+              "s": 13,
+              "a": 12
+            },
+            {
+              "s": 65,
+              "a": 2
+            }
+          ],
+          "paragraphs": [
+            "Gambaran kilat dalam ayat mengingatkan bahwa rasa takut dan harapan dapat hadir bersamaan. Keduanya tidak harus membuat kita lumpuh. Ketika keadaan belum jelas, kita dapat mengakui risiko, mencari informasi yang diperlukan, dan memilih respons yang paling bertanggung jawab. Tawakal memberi ruang untuk waspada tanpa membiarkan kecemasan menentukan seluruh tindakan.",
+            "Ayat tentang jalan keluar menghubungkan ketakwaan dengan kemungkinan terbukanya jalan yang tidak disangka. Ini bukan janji bahwa setiap keinginan akan terwujud, melainkan ajakan menjaga sikap dan pilihan saat berada dalam tekanan. Berbuat adil, menepati batas, dan mencari penyelesaian yang baik membuat kita tetap bermartabat sambil menunggu arah berikutnya."
+          ],
+          "reflect": "Ketika saya takut pada kemungkinan buruk, ikhtiar apa yang paling jujur dan bermanfaat untuk dilakukan sekarang?",
+          "practice": "Buat daftar dua risiko dari satu urusan penting, lalu ambil satu langkah pencegahan yang tidak melanggar hak siapa pun."
+        },
+        {
+          "title": "Bersabar tanpa berhenti berbuat baik",
+          "refs": [
+            {
+              "s": 13,
+              "a": 22
+            },
+            {
+              "s": 3,
+              "a": 200
+            }
+          ],
+          "paragraphs": [
+            "Ayat ini menggambarkan kesabaran sebagai ketekunan yang mencari keridaan Allah, disertai salat, berbagi rezeki, dan membalas keburukan dengan kebaikan. Sabar bukan pasif atau membiarkan kezaliman. Ia adalah kemampuan menahan reaksi yang merusak agar kita dapat memilih tindakan yang benar, termasuk menetapkan batas dan mencari bantuan ketika diperlukan.",
+            "Seruan untuk bersabar, menguatkan kesabaran, dan tetap bersiap mengingatkan bahwa perjalanan memerlukan daya tahan bersama. Tawakal tidak dibangun dalam satu keputusan besar saja, tetapi melalui pengulangan kecil: kembali pada nilai, memperbaiki kesalahan, dan melanjutkan usaha. Kita tidak mengendalikan semua keadaan, namun dapat mengendalikan cara meresponsnya."
+          ],
+          "reflect": "Dalam situasi yang melelahkan, bentuk kesabaran seperti apa yang tetap menjaga kebaikan sekaligus batas diri?",
+          "practice": "Pilih satu percakapan sulit, siapkan kalimat yang sopan dan tegas, lalu sampaikan tanpa menyalahkan atau mempermalukan."
+        },
+        {
+          "title": "Menerima ketetapan dengan tanggung jawab",
+          "refs": [
+            {
+              "s": 65,
+              "a": 3
+            },
+            {
+              "s": 65,
+              "a": 7
+            },
+            {
+              "s": 3,
+              "a": 173
+            }
+          ],
+          "paragraphs": [
+            "Ayat-ayat ini mengaitkan tawakal dengan kecukupan dari Allah, ukuran bagi segala sesuatu, dan kemampuan manusia yang tidak dibebani melampaui pemberian kepadanya. Pesannya mengajak kita membedakan tanggung jawab dari kendali mutlak. Kita mengerjakan bagian yang mampu dilakukan, mengakui keterbatasan, serta tidak mengukur nilai diri hanya dari hasil yang belum datang.",
+            "Ucapan orang beriman ketika mendengar ancaman menggambarkan keberanian yang lahir dari kepercayaan kepada Allah. Keberanian itu tetap perlu diwujudkan secara bijak, bukan dengan tindakan gegabah. Setelah lima hari ini, bawalah tawakal ke dalam rutinitas: rencanakan, berusaha, berdoa, evaluasi dengan jujur, lalu lepaskan tuntutan untuk menguasai semuanya."
+          ],
+          "reflect": "Bagian mana dari hidup saya yang perlu saya terima dengan lapang, dan bagian mana yang masih harus saya usahakan?",
+          "practice": "Tutup hari dengan meninjau satu usaha yang sudah dilakukan, satu pelajaran yang diperoleh, dan satu hal yang rela Anda serahkan kepada Allah."
+        }
+      ]
+    },
+    {
+      "id": "adab",
+      "title": "Adab Sehari-hari dalam Al-Qur’an",
+      "subtitle": "Lima langkah beradab",
+      "description": "Rencana lima hari untuk membaca ayat-ayat pilihan tentang adab kepada orang tua, sesama, dan diri sendiri. Setiap sesi mengajak kita memperhatikan hubungan antara ucapan, sikap, tanggung jawab, serta cara memperlakukan orang lain. Bacalah teks ayat pada aplikasi, renungkan pesannya dengan jujur, lalu pilih satu tindakan sederhana untuk dipraktikkan hari itu. Materi ini adalah pendamping membaca dan renungan, bukan tafsir resmi atau fatwa.",
+      "category": "Tematik",
+      "color": "rose",
+      "surahs": [
+        17,
+        31,
+        49
+      ],
+      "minutes": 7,
+      "objectives": [
+        "Mengenali prinsip adab dalam ucapan, sikap, dan hubungan sosial melalui ayat yang dibaca.",
+        "Menghubungkan pesan ayat dengan kebiasaan sehari-hari secara jujur dan sederhana.",
+        "Mencoba satu tindakan praktis yang menumbuhkan hormat, ketelitian, rendah hati, dan kepedulian."
+      ],
+      "lessons": [
+        {
+          "title": "Memuliakan orang tua dengan kata dan sikap",
+          "refs": [
+            {
+              "s": 17,
+              "a": 23
+            },
+            {
+              "s": 17,
+              "a": 24
+            },
+            {
+              "s": 31,
+              "a": 14
+            }
+          ],
+          "paragraphs": [
+            "Bacalah ayat-ayat ini dengan memperhatikan bagaimana penghormatan kepada orang tua diwujudkan dalam ucapan dan sikap. Pesannya tidak berhenti pada kewajiban umum, tetapi menyentuh saat mereka menua, kebutuhan untuk tidak membentak, serta pentingnya merendahkan diri dengan kasih. Renungan hari ini mengajak kita melihat kelembutan sebagai pilihan yang nyata.",
+            "Ayat-ayat tersebut juga mengingatkan bahwa rasa syukur kepada Allah berjalan bersama penghargaan kepada orang tua. Ini bukan berarti mengikuti setiap hal tanpa pertimbangan, melainkan tetap memperlakukan mereka dengan baik. Perhatikan nada bicara, kesediaan mendengar, dan cara kita hadir ketika bantuan kecil sebenarnya sangat berarti."
+          ],
+          "reflect": "Dalam percakapan terakhir dengan orang tua atau pengasuh, bagian mana dari ucapan dan sikap saya yang perlu dilembutkan?",
+          "practice": "Hari ini, sampaikan terima kasih dengan kalimat yang spesifik lalu lakukan satu bantuan kecil tanpa menunggu diminta."
+        },
+        {
+          "title": "Menjaga ucapan dan ketelitian informasi",
+          "refs": [
+            {
+              "s": 17,
+              "a": 36
+            },
+            {
+              "s": 31,
+              "a": 18
+            },
+            {
+              "s": 49,
+              "a": 6
+            }
+          ],
+          "paragraphs": [
+            "Sesi ini mempertemukan larangan mengikuti sesuatu tanpa pengetahuan, nasihat untuk tidak bersikap angkuh, dan perintah memeriksa berita. Ketiganya membentuk kebiasaan komunikasi yang bertanggung jawab: menahan diri sebelum menyimpulkan, memeriksa sebelum menyebarkan, serta berbicara tanpa merendahkan. Adab digital maupun lisan bermula dari kesadaran bahwa pendengaran, penglihatan, dan hati akan dipertanggungjawabkan.",
+            "Membaca ayat ini bukan alasan untuk mencurigai semua orang, melainkan undangan agar kita lebih teliti dan adil. Sebuah kabar dapat memengaruhi nama baik serta hubungan banyak pihak. Beri ruang untuk klarifikasi, bedakan fakta dari dugaan, dan akui dengan tenang ketika informasi yang kita pegang ternyata belum cukup."
+          ],
+          "reflect": "Kabar atau pendapat apa yang baru-baru ini saya teruskan sebelum memeriksa kebenaran dan dampaknya?",
+          "practice": "Sebelum meneruskan satu pesan hari ini, cek sumbernya, tanyakan konteksnya, dan batalkan penyebaran jika masih meragukan."
+        },
+        {
+          "title": "Rendah hati tanpa mengecilkan diri",
+          "refs": [
+            {
+              "s": 31,
+              "a": 17
+            },
+            {
+              "s": 31,
+              "a": 18
+            },
+            {
+              "s": 31,
+              "a": 19
+            }
+          ],
+          "paragraphs": [
+            "Nasihat Luqman menyandingkan kesabaran, kepedulian pada kebaikan, larangan memalingkan wajah karena sombong, dan ajakan melunakkan suara. Adab di sini tampak dalam keseimbangan: berani mengingatkan dengan cara baik, namun tidak menjadikan kebaikan sebagai alasan untuk merasa lebih tinggi. Cara berjalan, menatap, dan berbicara dapat menunjukkan sikap batin.",
+            "Rendah hati bukan berarti menghapus pendapat atau membiarkan kesalahan. Ia berarti menyampaikan yang perlu dengan ukuran yang pantas, sambil mengingat keterbatasan diri. Suara yang tenang sering membuka ruang dialog, sedangkan nada meremehkan membuat nasihat terasa sebagai serangan. Amati hari ini bagaimana gaya komunikasi mengubah respons orang lain."
+          ],
+          "reflect": "Dalam memberi nasihat atau menyampaikan pendapat, apakah saya lebih ingin membantu atau memenangkan posisi diri?",
+          "practice": "Pilih satu percakapan penting dan sampaikan pendapat dengan suara tenang, kalimat singkat, serta tanpa label yang merendahkan."
+        },
+        {
+          "title": "Membangun damai dan persaudaraan",
+          "refs": [
+            {
+              "s": 49,
+              "a": 9
+            },
+            {
+              "s": 49,
+              "a": 10
+            },
+            {
+              "s": 49,
+              "a": 13
+            }
+          ],
+          "paragraphs": [
+            "Ayat-ayat ini menggambarkan tanggung jawab memperbaiki hubungan ketika terjadi konflik, menegakkan keadilan, dan mengingatkan bahwa orang beriman adalah saudara. Persaudaraan tidak digambarkan sebagai alasan untuk membela pihak sendiri secara buta. Justru, perdamaian perlu ditemani keadilan, kesediaan mendengar, serta usaha menghentikan kerusakan dengan cara yang pantas.",
+            "Keragaman manusia disebut sebagai kesempatan untuk saling mengenal, bukan tangga untuk membanggakan asal-usul. Ukuran kemuliaan tidak ditentukan oleh kelompok, nama, atau penampilan yang mudah terlihat. Renungkan bagaimana prasangka tentang seseorang dapat menghalangi pertemuan yang jujur. Adab sosial tumbuh ketika kita memberi ruang bagi martabat setiap orang."
+          ],
+          "reflect": "Dalam konflik di sekitar saya, apakah saya sedang memperbaiki hubungan secara adil atau hanya mencari pihak yang ingin saya menangkan?",
+          "practice": "Hubungi satu orang yang hubungannya merenggang dan buka percakapan dengan niat mendengar, bukan mengungkit kemenangan."
+        },
+        {
+          "title": "Menahan ejekan, prasangka, dan gunjingan",
+          "refs": [
+            {
+              "s": 49,
+              "a": 11
+            },
+            {
+              "s": 49,
+              "a": 12
+            },
+            {
+              "s": 17,
+              "a": 53
+            }
+          ],
+          "paragraphs": [
+            "Bacaan penutup mengarahkan perhatian pada kebiasaan yang sering dianggap ringan: mengejek, memberi julukan buruk, berprasangka, mencari-cari kesalahan, dan menggunjing. Ayat-ayat ini juga mendorong perkataan yang lebih baik karena ucapan dapat memicu perselisihan. Adab bukan hanya menjaga kata saat berhadapan, tetapi juga menjaga kehormatan seseorang ketika ia tidak hadir.",
+            "Renungan ini tidak meminta kita mengabaikan masalah nyata atau menolak nasihat yang diperlukan. Yang diuji adalah cara dan niat: apakah informasi disampaikan untuk melindungi, atau untuk mempermalukan? Sebelum berbicara tentang orang lain, berhenti sejenak dan bayangkan dampaknya bila perkataan itu sampai kepadanya. Pilih kalimat yang memperbaiki, bukan memperkeruh."
+          ],
+          "reflect": "Perkataan tentang orang lain apa yang perlu saya hentikan karena lebih dekat kepada ejekan, prasangka, atau gunjingan?",
+          "practice": "Selama sehari, ganti satu komentar negatif dengan doa baik, diam yang terjaga, atau umpan balik langsung yang sopan."
+        }
+      ]
+    }
+  ]
+}

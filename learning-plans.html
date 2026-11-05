@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fbf8f3">
+  <meta name="description" content="Rencana belajar Al-Qur’an berbahasa Indonesia. Baca, renungkan, dan bangun kebiasaan kecil dengan pelajaran harian serta progres yang tersimpan di perangkat.">
+  <title>Rencana Belajar · Quran Oyen</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="learning-plans.css">
+  <script type="module" src="learning-plans.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Langsung ke konten utama</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./" aria-label="Quran Oyen, kembali ke beranda"><img src="icons/favicon.svg" width="32" height="32" alt=""><span>Quran Oyen</span></a>
+      <a class="back-home" href="./"><span aria-hidden="true">←</span> <span>Beranda</span></a>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <section id="catalog-view" aria-labelledby="catalog-title">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">SEDIKIT SETIAP HARI, BERMAKNA DI HATI</span>
+          <h1 id="catalog-title">Rencana <em>Belajar</em></h1>
+          <p>Lebih dekat dengan Al-Qur’an, satu pelajaran dalam satu waktu. Baca ayatnya, renungkan maknanya, lalu bawa kebaikannya ke keseharian.</p>
+          <div class="hero-chips"><span>Bahasa Indonesia</span><span>Gratis</span><span>Tanpa akun</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="arch"><span class="arch-star">✦</span><span class="arch-lines"></span><span class="arch-book">اقْرَأْ</span><span class="arch-caption">Baca · Renungkan · Amalkan</span></div></div>
+      </div>
+      <aside class="continue-card" id="continue-card" hidden aria-label="Lanjutkan rencana terakhir"></aside>
+      <div class="catalog-toolbar">
+        <nav class="plan-tabs" aria-label="Daftar rencana belajar">
+          <a href="#jelajahi" data-tab="jelajahi" aria-current="page">Jelajahi <span id="count-explore"></span></a>
+          <a href="#diikuti" data-tab="diikuti">Diikuti <span id="count-enrolled"></span></a>
+          <a href="#selesai" data-tab="selesai">Selesai <span id="count-completed"></span></a>
+        </nav>
+        <button class="button secondary filter-toggle" id="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/></svg>Filter <span id="filter-count" hidden></span></button>
+      </div>
+      <div class="filter-panel" id="filter-panel" hidden>
+        <label class="field"><span>Surah</span><select id="filter-surah"><option value="">Semua surah</option></select></label>
+        <label class="field"><span>Jenis rencana</span><select id="filter-category"><option value="">Semua jenis</option><option value="Surah">Belajar surah</option><option value="Tematik">Belajar tematik</option></select></label>
+        <label class="field"><span>Durasi rencana</span><select id="filter-duration"><option value="">Semua durasi</option><option value="short">3–4 hari</option><option value="long">5–7 hari</option></select></label>
+        <label class="field"><span>Bahasa materi</span><select id="filter-language"><option value="id">Bahasa Indonesia</option></select></label>
+        <button class="text-button" type="button" id="clear-filters">Hapus filter</button>
+      </div>
+      <div class="search-row"><label class="search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input type="search" id="plan-search" autocomplete="off" placeholder="Cari judul, surah, atau tema…" aria-label="Cari rencana belajar"></label><label class="sort-field"><span class="sr-only">Urutkan rencana</span><select id="plan-sort" aria-label="Urutkan rencana"><option value="recommended">Pilihan awal</option><option value="shortest">Durasi tersingkat</option><option value="alphabet">Judul A–Z</option></select></label></div>
+      <div class="section-heading"><h2 id="results-heading">Temukan langkah kecilmu</h2><p id="results-count" role="status" aria-live="polite">Memuat rencana…</p></div>
+      <div class="plan-grid" id="plan-grid" aria-label="Rencana belajar"></div>
+      <div id="empty-state" class="empty-state" hidden></div>
+      <p class="local-note" id="local-note">Progres dan catatan hanya tersimpan di browser perangkat ini, tanpa akun atau sinkronisasi. Menghapus data situs akan menghapus keduanya.</p>
+    </section>
+    <section id="detail-view" hidden></section>
+    <section id="lesson-view" hidden></section>
+    <section id="error-view" hidden></section>
+    <footer class="page-footer"><span>Quran Oyen · Belajar dengan tenang</span><a href="./">Kembali membaca Al-Qur’an</a></footer>
+  </main>
+  <aside id="action-bar" class="action-bar" hidden aria-label="Tindakan rencana belajar"></aside>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="share-dialog" class="dialog" aria-labelledby="share-title">
+    <div class="dialog-head"><h2 id="share-title">Bagikan rencana</h2><button class="icon-button" type="button" data-close="share-dialog" aria-label="Tutup bagikan">×</button></div>
+    <p>Ajak seseorang melangkah bersama Al-Qur’an.</p><label class="field"><span>Tautan rencana</span><input id="share-url" type="text" readonly></label>
+    <div class="share-actions"><button class="button primary" id="copy-link" type="button">Salin tautan</button><button class="button secondary" id="native-share" type="button">Bagikan…</button></div>
+    <div class="social-links" id="social-links"></div><p class="small muted">Hanya judul dan tautan yang dibagikan. Progres serta catatan pribadi tidak ikut dibagikan.</p>
+  </dialog>
+  <dialog id="reset-dialog" class="dialog" aria-labelledby="reset-title">
+    <h2 id="reset-title">Hapus progres rencana ini?</h2><p id="reset-description"></p><p>Hari yang selesai dan catatan untuk rencana ini akan dihapus dari perangkat. Rencana lain tidak berubah.</p><div class="share-actions"><button class="button secondary" data-close="reset-dialog" type="button">Batal</button><button class="button danger" id="confirm-reset" type="button">Hapus progres</button></div>
+  </dialog>
+  <noscript><p class="noscript">Aktifkan JavaScript untuk membuka rencana belajar. <a href="./">Kembali ke Al-Qur’an</a>.</p></noscript>
+</body>
+</html>
