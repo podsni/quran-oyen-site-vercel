@@ -12,6 +12,16 @@ Transliterasi ayat dirangkai secara lokal dari anotasi per kata Quranic Arabic C
 
 Transliterasi adalah bantuan baca; bukan teks Arab, tajwid, atau pengganti bimbingan guru. Pengguna bisa menampilkan atau menyembunyikannya dari tombol di kartu ayat atau Pengaturan.
 
+## Bacaan ibadah tersimpan lokal
+
+Panel Doa/Wirid, Maulid, dan Tahlil membaca file JSON dari origin situs sendiri di `data/ibadah/`; konten ini tidak perlu diambil dari halaman NU Online saat dibuka, dan tab Maulid/Tahlil tidak mengalihkan pengguna ke situs sumber. Service worker memasukkan berkas `data/` ke manifest cache offline saat rilis. Katalog doa/wirid merupakan salinan statis hasil `GET https://equran.id/api/doa`; salinan ini tidak diperbarui otomatis dan perlu ditinjau sebelum diperbarui.
+
+- **Maulid Barzanji:** 18 bab dan doa penutup, naskah Arab beserta arti Indonesia dari <https://www.alkhoirot.org/2024/11/teks-bacaan-maulid-nabi-barzanji.html>. Transliterasi Latin lengkap tidak tersedia di teks lengkap yang dipakai, sehingga aplikasi tidak membuat transliterasi yang belum diverifikasi.
+- **Tahlil & Doa Arwah:** teks Arab, Latin, dan arti Indonesia dari <https://quran.nu.or.id/tahlil>, disusun sebagai 28 bagian agar mudah dibaca dan dinavigasi.
+- **Doa/Wirid:** katalog EQuran.id dari <https://equran.id/api/doa>.
+
+Sumber ditampilkan sebagai atribusi teks di panel. Data bacaan disajikan langsung oleh situs ini; pilihan waktu sholat berbasis lokasi dan pencarian tafsir/vektor tetap menggunakan layanan eksternal yang dijelaskan di bagian masing-masing.
+
 ## Tafsir Al-Qur'an: EQuran.id API v2
 
 Quran Oyen menggunakan endpoint `GET https://equran.id/api/v2/tafsir/{nomor-surat}` untuk mengambil kumpulan tafsir per ayat dalam satu surat. Endpoint ini melengkapi pembaca tafsir yang sudah ada; pintasan baru memungkinkan pengguna memilih dan membuka tafsir lengkap dari masing-masing 114 surat. Respons, termasuk tafsir yang pernah dibuka, disimpan di cache perangkat melalui IndexedDB.

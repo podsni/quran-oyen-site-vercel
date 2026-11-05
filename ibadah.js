@@ -48,6 +48,37 @@ const TEXT = {
   },
 };
 
+const LOCAL_READER_TEXT = {
+  id: {
+    doaFeature: 'Doa, Wirid, Maulid & Tahlil', doaSub: 'Bacaan tersedia langsung di situs ini tanpa membuka halaman lain.',
+    doaHint: 'Kumpulan doa dan wirid dengan teks Arab, Latin, dan arti. Cari bacaan atau pilih kategori.',
+    wiridHint: 'Katalog doa dan wirid disimpan langsung di situs ini.', doaLoading: 'Memuat katalog lokal…',
+    doaError: 'Katalog doa belum dapat dibuka. Coba muat ulang halaman.',
+    wiridEmpty: 'Belum ada bacaan wirid yang cocok. Coba kata lain.',
+    maulidDescription: 'Baca 18 bab Maulid Barzanji dan doa penutup tanpa meninggalkan situs ini.',
+    tahlilDescription: 'Rangkaian Tahlil dan doa arwah tersedia di sini dalam Arab, Latin, dan arti.',
+    localBadge: 'Tersimpan lokal', section: 'Pilih bagian', previous: 'Sebelumnya', next: 'Berikutnya', copy: 'Salin bacaan',
+    copied: 'Bacaan disalin.', copyError: 'Fitur salin tidak tersedia di browser ini.',
+    localLoading: 'Memuat bacaan lokal…', localError: 'Bacaan belum dapat dibuka. Coba muat ulang halaman.',
+    localShort: 'tersedia langsung di situs ini',
+  },
+  en: {
+    doaFeature: 'Dua, Wird, Mawlid & Tahlil', doaSub: 'Read everything here without opening another site.',
+    doaHint: 'Browse duas and wird with Arabic, Latin transliteration, and meaning. Search or choose a category.',
+    wiridHint: 'The dua and wird catalogue is stored directly on this site.', doaLoading: 'Loading the local catalogue…',
+    doaError: 'The dua catalogue could not be opened. Reload the page and try again.',
+    wiridEmpty: 'No matching wird readings. Try another word.',
+    maulidDescription: 'Read all 18 chapters of Maulid Barzanji and its closing dua without leaving this site.',
+    tahlilDescription: 'The Tahlil and funeral prayer sequence is available here in Arabic, Latin, and meaning.',
+    localBadge: 'Saved locally', section: 'Choose a section', previous: 'Previous', next: 'Next', copy: 'Copy reading',
+    copied: 'Reading copied.', copyError: 'Copy is unavailable in this browser.',
+    localLoading: 'Loading the local reading…', localError: 'The reading could not be opened. Reload the page and try again.',
+    localShort: 'available directly on this site',
+  },
+};
+Object.assign(TEXT.id, LOCAL_READER_TEXT.id);
+Object.assign(TEXT.en, LOCAL_READER_TEXT.en);
+
 function openDatabase() {
   if (database) return database;
   database = new Promise((resolve) => {
@@ -131,9 +162,38 @@ async function request(url, { method = 'GET', body, cache = true, validate = (x)
   }
 }
 
+async function localRequest(path, { validate = (x) => x, cache = true } = {}) {
+  const url = new URL(path, document.baseURI).href;
+  const key = `GET:${url}:`;
+  const cached = cache ? await readCache(key) : null;
+  const readSaved = () => cached ? { data: validate(cached), cached: true } : null;
+  try {
+    const response = await fetch(url, {
+      method: 'GET', mode: 'same-origin', credentials: 'same-origin',
+      headers: { Accept: 'application/json' }, cache: 'default',
+    });
+    if (!response.ok) throw new Error(`Local data: HTTP ${response.status}`);
+    const payload = await response.json();
+    const data = validate(payload);
+    if (cache) await writeCache(key, payload);
+    return { data, cached: false };
+  } catch (error) {
+    const saved = readSaved();
+    if (saved) return saved;
+    throw error;
+  }
+}
+
 function doaList(payload) {
   if (payload?.status !== 'success' || !Array.isArray(payload.data)) throw new Error(payload?.message || 'Format daftar doa tidak valid.');
   return payload.data;
+}
+function localReadingEnvelope(payload) {
+  if (payload?.schemaVersion !== 1 || !Array.isArray(payload.items) || !payload.items.length
+    || !payload.items.every((item) => typeof item?.title === 'string' && typeof item?.ar === 'string' && typeof item?.idn === 'string')) {
+    throw new Error('Format bacaan lokal tidak valid.');
+  }
+  return payload;
 }
 function arrayData(payload) {
   if (payload?.code !== 200 || !Array.isArray(payload.data)) throw new Error(payload?.message || 'Format daftar lokasi tidak valid.');
@@ -169,7 +229,7 @@ function vectorResults(payload) {
   return payload.hasil;
 }
 
-const getDoa = () => request(`${API}/api/doa`, { validate: doaList });
+const getDoa = () => localRequest('data/ibadah/doa.json', { validate: doaList });
 const getProvinces = () => request(`${API}/api/v2/shalat/provinsi`, { validate: arrayData });
 const getCities = (province) => request(`${API}/api/v2/shalat/kabkota`, { method: 'POST', body: { provinsi: province }, validate: arrayData });
 const getSchedule = (province, city, month, year) => request(`${API}/api/v2/shalat`, {
@@ -200,7 +260,9 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
   if (!$('doa-tabs') || !$('prayer-use-location')) return null;
   let lang = 'id';
   let doaEntries = [];
-  let doaCached = false;
+  const localReadingData = { maulid: null, tahlil: null };
+  const localReadingRequests = { maulid: null, tahlil: null };
+  const localReadingIndexes = { maulid: 0, tahlil: 0 };
   let provinces = [];
   let schedule = null;
   let scheduleCached = false;
@@ -264,13 +326,19 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     $('doa-tab-wirid').textContent = w.wiridTab;
     $('doa-tab-maulid').textContent = w.maulidTab;
     $('doa-tab-tahlil').textContent = w.tahlilTab;
-    $('doa-wirid-link').textContent = lang === 'id' ? 'Buka koleksi Wirid lengkap di Quran NU Online' : 'Open the full Wird collection at Quran NU Online';
     $('doa-maulid-title').textContent = w.maulidTitle;
     $('doa-maulid-description').textContent = w.maulidDescription;
-    $('doa-maulid-link').textContent = w.maulidOpen;
     $('doa-tahlil-title').textContent = w.tahlilTitle;
     $('doa-tahlil-description').textContent = w.tahlilDescription;
-    $('doa-tahlil-link').textContent = w.tahlilOpen;
+    for (const type of ['maulid', 'tahlil']) {
+      $(`doa-${type}-local-badge`).textContent = w.localBadge;
+      $(`doa-${type}-section-label`).textContent = w.section;
+      $(`doa-${type}-prev`).textContent = w.previous;
+      $(`doa-${type}-next`).textContent = w.next;
+      $(`doa-${type}-copy`).textContent = w.copy;
+      $(`doa-${type}-latin-label`).textContent = w.readLatin;
+      $(`doa-${type}-meaning-label`).textContent = w.meaning;
+    }
     $('doa-search').placeholder = w.doaSearch;
     $('doa-search-label').textContent = lang === 'id' ? 'Cari bacaan' : 'Search readings';
     $('doa-category-label').textContent = w.doaCategory;
@@ -291,7 +359,9 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     $('prayer-prev').parentElement.setAttribute('aria-label', lang === 'id' ? 'Pilih bulan' : 'Choose month');
     const apiLink = (href) => el('a', { href, target: '_blank', rel: 'noopener noreferrer', textContent: lang === 'id' ? 'Dokumentasi API' : 'API docs' });
     $('vector-source').replaceChildren(document.createTextNode(lang === 'id' ? 'EQuran.id Vector Search · hasil tafsir mengikuti konten API. ' : 'EQuran.id Vector Search · tafsir follows the API content. '), apiLink('https://equran.id/apidev/vector'));
-    $('doa-source').replaceChildren(document.createTextNode(lang === 'id' ? 'Doa dan wirid: katalog EQuran.id. Maulid dan Tahlil: bacaan resmi Quran NU Online. ' : 'Dua and wird: EQuran.id catalogue. Mawlid and Tahlil: official Quran NU Online readings. '), apiLink('https://equran.id/apidev/doa'), document.createTextNode(' · '), apiLink('https://quran.nu.or.id/doa'));
+    $('doa-source').textContent = lang === 'id'
+      ? 'Sumber bacaan: katalog EQuran.id, naskah Barzanji Alkhoirot.org, dan teks Tahlil Quran NU Online. Semuanya disimpan di situs ini; pembaca tidak mengalihkan Anda ke situs sumber.'
+      : 'Reading sources: the EQuran.id catalogue, the Barzanji text from Alkhoirot.org, and the Tahlil text from Quran NU Online. All are stored on this site; the reader does not redirect to the source sites.';
     $('shalat-source').replaceChildren(document.createTextNode(`${w.source} `), apiLink('https://equran.id/apidev/shalat'), document.createTextNode(' · '), apiLink('https://aladhan.com/prayer-times-api'));
 
     updateShortcuts();
@@ -316,20 +386,24 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     }
     $('doa-tools').hidden = !isCatalogue;
     $('doa-hint').hidden = !isCatalogue;
-    $('doa-wirid-link').hidden = activeReadingTab !== 'wirid';
     $('doa-list').hidden = !isCatalogue;
     $('doa-list').setAttribute('aria-labelledby', `doa-tab-${activeReadingTab}`);
     $('doa-maulid-view').hidden = activeReadingTab !== 'maulid';
     $('doa-tahlil-view').hidden = activeReadingTab !== 'tahlil';
     $('doa-hint').textContent = activeReadingTab === 'wirid' ? text().wiridHint : text().doaHint;
-    if (!isCatalogue) $('doa-status').textContent = '';
+    if (!isCatalogue) {
+      $('doa-status').textContent = '';
+      if (activeReadingTab === 'maulid' || activeReadingTab === 'tahlil') loadLocalReading(activeReadingTab);
+    }
     if (isCatalogue && doaEntries.length) { updateDoaCategories(); renderDoa(); }
   }
   function openDoa() {
     sheets.open('doa-panel');
     setReadingTab(activeReadingTab);
-    if (!doaEntries.length) loadDoa();
-    else renderDoa();
+    if (activeReadingTab === 'doa' || activeReadingTab === 'wirid') {
+      if (!doaEntries.length) loadDoa();
+      else renderDoa();
+    }
   }
   function openPrayer() {
     sheets.open('shalat-panel');
@@ -436,7 +510,6 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     try {
       const response = await getDoa();
       doaEntries = response.data;
-      doaCached = response.cached;
       updateDoaCategories();
       renderDoa();
       if (activeReadingTab === 'maulid' || activeReadingTab === 'tahlil') status.textContent = '';
@@ -487,8 +560,86 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     if (shown) list.append(fragment);
     else list.append(el('p', { className: 'ibadah-empty', textContent: activeReadingTab === 'wirid' ? w.wiridEmpty : w.doaEmpty }));
     const status = $('doa-status');
-    if (doaEntries.length) status.textContent = doaCached ? `${formatNumber(shown, lang)} · ${w.cachedShort}` : `${formatNumber(shown, lang)} ${activeReadingTab === 'wirid' ? (lang === 'id' ? 'bacaan wirid' : 'wird readings') : (lang === 'id' ? 'doa/dzikir' : 'dua/dhikr')}`;
+    if (doaEntries.length) status.textContent = `${formatNumber(shown, lang)} · ${w.localShort}`;
   }
+
+  function renderLocalReading(type) {
+    const reading = localReadingData[type];
+    if (!reading?.items?.length) return;
+    const items = reading.items;
+    const select = $(`doa-${type}-select`);
+    const index = Math.max(0, Math.min(items.length - 1, localReadingIndexes[type]));
+    localReadingIndexes[type] = index;
+    if (select.options.length !== items.length) {
+      select.replaceChildren(...items.map((item, i) => el('option', { value: String(i), textContent: item.title || `${text().section} ${i + 1}` })));
+    }
+    select.value = String(index);
+    const item = items[index];
+    $(`doa-${type}-progress`).textContent = `${lang === 'id' ? 'Bagian' : 'Part'} ${formatNumber(index + 1, lang)} ${lang === 'id' ? 'dari' : 'of'} ${formatNumber(items.length, lang)}`;
+    $(`doa-${type}-ar`).textContent = item.ar || '';
+    $(`doa-${type}-ar`).hidden = !item.ar;
+    const latinField = $(`doa-${type}-latin-field`);
+    latinField.hidden = !item.latin;
+    $(`doa-${type}-latin`).textContent = item.latin || '';
+    const meaningField = $(`doa-${type}-meaning-field`);
+    meaningField.hidden = !item.idn;
+    $(`doa-${type}-meaning`).textContent = item.idn || '';
+    $(`doa-${type}-prev`).disabled = index === 0;
+    $(`doa-${type}-next`).disabled = index === items.length - 1;
+    const sourceNames = Array.isArray(reading.sources) ? reading.sources.map((source) => source.name).filter(Boolean).join(' · ') : '';
+    $(`doa-${type}-source`).textContent = [sourceNames && `${lang === 'id' ? 'Sumber' : 'Source'}: ${sourceNames}`, reading.sourceNote].filter(Boolean).join('. ');
+  }
+
+  async function loadLocalReading(type) {
+    if (localReadingData[type]) { renderLocalReading(type); return localReadingData[type]; }
+    if (localReadingRequests[type]) return localReadingRequests[type];
+    const status = $(`doa-${type}-status`);
+    setStatus(status, text().localLoading);
+    localReadingRequests[type] = localRequest(`data/ibadah/${type}.json`, { validate: localReadingEnvelope })
+      .then(({ data }) => {
+        localReadingData[type] = data;
+        renderLocalReading(type);
+        setStatus(status, `${formatNumber(data.items.length, lang)} ${lang === 'id' ? 'bagian' : 'sections'} · ${text().localShort}`);
+        return data;
+      })
+      .catch(() => {
+        setStatus(status, text().localError, true);
+        return null;
+      })
+      .finally(() => { localReadingRequests[type] = null; });
+    return localReadingRequests[type];
+  }
+
+  async function copyLocalReading(type) {
+    const reading = localReadingData[type];
+    const item = reading?.items?.[localReadingIndexes[type]];
+    if (!item) return;
+    const value = [item.title, item.ar, item.latin && `${text().readLatin}: ${item.latin}`, item.idn && `${text().meaning}: ${item.idn}`].filter(Boolean).join('\n\n');
+    try {
+      if (!globalThis.navigator?.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(value);
+      setStatus($(`doa-${type}-status`), text().copied);
+    } catch {
+      setStatus($(`doa-${type}-status`), text().copyError, true);
+    }
+  }
+
+  for (const type of ['maulid', 'tahlil']) {
+    $(`doa-${type}-select`).addEventListener('change', (event) => {
+      localReadingIndexes[type] = Number(event.currentTarget.value) || 0;
+      renderLocalReading(type);
+    });
+    $(`doa-${type}-prev`).addEventListener('click', () => {
+      localReadingIndexes[type] = Math.max(0, localReadingIndexes[type] - 1);
+      renderLocalReading(type);
+    });
+    $(`doa-${type}-next`).addEventListener('click', () => {
+      localReadingIndexes[type] = Math.min((localReadingData[type]?.items?.length || 1) - 1, localReadingIndexes[type] + 1);
+      renderLocalReading(type);
+    });
+    $(`doa-${type}-copy`).addEventListener('click', () => copyLocalReading(type));
+  }
+
   $('doa-search').addEventListener('input', renderDoa);
   $('doa-category').addEventListener('change', renderDoa);
 

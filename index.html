@@ -204,16 +204,31 @@
   .tafsir-empty { margin: 0; padding: 24px 12px; text-align: center; color: var(--ink-3); font: 400 14px/21px var(--sans); }
   .tafsir-credit { margin: 0; color: var(--ink-3); font: 400 12px/18px var(--sans); }
   .ibadah-panel { width: min(520px, calc(100vw - 32px)); }
+  #doa-panel { width: min(720px, calc(100vw - 32px)); }
   .ilm-panel { width: min(680px, calc(100vw - 32px)); }
   .ibadah-panel .panel-head h2 { min-width: 0; }
   .ibadah-panel .panel-body { gap: 11px; padding: 2px 16px max(18px, var(--sab)); }
+  .ibadah-panel [hidden] { display: none !important; }
   .ilm-tabs { position: sticky; top: 0; z-index: 4; padding: 6px 0; background: var(--app); }
   .reading-tabs { position: sticky; top: 0; z-index: 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; padding: 5px 0; background: var(--app); }
   .reading-tabs button { min-width: 0; padding-inline: 5px; }
   .reading-resource { display: grid; gap: 9px; padding: 18px; border-color: rgb(240 137 46 / .28); background: linear-gradient(145deg, var(--oyen-soft), var(--sheet) 78%); }
+  .reading-resource[hidden] { display: none; }
   .reading-resource h3 { margin: 0; font: 700 18px/24px var(--sans); }
   .reading-resource p { margin: 0; color: var(--ink-2); font: 400 14px/22px var(--serif); }
   .reading-resource .btn { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; }
+  .reading-section-field { margin-top: 3px; }
+  .reading-navigation { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 7px; }
+  .reading-navigation .pill { min-height: 38px; padding-inline: 10px; white-space: nowrap; }
+  .reading-progress { min-width: 0; overflow: hidden; color: var(--ink-3); font: 600 11px/16px var(--sans) !important; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+  .reading-card { display: grid; gap: 13px; min-width: 0; padding: 15px; border: 1px solid var(--hair); border-radius: 15px; background: var(--sheet); }
+  .reading-arabic { margin: 0; color: var(--ink); font: 400 clamp(26px, 4.8vw, 34px)/2.08 var(--quran, var(--serif)); direction: rtl; text-align: right; white-space: pre-line; overflow-wrap: anywhere; }
+  .reading-field { display: grid; gap: 5px; padding-top: 12px; border-top: 1px solid var(--hair); }
+  .reading-field[hidden] { display: none; }
+  .reading-field-label { color: var(--oyen-ink); font: 650 12px/18px var(--sans); }
+  .reading-field p { margin: 0; color: var(--ink-2); font: 400 15px/25px var(--serif); overflow-wrap: anywhere; white-space: pre-line; }
+  .reading-copy { justify-self: start; min-height: 38px; }
+  .reading-resource .ibadah-source { margin-top: 1px; line-height: 18px; }
   .hadith-collections { display: flex; gap: 8px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 5px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .hadith-collections::-webkit-scrollbar { display: none; }
   .hadith-collection-chip { flex: none; min-height: 39px; padding: 0 14px; border: 1px solid var(--hair); border-radius: 999px; background: var(--sheet); color: var(--ink-2); font: 600 13px/18px var(--sans); cursor: pointer; }
@@ -787,8 +802,9 @@
     .tabs button[aria-current="page"] { color: var(--oyen-ink); }
     .tabs svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     /* sheets come up from the bottom, with a handle; their header is where a drag closes them (sheet.js) */
-    #map, #same, #search, .panel { inset: calc(var(--sat) + 10px) 0 0 0; width: auto; max-width: none; max-height: none; margin: 0; border: 0; border-radius: 22px 22px 0 0; padding-bottom: var(--sab); box-shadow: 0 -10px 40px -12px rgb(0 0 0 / 0.3); }
+    #map, #same, #search, .panel { inset: calc(var(--sat) + 10px) 0 0 0; width: auto; max-width: none; max-height: none; margin: 0; border: 0; border-radius: 22px 22px 0 0; padding-bottom: var(--sab); box-shadow: 0 -10px 40px -12px rgb(var(--shadow-ink) / 0.3); }
     .panel { top: auto; max-height: calc(100% - var(--sat) - 10px); }
+    #doa-panel { width: auto; }
     #map::before, #same::before, #search::before, .panel::before { content: ""; flex: none; display: block; width: 38px; height: 5px; margin: 8px auto 0; border-radius: 3px; background: rgb(60 42 22 / 0.22); }
     .map-head, .same-head, .search-head, .panel-head { background: transparent; border-bottom: 1px solid var(--hair); touch-action: none; }
     .panel-head { border-bottom: 0; }
@@ -1036,7 +1052,6 @@
       <button type="button" id="doa-tab-tahlil" role="tab" aria-selected="false" aria-controls="doa-tahlil-view">Tahlil</button>
     </nav>
     <p class="ibadah-note" id="doa-hint"></p>
-    <a class="ibadah-source reading-source-link" id="doa-wirid-link" href="https://quran.nu.or.id/wirid" target="_blank" rel="noopener noreferrer" hidden>Buka koleksi Wirid lengkap di Quran NU Online</a>
     <div id="doa-tools" class="ibadah-form">
       <label class="ibadah-field" for="doa-search"><span id="doa-search-label">Cari doa</span><input id="doa-search" type="search" autocomplete="off"></label>
       <label class="ibadah-field" for="doa-category"><span id="doa-category-label">Kategori</span><select id="doa-category"><option value="">Semua kategori</option></select></label>
@@ -1044,14 +1059,42 @@
     <p class="ibadah-status" id="doa-status" role="status" aria-live="polite"></p>
     <div class="ibadah-results" id="doa-list" role="tabpanel" aria-labelledby="doa-tab-doa"></div>
     <section class="ibadah-card reading-resource" id="doa-maulid-view" role="tabpanel" aria-labelledby="doa-tab-maulid" hidden>
-      <span class="ibadah-badge">Quran NU Online</span><h3 id="doa-maulid-title">Bacaan Maulid</h3>
-      <p id="doa-maulid-description">Buka kumpulan Maulid dari sumber resmi Quran NU Online.</p>
-      <a class="btn" id="doa-maulid-link" href="https://quran.nu.or.id/maulid" target="_blank" rel="noopener noreferrer">Buka bacaan Maulid</a>
+      <span class="ibadah-badge" id="doa-maulid-local-badge">Disimpan lokal</span>
+      <h3 id="doa-maulid-title">Bacaan Maulid</h3>
+      <p id="doa-maulid-description"></p>
+      <label class="ibadah-field reading-section-field" for="doa-maulid-select"><span id="doa-maulid-section-label">Pilih bagian</span><select id="doa-maulid-select"></select></label>
+      <div class="reading-navigation">
+        <button class="pill" id="doa-maulid-prev" type="button">Sebelumnya</button>
+        <p class="reading-progress" id="doa-maulid-progress" aria-live="polite"></p>
+        <button class="pill" id="doa-maulid-next" type="button">Berikutnya</button>
+      </div>
+      <article class="reading-card">
+        <p class="reading-arabic" id="doa-maulid-ar" lang="ar" dir="rtl"></p>
+        <div class="reading-field" id="doa-maulid-latin-field" hidden><b class="reading-field-label" id="doa-maulid-latin-label"></b><p id="doa-maulid-latin"></p></div>
+        <div class="reading-field" id="doa-maulid-meaning-field" hidden><b class="reading-field-label" id="doa-maulid-meaning-label"></b><p id="doa-maulid-meaning"></p></div>
+        <button class="pill solid reading-copy" id="doa-maulid-copy" type="button">Salin bacaan</button>
+      </article>
+      <p class="ibadah-status" id="doa-maulid-status" role="status" aria-live="polite"></p>
+      <p class="ibadah-source" id="doa-maulid-source"></p>
     </section>
     <section class="ibadah-card reading-resource" id="doa-tahlil-view" role="tabpanel" aria-labelledby="doa-tab-tahlil" hidden>
-      <span class="ibadah-badge">Quran NU Online</span><h3 id="doa-tahlil-title">Bacaan Tahlil</h3>
-      <p id="doa-tahlil-description">Buka kumpulan Tahlil dari sumber resmi Quran NU Online.</p>
-      <a class="btn" id="doa-tahlil-link" href="https://quran.nu.or.id/tahlil" target="_blank" rel="noopener noreferrer">Buka bacaan Tahlil</a>
+      <span class="ibadah-badge" id="doa-tahlil-local-badge">Disimpan lokal</span>
+      <h3 id="doa-tahlil-title">Bacaan Tahlil</h3>
+      <p id="doa-tahlil-description"></p>
+      <label class="ibadah-field reading-section-field" for="doa-tahlil-select"><span id="doa-tahlil-section-label">Pilih bagian</span><select id="doa-tahlil-select"></select></label>
+      <div class="reading-navigation">
+        <button class="pill" id="doa-tahlil-prev" type="button">Sebelumnya</button>
+        <p class="reading-progress" id="doa-tahlil-progress" aria-live="polite"></p>
+        <button class="pill" id="doa-tahlil-next" type="button">Berikutnya</button>
+      </div>
+      <article class="reading-card">
+        <p class="reading-arabic" id="doa-tahlil-ar" lang="ar" dir="rtl"></p>
+        <div class="reading-field" id="doa-tahlil-latin-field" hidden><b class="reading-field-label" id="doa-tahlil-latin-label"></b><p id="doa-tahlil-latin"></p></div>
+        <div class="reading-field" id="doa-tahlil-meaning-field" hidden><b class="reading-field-label" id="doa-tahlil-meaning-label"></b><p id="doa-tahlil-meaning"></p></div>
+        <button class="pill solid reading-copy" id="doa-tahlil-copy" type="button">Salin bacaan</button>
+      </article>
+      <p class="ibadah-status" id="doa-tahlil-status" role="status" aria-live="polite"></p>
+      <p class="ibadah-source" id="doa-tahlil-source"></p>
     </section>
     <p class="ibadah-source" id="doa-source"></p>
   </div>
