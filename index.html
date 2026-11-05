@@ -93,7 +93,7 @@
   .bar-progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--oyen); transform: scaleX(0); transform-origin: 0 0; pointer-events: none; }
   .seg { display: inline-flex; flex: none; background: var(--wash); border-radius: 999px; padding: 2px; gap: 2px; }
   .seg button { border: 0; background: none; border-radius: 999px; padding: 4px 10px; font: 600 12px/18px var(--sans); color: var(--ink-3); cursor: pointer; }
-  .seg button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgb(var(--shadow-ink) / 0.16); }
+  .seg button[aria-pressed="true"], .reading-tabs button[aria-selected="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgb(var(--shadow-ink) / 0.16); }
   .seg button:disabled { opacity: 0.4; cursor: default; }
 
   /* The page's :root already keeps clear of the notch and the home bar (deploy/wrap.py), so main only clears the bar. */
@@ -208,6 +208,19 @@
   .ibadah-panel .panel-head h2 { min-width: 0; }
   .ibadah-panel .panel-body { gap: 11px; padding: 2px 16px max(18px, var(--sab)); }
   .ilm-tabs { position: sticky; top: 0; z-index: 4; padding: 6px 0; background: var(--app); }
+  .reading-tabs { position: sticky; top: 0; z-index: 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; padding: 5px 0; background: var(--app); }
+  .reading-tabs button { min-width: 0; padding-inline: 5px; }
+  .reading-resource { display: grid; gap: 9px; padding: 18px; border-color: rgb(240 137 46 / .28); background: linear-gradient(145deg, var(--oyen-soft), var(--sheet) 78%); }
+  .reading-resource h3 { margin: 0; font: 700 18px/24px var(--sans); }
+  .reading-resource p { margin: 0; color: var(--ink-2); font: 400 14px/22px var(--serif); }
+  .reading-resource .btn { justify-self: start; display: inline-flex; align-items: center; text-decoration: none; }
+  .hadith-collections { display: flex; gap: 8px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 5px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .hadith-collections::-webkit-scrollbar { display: none; }
+  .hadith-collection-chip { flex: none; min-height: 39px; padding: 0 14px; border: 1px solid var(--hair); border-radius: 999px; background: var(--sheet); color: var(--ink-2); font: 600 13px/18px var(--sans); cursor: pointer; }
+  .hadith-collection-chip[aria-pressed="true"] { border-color: var(--copper-line); background: var(--oyen-soft); color: var(--oyen-ink); }
+  .prayer-gps { display: grid; gap: 7px; }
+  .prayer-gps .btn { justify-self: start; min-height: 42px; }
+  .prayer-location-note { font-size: 12px; }
   .ilm-view { display: grid; gap: 11px; min-width: 0; }
   .ilm-view[hidden] { display: none; }
   .ilm-view h3 { margin: 2px 0 -3px; color: var(--ink); font: 700 15px/21px var(--sans); }
@@ -1014,13 +1027,32 @@
   </div>
 </section>
 <section class="panel ibadah-panel" id="doa-panel" hidden role="dialog" aria-modal="true" aria-labelledby="doa-title">
-  <header class="panel-head"><h2 id="doa-title">Doa dan dzikir</h2><button class="done" id="doa-close" type="button">Tutup</button></header>
+  <header class="panel-head"><h2 id="doa-title">Bacaan ibadah</h2><button class="done" id="doa-close" type="button">Tutup</button></header>
   <div class="panel-body">
+    <nav class="seg reading-tabs" id="doa-tabs" role="tablist" aria-label="Bacaan ibadah">
+      <button type="button" id="doa-tab-doa" role="tab" aria-selected="true" aria-controls="doa-list">Doa</button>
+      <button type="button" id="doa-tab-wirid" role="tab" aria-selected="false" aria-controls="doa-list">Wirid</button>
+      <button type="button" id="doa-tab-maulid" role="tab" aria-selected="false" aria-controls="doa-maulid-view">Maulid</button>
+      <button type="button" id="doa-tab-tahlil" role="tab" aria-selected="false" aria-controls="doa-tahlil-view">Tahlil</button>
+    </nav>
     <p class="ibadah-note" id="doa-hint"></p>
-    <label class="ibadah-field" for="doa-search"><span id="doa-search-label">Cari doa</span><input id="doa-search" type="search" autocomplete="off"></label>
-    <label class="ibadah-field" for="doa-category"><span id="doa-category-label">Kategori doa</span><select id="doa-category"><option value="">Semua kategori</option></select></label>
+    <a class="ibadah-source reading-source-link" id="doa-wirid-link" href="https://quran.nu.or.id/wirid" target="_blank" rel="noopener noreferrer" hidden>Buka koleksi Wirid lengkap di Quran NU Online</a>
+    <div id="doa-tools" class="ibadah-form">
+      <label class="ibadah-field" for="doa-search"><span id="doa-search-label">Cari doa</span><input id="doa-search" type="search" autocomplete="off"></label>
+      <label class="ibadah-field" for="doa-category"><span id="doa-category-label">Kategori</span><select id="doa-category"><option value="">Semua kategori</option></select></label>
+    </div>
     <p class="ibadah-status" id="doa-status" role="status" aria-live="polite"></p>
-    <div class="ibadah-results" id="doa-list"></div>
+    <div class="ibadah-results" id="doa-list" role="tabpanel" aria-labelledby="doa-tab-doa"></div>
+    <section class="ibadah-card reading-resource" id="doa-maulid-view" role="tabpanel" aria-labelledby="doa-tab-maulid" hidden>
+      <span class="ibadah-badge">Quran NU Online</span><h3 id="doa-maulid-title">Bacaan Maulid</h3>
+      <p id="doa-maulid-description">Buka kumpulan Maulid dari sumber resmi Quran NU Online.</p>
+      <a class="btn" id="doa-maulid-link" href="https://quran.nu.or.id/maulid" target="_blank" rel="noopener noreferrer">Buka bacaan Maulid</a>
+    </section>
+    <section class="ibadah-card reading-resource" id="doa-tahlil-view" role="tabpanel" aria-labelledby="doa-tab-tahlil" hidden>
+      <span class="ibadah-badge">Quran NU Online</span><h3 id="doa-tahlil-title">Bacaan Tahlil</h3>
+      <p id="doa-tahlil-description">Buka kumpulan Tahlil dari sumber resmi Quran NU Online.</p>
+      <a class="btn" id="doa-tahlil-link" href="https://quran.nu.or.id/tahlil" target="_blank" rel="noopener noreferrer">Buka bacaan Tahlil</a>
+    </section>
     <p class="ibadah-source" id="doa-source"></p>
   </div>
 </section>
@@ -1028,6 +1060,10 @@
   <header class="panel-head"><h2 id="shalat-title">Jadwal sholat</h2><button class="done" id="shalat-close" type="button">Tutup</button></header>
   <div class="panel-body">
     <p class="ibadah-note" id="shalat-hint"></p>
+    <div class="prayer-gps">
+      <button class="btn" id="prayer-use-location" type="button">Gunakan lokasi saat ini</button>
+      <p class="ibadah-note prayer-location-note" id="prayer-location-privacy"></p>
+    </div>
     <div class="prayer-location">
       <label class="ibadah-field" for="prayer-province"><span id="province-label">Provinsi</span><select id="prayer-province" disabled><option value="">Pilih provinsi</option></select></label>
       <label class="ibadah-field" for="prayer-city"><span id="city-label">Kabupaten/kota</span><select id="prayer-city" disabled><option value="">Pilih kabupaten/kota</option></select></label>
@@ -1047,6 +1083,20 @@
       <button type="button" id="ilm-tab-tafsir" data-tab="tafsir" aria-pressed="false">Tafsir Al-Qur’an</button>
     </div>
     <section class="ilm-view" id="ilm-hadith-view" role="tabpanel" aria-labelledby="ilm-tab-hadith">
+      <h3 id="ilm-search-title">Cari hadis</h3>
+      <form class="ibadah-form" id="ilm-search-form">
+        <label class="ibadah-field" for="ilm-query"><span id="ilm-query-label">Kata atau topik</span><input id="ilm-query" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false"></label>
+        <div class="ibadah-form-grid">
+          <label class="ibadah-field" for="ilm-search-scope"><span id="ilm-search-scope-label">Cakupan pencarian</span><select id="ilm-search-scope"><option value="indonesian">Kitab terpilih · terjemahan Indonesia</option><option value="global">Semua kitab · teks Inggris</option></select></label>
+          <label class="ibadah-field" for="ilm-search-collection"><span id="ilm-search-collection-label">Koleksi</span><select id="ilm-search-collection"><option value="all">Semua koleksi</option></select></label>
+        </div>
+        <p class="ibadah-note" id="ilm-search-hint"></p>
+        <button class="btn" id="ilm-search-button" type="submit">Cari hadis</button>
+      </form>
+      <p class="ibadah-status" id="ilm-search-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-search-results"></div>
+      <h3 id="ilm-collections-title">Pilih koleksi</h3>
+      <div class="hadith-collections" id="ilm-collections" role="group" aria-label="Koleksi hadis"></div>
       <h3 id="ilm-browse-title">Buka hadis berdasarkan kitab dan nomor</h3>
       <form class="ibadah-form" id="ilm-browse-form">
         <div class="ibadah-form-grid">
@@ -1062,18 +1112,6 @@
         <p class="ibadah-note" id="ilm-saved-hint"></p>
         <div class="ibadah-results" id="ilm-saved-list"></div>
       </details>
-      <h3 id="ilm-search-title">Cari hadis</h3>
-      <form class="ibadah-form" id="ilm-search-form">
-        <label class="ibadah-field" for="ilm-query"><span id="ilm-query-label">Kata atau topik</span><input id="ilm-query" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false"></label>
-        <div class="ibadah-form-grid">
-          <label class="ibadah-field" for="ilm-search-scope"><span id="ilm-search-scope-label">Cakupan pencarian</span><select id="ilm-search-scope"><option value="indonesian">Kitab terpilih · terjemahan Indonesia</option><option value="global">Semua kitab · teks Inggris</option></select></label>
-          <label class="ibadah-field" for="ilm-search-collection"><span id="ilm-search-collection-label">Koleksi</span><select id="ilm-search-collection"><option value="all">Semua koleksi</option></select></label>
-        </div>
-        <p class="ibadah-note" id="ilm-search-hint"></p>
-        <button class="btn" id="ilm-search-button" type="submit">Cari hadis</button>
-      </form>
-      <p class="ibadah-status" id="ilm-search-status" role="status" aria-live="polite"></p>
-      <div class="ibadah-results" id="ilm-search-results"></div>
     </section>
     <section class="ilm-view" id="ilm-tafsir-view" role="tabpanel" aria-labelledby="ilm-tab-tafsir" hidden>
       <h3 id="ilm-tafsir-title">Jelajahi tafsir lengkap</h3>

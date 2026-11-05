@@ -62,3 +62,13 @@ Saat diperiksa, daftar koleksi menyebut sumber `fawazahmed0/hadith-api` melalui 
 ## Catatan verifikasi
 
 CORS dan respons JSON telah diuji untuk endpoint yang digunakan. Hal itu bukan jaminan uptime. Nomor hadis, varian teks, provenance terjemahan, dan penilaian derajat perlu diverifikasi terhadap edisi ilmiah yang ditetapkan sebelum digunakan sebagai rujukan hukum atau fatwa. Fitur ini menampilkan sumber/nomor dan hanya menampilkan grade ketika API menyediakannya; teks/grade dari API tidak menggantikan pemeriksaan oleh ahli.
+
+## Jadwal sholat berbasis koordinat: AlAdhan
+
+Pilihan **Gunakan lokasi saat ini** meminta izin melalui Geolocation API browser. Jika pengguna menyetujui, kalender bulanan diambil dari `GET https://api.aladhan.com/v1/calendar/{year}/{month}` dengan `latitude`, `longitude`, `timezonestring`, dan `method=20`. Endpoint `GET https://api.aladhan.com/v1/methods` mengidentifikasi metode 20 sebagai **Kementerian Agama Republik Indonesia**. Zona waktu berasal dari pengaturan zona waktu perangkat. Aplikasi tidak menyimpan koordinat dan permintaan kalender tersebut melewati cache IndexedDB; koordinat dikirim ke AlAdhan sebagai bagian dari permintaan untuk menghitung jadwal.
+
+- Dokumentasi: <https://aladhan.com/prayer-times-api>
+- Daftar metode API: <https://api.aladhan.com/v1/methods>
+- Contoh kalender Jakarta (parameter koordinat dan tanggal): <https://api.aladhan.com/v1/calendar/2026/11?latitude=-6.2&longitude=106.8167&method=20&timezonestring=Asia%2FJakarta>
+
+Mode GPS menampilkan Imsak, Subuh/Fajr, Terbit/Sunrise, Dzuhur, Ashar, Maghrib, dan Isya. Endpoint kalender yang dipakai tidak menyediakan waktu Dhuha, sehingga kolom Dhuha hanya ada pada mode lokasi manual EQuran.id. Waktu dapat berbeda menurut lokasi, metode, zona waktu, atau koreksi yang digunakan penyedia; gunakan jadwal lokal otoritatif bila membutuhkan ketepatan khusus.

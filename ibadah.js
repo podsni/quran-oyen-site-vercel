@@ -14,34 +14,36 @@ const el = (tag, props = {}, ...children) => {
 const TEXT = {
   id: {
     featureTitle: 'Fitur ibadah', vectorTitle: 'Cari berdasarkan makna', vectorSub: 'Temukan ayat dan tafsir dengan pertanyaan sehari-hari.',
-    doaFeature: 'Doa & dzikir', doaSub: 'Bacaan Arab, Latin, arti, dan keterangan.', prayerFeature: 'Jadwal sholat', prayerSub: 'Pilih provinsi dan kabupaten/kota untuk melihat jadwal.',
+    doaFeature: 'Doa, Wirid, Maulid & Tahlil', doaSub: 'Kumpulan bacaan Arab dan tautan sumber resmi.', prayerFeature: 'Jadwal sholat', prayerSub: 'Gunakan lokasi saat ini atau pilih kota secara manual.',
     vectorPanel: 'Pencarian makna Al-Qur’an', vectorHint: 'Tulis pertanyaan dalam bahasa sehari-hari. Pencarian dikirim ke EQuran.id.',
     vectorPlaceholder: 'Contoh: ayat tentang sabar menghadapi cobaan', vectorButton: 'Cari makna', vectorType: 'Jenis hasil', vectorAll: 'Ayat dan tafsir', vectorAyat: 'Ayat saja', vectorTafsir: 'Tafsir saja',
     vectorLoading: 'Mencari ayat dan tafsir…', vectorEmpty: 'Belum ada hasil yang cocok. Coba ubah pertanyaan atau gunakan kata yang lebih spesifik.', vectorError: 'Pencarian belum berhasil. Periksa koneksi lalu coba lagi.',
     results: (n) => `${n} hasil`, ayah: (s, a) => `${s} · Ayat ${a}`, ayatType: 'Ayat', tafsirType: 'Tafsir', relevance: 'Kecocokan',
     openAyah: 'Buka ayat', openTafsir: 'Buka tafsir ayat', playAyah: 'Putar ayat', latin: 'Latin', translation: 'Terjemahan',
-    doaPanel: 'Doa dan dzikir', doaHint: 'Jelajahi bacaan berdasarkan kategori atau cari doa, dzikir, dan artinya.', doaSearch: 'Cari doa, dzikir, atau kata…', doaCategory: 'Kategori doa', allGroups: 'Semua kategori', doaLoading: 'Memuat daftar doa dan dzikir…', doaError: 'Daftar doa belum dapat dimuat. Periksa koneksi lalu coba lagi.', doaEmpty: 'Tidak ada doa yang cocok dengan pencarian ini.',
+    doaPanel: 'Bacaan ibadah', doaHint: 'Kumpulan doa dengan teks Arab, Latin, dan arti. Cari bacaan atau pilih kategori.', wiridHint: 'Wirid dan dzikir dari katalog EQuran.id. Untuk koleksi lengkap, buka sumber resmi NU Online.', doaSearch: 'Cari doa, wirid, atau kata…', doaCategory: 'Kategori', allGroups: 'Semua kategori', doaLoading: 'Memuat daftar doa dan dzikir…', doaError: 'Daftar doa belum dapat dimuat. Periksa koneksi lalu coba lagi.', doaEmpty: 'Tidak ada bacaan yang cocok dengan pencarian ini.', wiridEmpty: 'Belum ada bacaan wirid yang cocok. Coba kata lain atau buka koleksi resmi NU Online.',
+    doaTab: 'Doa', wiridTab: 'Wirid', maulidTab: 'Maulid', tahlilTab: 'Tahlil', maulidTitle: 'Bacaan Maulid', maulidDescription: 'Buka kumpulan Maulid dari sumber resmi Quran NU Online.', maulidOpen: 'Buka bacaan Maulid', tahlilTitle: 'Bacaan Tahlil', tahlilDescription: 'Buka kumpulan Tahlil dari sumber resmi Quran NU Online.', tahlilOpen: 'Buka bacaan Tahlil',
     readLatin: 'Bacaan Latin', meaning: 'Arti', moreInfo: 'Keterangan dan sumber', tags: 'Tag',
-    prayerPanel: 'Jadwal sholat', prayerHint: 'Pilih lokasi untuk melihat waktu sholat. Pilihan lokasi disimpan di perangkat ini.', province: 'Provinsi', city: 'Kabupaten/kota', chooseProvince: 'Pilih provinsi', chooseCity: 'Pilih kabupaten/kota',
-    prayerLoadingProvince: 'Memuat daftar provinsi…', prayerLoadingCity: 'Memuat kabupaten/kota…', prayerLoading: 'Memuat jadwal sholat…', prayerError: 'Jadwal belum dapat dimuat. Periksa koneksi lalu coba lagi.', chooseLocation: 'Pilih provinsi dan kabupaten/kota untuk menampilkan jadwal.',
+    prayerPanel: 'Jadwal sholat', prayerHint: 'Pakai lokasi saat ini atau pilih provinsi dan kota secara manual.', prayerUseLocation: 'Gunakan lokasi saat ini', prayerLocationPrivacy: 'Jika Anda menekan tombol ini, koordinat akan dikirim ke AlAdhan untuk menghitung jadwal; koordinat tidak disimpan di perangkat.', prayerGpsLoading: 'Meminta izin lokasi dan menghitung jadwal…', prayerGpsDenied: 'Izin lokasi ditolak. Izinkan akses lokasi di browser atau pilih kota secara manual.', prayerGpsUnavailable: 'Lokasi tidak dapat ditentukan. Periksa pengaturan lokasi perangkat atau pilih kota secara manual.', prayerGpsTimeout: 'Permintaan lokasi terlalu lama. Coba lagi atau pilih kota secara manual.', currentLocation: (lat, lon) => `Lokasi saat ini · ${lat.toFixed(2)}, ${lon.toFixed(2)}`, province: 'Provinsi', city: 'Kabupaten/kota', chooseProvince: 'Pilih provinsi', chooseCity: 'Pilih kabupaten/kota',
+    prayerLoadingProvince: 'Memuat daftar provinsi…', prayerLoadingCity: 'Memuat kabupaten/kota…', prayerLoading: 'Memuat jadwal sholat…', prayerError: 'Jadwal belum dapat dimuat. Periksa koneksi lalu coba lagi.', chooseLocation: 'Gunakan lokasi saat ini atau pilih provinsi dan kabupaten/kota.',
     today: 'Jadwal hari ini', monthSchedule: 'Jadwal satu bulan', todayNone: 'Tidak ada jadwal untuk tanggal ini pada bulan yang dipilih.', previousMonth: 'Bulan sebelumnya', nextMonth: 'Bulan berikutnya', currentMonth: 'Kembali ke bulan ini',
-    prayers: ['Imsak', 'Subuh', 'Terbit', 'Dhuha', 'Dzuhur', 'Ashar', 'Maghrib', 'Isya'], date: 'Tanggal', source: 'Sumber: EQuran.id API. Doa bersumber dari katalog doa/dzikir EQuran.id.',
+    prayers: ['Imsak', 'Subuh', 'Terbit', 'Dhuha', 'Dzuhur', 'Ashar', 'Maghrib', 'Isya'], date: 'Tanggal', source: 'Jadwal manual dari EQuran.id; jadwal koordinat dari AlAdhan dengan metode Kementerian Agama RI (20).',
     cached: 'Data ditampilkan dari cache perangkat; sambungkan internet untuk memperbarui.', cachedShort: 'Data tersimpan di perangkat.',
   },
   en: {
     featureTitle: 'Worship tools', vectorTitle: 'Search by meaning', vectorSub: 'Find ayat and tafsir using everyday questions.',
-    doaFeature: 'Dua & dhikr', doaSub: 'Arabic, Latin transliteration, meaning, and notes.', prayerFeature: 'Prayer times', prayerSub: 'Choose a province and city to view the schedule.',
+    doaFeature: 'Dua, Wird, Mawlid & Tahlil', doaSub: 'Arabic readings and links to official collections.', prayerFeature: 'Prayer times', prayerSub: 'Use your current location or choose a city manually.',
     vectorPanel: 'Quran meaning search', vectorHint: 'Ask in natural language. Your search is sent to EQuran.id.',
     vectorPlaceholder: 'Example: verses about patience in hardship', vectorButton: 'Search meaning', vectorType: 'Result type', vectorAll: 'Ayat and tafsir', vectorAyat: 'Ayat only', vectorTafsir: 'Tafsir only',
     vectorLoading: 'Searching ayat and tafsir…', vectorEmpty: 'No matching results. Try rephrasing or making your question more specific.', vectorError: 'Search failed. Check your connection and try again.',
     results: (n) => `${n} results`, ayah: (s, a) => `${s} · Ayah ${a}`, ayatType: 'Ayat', tafsirType: 'Tafsir', relevance: 'Match',
     openAyah: 'Open ayah', openTafsir: 'Open ayah tafsir', playAyah: 'Play ayah', latin: 'Latin', translation: 'Translation',
-    doaPanel: 'Dua and dhikr', doaHint: 'Browse by category or search dua, dhikr, and meanings.', doaSearch: 'Search dua, dhikr, or a word…', doaCategory: 'Category', allGroups: 'All categories', doaLoading: 'Loading duas and dhikr…', doaError: 'The dua list is unavailable. Check your connection and try again.', doaEmpty: 'No duas match this search.',
+    doaPanel: 'Worship readings', doaHint: 'Browse duas with Arabic, transliteration, and meaning. Search or choose a category.', wiridHint: 'Wird and dhikr from the EQuran.id catalogue. Open NU Online for its full collection.', doaSearch: 'Search dua, wird, or a word…', doaCategory: 'Category', allGroups: 'All categories', doaLoading: 'Loading duas and dhikr…', doaError: 'The dua list is unavailable. Check your connection and try again.', doaEmpty: 'No readings match this search.', wiridEmpty: 'No matching wird readings. Try another word or open the official NU Online collection.',
+    doaTab: 'Dua', wiridTab: 'Wird', maulidTab: 'Mawlid', tahlilTab: 'Tahlil', maulidTitle: 'Mawlid readings', maulidDescription: 'Open the Mawlid collection from the official Quran NU Online source.', maulidOpen: 'Open Mawlid readings', tahlilTitle: 'Tahlil readings', tahlilDescription: 'Open the Tahlil collection from the official Quran NU Online source.', tahlilOpen: 'Open Tahlil readings',
     readLatin: 'Latin transliteration', meaning: 'Meaning (Indonesian)', moreInfo: 'Notes and source', tags: 'Tags',
-    prayerPanel: 'Prayer times', prayerHint: 'Choose a location to see prayer times. Your choice is saved on this device.', province: 'Province', city: 'City / regency', chooseProvince: 'Choose a province', chooseCity: 'Choose a city / regency',
-    prayerLoadingProvince: 'Loading provinces…', prayerLoadingCity: 'Loading cities…', prayerLoading: 'Loading prayer times…', prayerError: 'Prayer times are unavailable. Check your connection and try again.', chooseLocation: 'Choose a province and city to see the schedule.',
+    prayerPanel: 'Prayer times', prayerHint: 'Use your current location or choose a province and city manually.', prayerUseLocation: 'Use current location', prayerLocationPrivacy: 'If you tap this button, your coordinates are sent to AlAdhan to calculate the schedule; they are not saved on this device.', prayerGpsLoading: 'Requesting location permission and calculating times…', prayerGpsDenied: 'Location permission was denied. Allow location in your browser or choose a city manually.', prayerGpsUnavailable: 'Your location is unavailable. Check device location settings or choose a city manually.', prayerGpsTimeout: 'The location request took too long. Try again or choose a city manually.', currentLocation: (lat, lon) => `Current location · ${lat.toFixed(2)}, ${lon.toFixed(2)}`, province: 'Province', city: 'City / regency', chooseProvince: 'Choose a province', chooseCity: 'Choose a city / regency',
+    prayerLoadingProvince: 'Loading provinces…', prayerLoadingCity: 'Loading cities…', prayerLoading: 'Loading prayer times…', prayerError: 'Prayer times are unavailable. Check your connection and try again.', chooseLocation: 'Use your current location or choose a province and city.',
     today: 'Today’s prayer times', monthSchedule: 'Monthly schedule', todayNone: 'No schedule for this date in the selected month.', previousMonth: 'Previous month', nextMonth: 'Next month', currentMonth: 'Back to this month',
-    prayers: ['Imsak', 'Fajr', 'Sunrise', 'Duha', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'], date: 'Date', source: 'Source: EQuran.id API. Dua content is from the EQuran.id dua and dhikr catalogue.',
+    prayers: ['Imsak', 'Fajr', 'Sunrise', 'Duha', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'], date: 'Date', source: 'Manual schedules use EQuran.id; coordinate-based schedules use AlAdhan, Kementerian Agama RI method (20).',
     cached: 'Showing saved device data; connect to the internet to refresh.', cachedShort: 'Data saved on this device.',
   },
 };
@@ -111,6 +113,7 @@ async function request(url, { method = 'GET', body, cache = true, validate = (x)
     const response = await fetch(url, {
       method, mode: 'cors', credentials: 'omit', signal: controller?.signal,
       headers: body ? { Accept: 'application/json', 'Content-Type': 'application/json' } : { Accept: 'application/json' },
+      cache: cache ? 'default' : 'no-store',
       ...(body ? { body: serialized } : {}),
     });
     let payload;
@@ -140,6 +143,27 @@ function scheduleData(payload) {
   if (payload?.code !== 200 || !payload.data || !Array.isArray(payload.data.jadwal)) throw new Error(payload?.message || 'Format jadwal sholat tidak valid.');
   return payload.data;
 }
+export function normalizeAladhanCalendar(payload) {
+  if (payload?.code !== 200 || !Array.isArray(payload.data)) throw new Error(payload?.status || 'Format kalender jadwal salat tidak valid.');
+  const cleanTime = (value) => String(value ?? '').replace(/\s*\([^)]*\)\s*$/, '').trim();
+  return {
+    jadwal: payload.data.map((day) => {
+      const rawDate = String(day?.date?.gregorian?.date ?? '');
+      const match = rawDate.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+      if (!match || !day?.timings) throw new Error('Tanggal atau waktu salat tidak tersedia.');
+      const [, dd, mm, yyyy] = match;
+      const timings = day.timings;
+      return {
+        tanggal_lengkap: `${yyyy}-${mm}-${dd}`, tanggal: dd,
+        hari: String(day?.date?.gregorian?.weekday?.en ?? ''),
+        imsak: cleanTime(timings.Imsak), subuh: cleanTime(timings.Fajr),
+        terbit: cleanTime(timings.Sunrise), dzuhur: cleanTime(timings.Dhuhr),
+        ashar: cleanTime(timings.Asr), maghrib: cleanTime(timings.Maghrib),
+        isya: cleanTime(timings.Isha),
+      };
+    }),
+  };
+}
 function vectorResults(payload) {
   if (payload?.status !== 'sukses' || !Array.isArray(payload.hasil)) throw new Error(payload?.message || 'Format hasil pencarian tidak valid.');
   return payload.hasil;
@@ -151,6 +175,10 @@ const getCities = (province) => request(`${API}/api/v2/shalat/kabkota`, { method
 const getSchedule = (province, city, month, year) => request(`${API}/api/v2/shalat`, {
   method: 'POST', body: { provinsi: province, kabkota: city, bulan: month, tahun: year }, validate: scheduleData,
 });
+const getCoordinateSchedule = (latitude, longitude, month, year, timezone) => {
+  const params = new URLSearchParams({ latitude: String(latitude), longitude: String(longitude), method: '20', timezonestring: timezone });
+  return request(`https://api.aladhan.com/v1/calendar/${year}/${month}?${params}`, { cache: false, validate: normalizeAladhanCalendar });
+};
 const searchVector = (query, kind) => request(`${API}/api/vector`, {
   method: 'POST', body: { cari: query, batas: 8, ...(kind === 'ayat' || kind === 'tafsir' ? { tipe: [kind] } : {}) },
   cache: false, validate: vectorResults,
@@ -169,6 +197,7 @@ function formatNumber(value, lang) { return new Intl.NumberFormat(lang === 'id' 
 function dateKey(date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`; }
 
 export function createIbadahFeatures({ sheets, onNavigate }) {
+  if (!$('doa-tabs') || !$('prayer-use-location')) return null;
   let lang = 'id';
   let doaEntries = [];
   let doaCached = false;
@@ -183,6 +212,12 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
   let cityRequest = 0;
   let scheduleRequest = 0;
   let prayerBusy = false;
+  let coordinateLocation = null;
+  let activeReadingTab = 'doa';
+  const isWiridEntry = (item) => /dzikir|zikir|wirid|istighfar|istigfar|taubat|adhkar|adzan|azan/i.test(
+    [item?.nama, item?.grup, item?.tentang, ...(Array.isArray(item?.tag) ? item.tag : [])].filter(Boolean).join(' '),
+  );
+  const hasPrayerLocation = () => !!coordinateLocation || !!(location.province && location.city);
 
   const text = () => TEXT[lang];
   const panels = [
@@ -225,14 +260,27 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     $('doa-title').textContent = w.doaPanel;
     $('doa-close').textContent = lang === 'id' ? 'Tutup' : 'Close';
     $('doa-hint').textContent = w.doaHint;
+    $('doa-tab-doa').textContent = w.doaTab;
+    $('doa-tab-wirid').textContent = w.wiridTab;
+    $('doa-tab-maulid').textContent = w.maulidTab;
+    $('doa-tab-tahlil').textContent = w.tahlilTab;
+    $('doa-wirid-link').textContent = lang === 'id' ? 'Buka koleksi Wirid lengkap di Quran NU Online' : 'Open the full Wird collection at Quran NU Online';
+    $('doa-maulid-title').textContent = w.maulidTitle;
+    $('doa-maulid-description').textContent = w.maulidDescription;
+    $('doa-maulid-link').textContent = w.maulidOpen;
+    $('doa-tahlil-title').textContent = w.tahlilTitle;
+    $('doa-tahlil-description').textContent = w.tahlilDescription;
+    $('doa-tahlil-link').textContent = w.tahlilOpen;
     $('doa-search').placeholder = w.doaSearch;
-    $('doa-search-label').textContent = lang === 'id' ? 'Cari doa atau dzikir' : 'Search dua or dhikr';
+    $('doa-search-label').textContent = lang === 'id' ? 'Cari bacaan' : 'Search readings';
     $('doa-category-label').textContent = w.doaCategory;
     if ($('doa-category').options.length) $('doa-category').options[0].textContent = w.allGroups;
 
     $('shalat-title').textContent = w.prayerPanel;
     $('shalat-close').textContent = lang === 'id' ? 'Tutup' : 'Close';
     $('shalat-hint').textContent = w.prayerHint;
+    $('prayer-use-location').textContent = w.prayerUseLocation;
+    $('prayer-location-privacy').textContent = w.prayerLocationPrivacy;
     $('province-label').textContent = w.province;
     $('city-label').textContent = w.city;
     if ($('prayer-province').options.length) $('prayer-province').options[0].textContent = w.chooseProvince;
@@ -243,11 +291,12 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     $('prayer-prev').parentElement.setAttribute('aria-label', lang === 'id' ? 'Pilih bulan' : 'Choose month');
     const apiLink = (href) => el('a', { href, target: '_blank', rel: 'noopener noreferrer', textContent: lang === 'id' ? 'Dokumentasi API' : 'API docs' });
     $('vector-source').replaceChildren(document.createTextNode(lang === 'id' ? 'EQuran.id Vector Search · hasil tafsir mengikuti konten API. ' : 'EQuran.id Vector Search · tafsir follows the API content. '), apiLink('https://equran.id/apidev/vector'));
-    $('doa-source').replaceChildren(document.createTextNode(lang === 'id' ? 'Katalog doa/dzikir menampilkan Arab, Latin, arti, serta keterangan bila tersedia. ' : 'Dua and dhikr catalogue with Arabic, Latin, meaning, and available notes. '), apiLink('https://equran.id/apidev/doa'));
-    $('shalat-source').replaceChildren(document.createTextNode(lang === 'id' ? 'Jadwal dipilih manual per lokasi; pilihan disimpan di perangkat ini. ' : 'Choose a location manually; your choice is saved on this device. '), apiLink('https://equran.id/apidev/shalat'));
+    $('doa-source').replaceChildren(document.createTextNode(lang === 'id' ? 'Doa dan wirid: katalog EQuran.id. Maulid dan Tahlil: bacaan resmi Quran NU Online. ' : 'Dua and wird: EQuran.id catalogue. Mawlid and Tahlil: official Quran NU Online readings. '), apiLink('https://equran.id/apidev/doa'), document.createTextNode(' · '), apiLink('https://quran.nu.or.id/doa'));
+    $('shalat-source').replaceChildren(document.createTextNode(`${w.source} `), apiLink('https://equran.id/apidev/shalat'), document.createTextNode(' · '), apiLink('https://aladhan.com/prayer-times-api'));
 
     updateShortcuts();
-    if (doaEntries.length) renderDoa();
+    setReadingTab(activeReadingTab);
+    if (doaEntries.length) { updateDoaCategories(); renderDoa(); }
     if (lastVectorResults.length) renderVector(lastVectorResults);
     if (schedule) renderSchedule();
     renderMonthLabel();
@@ -257,20 +306,57 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     sheets.open('vector-search');
     setTimeout(() => $('vector-query').focus({ preventScroll: true }), 90);
   }
+  function setReadingTab(tab) {
+    activeReadingTab = ['doa', 'wirid', 'maulid', 'tahlil'].includes(tab) ? tab : 'doa';
+    const isCatalogue = activeReadingTab === 'doa' || activeReadingTab === 'wirid';
+    for (const name of ['doa', 'wirid', 'maulid', 'tahlil']) {
+      const button = $(`doa-tab-${name}`);
+      button.setAttribute('aria-selected', String(activeReadingTab === name));
+      button.tabIndex = activeReadingTab === name ? 0 : -1;
+    }
+    $('doa-tools').hidden = !isCatalogue;
+    $('doa-hint').hidden = !isCatalogue;
+    $('doa-wirid-link').hidden = activeReadingTab !== 'wirid';
+    $('doa-list').hidden = !isCatalogue;
+    $('doa-list').setAttribute('aria-labelledby', `doa-tab-${activeReadingTab}`);
+    $('doa-maulid-view').hidden = activeReadingTab !== 'maulid';
+    $('doa-tahlil-view').hidden = activeReadingTab !== 'tahlil';
+    $('doa-hint').textContent = activeReadingTab === 'wirid' ? text().wiridHint : text().doaHint;
+    if (!isCatalogue) $('doa-status').textContent = '';
+    if (isCatalogue && doaEntries.length) { updateDoaCategories(); renderDoa(); }
+  }
   function openDoa() {
     sheets.open('doa-panel');
+    setReadingTab(activeReadingTab);
     if (!doaEntries.length) loadDoa();
     else renderDoa();
   }
   function openPrayer() {
     sheets.open('shalat-panel');
     if (!provinces.length) loadProvinces();
-    else if (location.province && location.city && !schedule && !prayerBusy) loadPrayerSchedule();
+    else if (hasPrayerLocation() && !schedule && !prayerBusy) loadPrayerSchedule();
   }
 
   $('feature-vector').addEventListener('click', openVector);
   $('feature-doa').addEventListener('click', openDoa);
   $('feature-prayer').addEventListener('click', openPrayer);
+  $('prayer-use-location').addEventListener('click', useCurrentLocation);
+  $('doa-tabs').addEventListener('click', (event) => {
+    const tab = event.target.closest('[role="tab"]');
+    if (tab) setReadingTab(tab.id.replace('doa-tab-', ''));
+  });
+  $('doa-tabs').addEventListener('keydown', (event) => {
+    const tabs = [...$('doa-tabs').querySelectorAll('[role="tab"]')];
+    const index = tabs.indexOf(event.target);
+    if (index < 0) return;
+    const next = event.key === 'ArrowRight' ? (index + 1) % tabs.length
+      : event.key === 'ArrowLeft' ? (index - 1 + tabs.length) % tabs.length
+        : event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : -1;
+    if (next < 0) return;
+    event.preventDefault();
+    tabs[next].focus();
+    setReadingTab(tabs[next].id.replace('doa-tab-', ''));
+  });
 
   $('vector-form').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -351,17 +437,23 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
       const response = await getDoa();
       doaEntries = response.data;
       doaCached = response.cached;
-      const groups = [...new Set(doaEntries.map((entry) => String(entry.grup ?? '')).filter(Boolean))].sort((a, b) => a.localeCompare(b, lang === 'id' ? 'id' : 'en'));
-      const select = $('doa-category');
-      const selected = select.value;
-      select.replaceChildren(el('option', { value: '', textContent: text().allGroups }), ...groups.map((group) => el('option', { value: group, textContent: group })));
-      if (groups.includes(selected)) select.value = selected;
+      updateDoaCategories();
       renderDoa();
-      setStatus(status, response.cached ? text().cached : `${formatNumber(doaEntries.length, lang)} · EQuran.id`);
+      if (activeReadingTab === 'maulid' || activeReadingTab === 'tahlil') status.textContent = '';
     } catch {
-      setStatus(status, text().doaError, true);
+      if (activeReadingTab === 'doa' || activeReadingTab === 'wirid') setStatus(status, text().doaError, true);
+      else status.textContent = '';
       $('doa-list').replaceChildren(el('p', { className: 'ibadah-empty', textContent: text().doaError }));
     } finally { $('doa-list').removeAttribute('aria-busy'); }
+  }
+
+  function updateDoaCategories() {
+    const entries = activeReadingTab === 'wirid' ? doaEntries.filter(isWiridEntry) : doaEntries;
+    const groups = [...new Set(entries.map((entry) => String(entry.grup ?? '')).filter(Boolean))].sort((a, b) => a.localeCompare(b, lang === 'id' ? 'id' : 'en'));
+    const select = $('doa-category');
+    const selected = select.value;
+    select.replaceChildren(el('option', { value: '', textContent: text().allGroups }), ...groups.map((group) => el('option', { value: group, textContent: group })));
+    if (groups.includes(selected)) select.value = selected;
   }
 
   function renderDoa() {
@@ -372,7 +464,8 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     list.replaceChildren();
     let shown = 0;
     const fragment = document.createDocumentFragment();
-    for (const item of doaEntries) {
+    const entries = activeReadingTab === 'wirid' ? doaEntries.filter(isWiridEntry) : doaEntries;
+    for (const item of entries) {
       const searchable = [item.nama, item.grup, item.ar, item.tr, item.idn, item.tentang, ...(Array.isArray(item.tag) ? item.tag : [])].filter(Boolean).join(' ').toLocaleLowerCase(lang === 'id' ? 'id-ID' : 'en-US');
       if ((group && item.grup !== group) || (query && !searchable.includes(query))) continue;
       shown++;
@@ -392,9 +485,9 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
       fragment.append(card);
     }
     if (shown) list.append(fragment);
-    else list.append(el('p', { className: 'ibadah-empty', textContent: w.doaEmpty }));
+    else list.append(el('p', { className: 'ibadah-empty', textContent: activeReadingTab === 'wirid' ? w.wiridEmpty : w.doaEmpty }));
     const status = $('doa-status');
-    if (doaEntries.length) status.textContent = doaCached ? `${formatNumber(shown, lang)} · ${w.cachedShort}` : `${formatNumber(shown, lang)} ${lang === 'id' ? 'doa/dzikir' : 'dua/dhikr'}`;
+    if (doaEntries.length) status.textContent = doaCached ? `${formatNumber(shown, lang)} · ${w.cachedShort}` : `${formatNumber(shown, lang)} ${activeReadingTab === 'wirid' ? (lang === 'id' ? 'bacaan wirid' : 'wird readings') : (lang === 'id' ? 'doa/dzikir' : 'dua/dhikr')}`;
   }
   $('doa-search').addEventListener('input', renderDoa);
   $('doa-category').addEventListener('change', renderDoa);
@@ -413,7 +506,9 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
       const select = $('prayer-province');
       setOptions(select, text().chooseProvince, provinces, location.province);
       select.disabled = false;
-      if (location.province && provinces.includes(location.province)) {
+      if (coordinateLocation) {
+        // Keep the GPS-selected schedule and its status while manual locations load in the background.
+      } else if (location.province && provinces.includes(location.province)) {
         await loadCities(location.province, location.city);
       } else {
         location = { province: '', city: '' };
@@ -421,7 +516,7 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
         $('prayer-city').disabled = true;
         setStatus(status, text().chooseLocation);
       }
-      if (response.cached) setStatus(status, text().cached);
+      if (response.cached && !coordinateLocation) setStatus(status, text().cached);
       return response;
     }).catch(() => {
       provinceRequest = null;
@@ -462,8 +557,10 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
   }
 
   async function loadPrayerSchedule() {
-    if (!location.province || !location.city) { setStatus($('prayer-status'), text().chooseLocation); return; }
+    if (!hasPrayerLocation()) { setStatus($('prayer-status'), text().chooseLocation); return; }
     const token = ++scheduleRequest;
+    const coordinate = coordinateLocation;
+    const coordinateBased = !!coordinate;
     prayerBusy = true;
     const month = selectedMonth.getMonth() + 1;
     const year = selectedMonth.getFullYear();
@@ -471,12 +568,19 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     $('prayer-results').setAttribute('aria-busy', 'true');
     renderMonthLabel();
     try {
-      const response = await getSchedule(location.province, location.city, month, year);
+      const response = coordinateBased
+        ? await getCoordinateSchedule(coordinate.latitude, coordinate.longitude, month, year, coordinate.timezone)
+        : await getSchedule(location.province, location.city, month, year);
       if (token !== scheduleRequest) return;
-      schedule = response.data;
+      schedule = coordinateBased
+        ? { ...response.data, coordinateBased: true }
+        : { ...response.data, coordinateBased: false };
       scheduleCached = response.cached;
       renderSchedule();
-      setStatus($('prayer-status'), response.cached ? text().cached : `${schedule.kabkota}, ${schedule.provinsi} · EQuran.id`);
+      const label = coordinateBased
+        ? `${text().currentLocation(coordinate.latitude, coordinate.longitude)} · AlAdhan · Kemenag RI (20)`
+        : `${schedule.kabkota}, ${schedule.provinsi} · EQuran.id`;
+      setStatus($('prayer-status'), response.cached ? text().cached : label);
     } catch {
       if (token === scheduleRequest) {
         schedule = null;
@@ -491,7 +595,46 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     }
   }
 
-  function prayerNames() { return text().prayers; }
+  async function useCurrentLocation() {
+    const button = $('prayer-use-location');
+    if (!globalThis.navigator?.geolocation) {
+      setStatus($('prayer-status'), text().prayerGpsUnavailable, true);
+      return;
+    }
+    button.disabled = true;
+    setStatus($('prayer-status'), text().prayerGpsLoading);
+    try {
+      const position = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: false, maximumAge: 60000, timeout: 12000,
+      }));
+      const latitude = Number(position?.coords?.latitude);
+      const longitude = Number(position?.coords?.longitude);
+      if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || Math.abs(latitude) > 90 || Math.abs(longitude) > 180) throw new Error('invalid-location');
+      coordinateLocation = {
+        latitude, longitude,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Jakarta',
+      };
+      scheduleRequest++;
+      cityRequest++;
+      schedule = null;
+      await loadPrayerSchedule();
+    } catch (error) {
+      const message = error?.code === 1 ? text().prayerGpsDenied
+        : error?.code === 3 ? text().prayerGpsTimeout
+          : text().prayerGpsUnavailable;
+      setStatus($('prayer-status'), message, true);
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function prayerColumns() {
+    const w = text();
+    const keys = schedule?.coordinateBased
+      ? [['imsak', 0], ['subuh', 1], ['terbit', 2], ['dzuhur', 4], ['ashar', 5], ['maghrib', 6], ['isya', 7]]
+      : [['imsak', 0], ['subuh', 1], ['terbit', 2], ['dhuha', 3], ['dzuhur', 4], ['ashar', 5], ['maghrib', 6], ['isya', 7]];
+    return keys.map(([key, nameIndex]) => ({ key, name: w.prayers[nameIndex] }));
+  }
   function renderSchedule() {
     const w = text();
     const target = $('prayer-results');
@@ -506,10 +649,7 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
         el('b', { textContent: w.today }),
         el('span', { textContent: localDate.toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) })));
       const times = el('div', { className: 'prayer-time-grid' });
-      prayerNames().forEach((name, index) => {
-        const key = ['imsak', 'subuh', 'terbit', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'][index];
-        times.append(el('div', { className: 'prayer-time' }, el('span', { textContent: name }), el('b', { textContent: String(todaySchedule[key] ?? '—') })));
-      });
+      prayerColumns().forEach(({ key, name }) => times.append(el('div', { className: 'prayer-time' }, el('span', { textContent: name }), el('b', { textContent: String(todaySchedule[key] ?? '—') }))));
       current.append(times);
       target.append(current);
     } else {
@@ -521,13 +661,17 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     const table = el('table', { className: 'prayer-table' });
     const header = el('tr');
     header.append(el('th', { scope: 'col', textContent: w.date }));
-    prayerNames().forEach((name) => header.append(el('th', { scope: 'col', textContent: name })));
+    const columns = prayerColumns();
+    columns.forEach(({ name }) => header.append(el('th', { scope: 'col', textContent: name })));
     table.append(el('thead', {}, header));
     const body = el('tbody');
     for (const entry of schedule.jadwal) {
       const row = el('tr', { className: entry.tanggal_lengkap === today ? 'is-today' : '' });
-      row.append(el('th', { scope: 'row', textContent: `${entry.hari ?? ''} ${formatNumber(entry.tanggal, lang)}`.trim() }));
-      for (const key of ['imsak', 'subuh', 'terbit', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya']) row.append(el('td', { textContent: String(entry[key] ?? '—') }));
+      const dayLabel = schedule.coordinateBased && entry.tanggal_lengkap
+        ? new Date(`${entry.tanggal_lengkap}T12:00:00`).toLocaleDateString(lang === 'id' ? 'id-ID' : 'en-US', { weekday: 'short' })
+        : String(entry.hari ?? '');
+      row.append(el('th', { scope: 'row', textContent: `${dayLabel} ${formatNumber(entry.tanggal, lang)}`.trim() }));
+      for (const { key } of columns) row.append(el('td', { textContent: String(entry[key] ?? '—') }));
       body.append(row);
     }
     table.append(body);
@@ -545,16 +689,20 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     selectedMonth = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + delta, 1);
     schedule = null;
     renderMonthLabel();
-    if (location.province && location.city) loadPrayerSchedule();
+    if (hasPrayerLocation()) loadPrayerSchedule();
   }
   $('prayer-prev').addEventListener('click', () => shiftMonth(-1));
   $('prayer-next').addEventListener('click', () => shiftMonth(1));
   $('prayer-now').addEventListener('click', () => {
     selectedMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-    if (location.province && location.city) loadPrayerSchedule();
+    if (hasPrayerLocation()) loadPrayerSchedule();
     else renderMonthLabel();
   });
   $('prayer-province').addEventListener('change', () => {
+    scheduleRequest++;
+    prayerBusy = false;
+    $('prayer-results').removeAttribute('aria-busy');
+    coordinateLocation = null;
     const province = $('prayer-province').value;
     location = { province, city: '' };
     saveLocation(province, '');
@@ -572,6 +720,10 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     loadCities(province);
   });
   $('prayer-city').addEventListener('change', () => {
+    scheduleRequest++;
+    prayerBusy = false;
+    $('prayer-results').removeAttribute('aria-busy');
+    coordinateLocation = null;
     const city = $('prayer-city').value;
     location = { province: $('prayer-province').value, city };
     saveLocation(location.province, city);

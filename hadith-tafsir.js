@@ -8,23 +8,23 @@ const memory = new Map();
 let database;
 
 export const COLLECTIONS = [
-  { key: 'bukhari', name: 'Sahih al-Bukhari', indonesian: true },
-  { key: 'muslim', name: 'Sahih Muslim', indonesian: true },
-  { key: 'abudawud', name: 'Sunan Abu Dawud', indonesian: true },
-  { key: 'tirmidhi', name: 'Jami at-Tirmidhi', indonesian: true },
-  { key: 'nasai', name: "Sunan an-Nasa'i", indonesian: true },
-  { key: 'ibnmajah', name: 'Sunan Ibn Majah', indonesian: true },
-  { key: 'malik', name: 'Muwatta Malik', indonesian: true },
-  { key: 'nawawi', name: "Nawawi's 40 Hadith", indonesian: false },
-  { key: 'qudsi', name: '40 Hadith Qudsi', indonesian: false },
-  { key: 'dehlawi', name: "Shah Waliullah's 40 Hadith", indonesian: false },
+  { key: 'bukhari', name: 'Sahih al-Bukhari', nameId: 'Shahih Bukhari', indonesian: true },
+  { key: 'muslim', name: 'Sahih Muslim', nameId: 'Shahih Muslim', indonesian: true },
+  { key: 'abudawud', name: 'Sunan Abu Dawud', nameId: 'Sunan Abu Daud', indonesian: true },
+  { key: 'tirmidhi', name: 'Jami at-Tirmidhi', nameId: 'Sunan Tirmidzi', indonesian: true },
+  { key: 'nasai', name: "Sunan an-Nasa'i", nameId: 'Sunan Nasai', indonesian: true },
+  { key: 'ibnmajah', name: 'Sunan Ibn Majah', nameId: 'Sunan Ibnu Majah', indonesian: true },
+  { key: 'malik', name: 'Muwatta Malik', nameId: 'Muwatha Malik', indonesian: true },
+  { key: 'nawawi', name: "Nawawi's 40 Hadith", nameId: "Arba'in Nawawi", indonesian: false },
+  { key: 'qudsi', name: '40 Hadith Qudsi', nameId: '40 Hadis Qudsi', indonesian: false },
+  { key: 'dehlawi', name: "Shah Waliullah's 40 Hadith", nameId: '40 Hadis Shah Waliullah', indonesian: false },
 ];
 
 const WORDS = {
   id: {
-    featureTitle: 'Hadis & tafsir', featureSub: 'Jelajahi kitab hadis dan tafsir lengkap per surat.',
+    featureTitle: 'Hadis & tafsir', featureSub: 'Cari topik, jelajahi koleksi, dan simpan bacaan.',
     title: 'Hadis & tafsir', close: 'Tutup', hint: 'Baca hadis Arab/Indonesia, cari topik lintas kitab, atau buka tafsir lengkap per surat.',
-    hadithTab: 'Hadis', tafsirTab: 'Tafsir Al-Qur’an', browseTitle: 'Buka hadis berdasarkan kitab dan nomor',
+    hadithTab: 'Hadis', tafsirTab: 'Tafsir Al-Qur’an', collectionsTitle: 'Koleksi populer', browseTitle: 'Buka hadis berdasarkan kitab dan nomor',
     book: 'Kitab hadis', number: 'Nomor hadis', openNumber: 'Buka hadis',
     searchTitle: 'Cari hadis', searchQuery: 'Kata atau topik', queryPlaceholder: 'Contoh: sabar, sedekah, prayer',
     searchScope: 'Cakupan pencarian', globalScope: 'Semua kitab · teks Inggris', indScope: 'Kitab terpilih · terjemahan Indonesia',
@@ -53,9 +53,9 @@ const WORDS = {
     savedStorageError: 'Simpanan tidak dapat diperbarui di perangkat ini. Periksa ruang penyimpanan browser.', savedOffline: 'Dibuka dari simpanan perangkat; tersedia tanpa koneksi.',
   },
   en: {
-    featureTitle: 'Hadith & tafsir', featureSub: 'Browse hadith collections and full tafsir by surah.',
+    featureTitle: 'Hadith & tafsir', featureSub: 'Search topics, browse collections, and save readings.',
     title: 'Hadith & tafsir', close: 'Close', hint: 'Read Arabic/Indonesian hadith, search across collections, or open full tafsir by surah.',
-    hadithTab: 'Hadith', tafsirTab: 'Quran tafsir', browseTitle: 'Open a hadith by collection and number',
+    hadithTab: 'Hadith', tafsirTab: 'Quran tafsir', collectionsTitle: 'Popular collections', browseTitle: 'Open a hadith by collection and number',
     book: 'Hadith collection', number: 'Hadith number', openNumber: 'Open hadith',
     searchTitle: 'Search hadith', searchQuery: 'Word or topic', queryPlaceholder: 'Example: patience, charity, prayer',
     searchScope: 'Search scope', globalScope: 'All collections · English text', indScope: 'Selected collection · Indonesian translation',
@@ -94,6 +94,7 @@ const el = (tag, props = {}, ...children) => {
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function collectionFor(key) { return COLLECTIONS.find((item) => item.key === key) ?? null; }
+function collectionLabel(collection, lang = 'id') { return lang === 'id' ? collection?.nameId ?? collection?.name ?? '' : collection?.name ?? ''; }
 
 export function buildFawazHadithUrl(language, collection, number = null) {
   if (language !== 'ara' && language !== 'ind') throw new RangeError('Unsupported Hadith edition language.');
@@ -370,7 +371,7 @@ export function hadithScopeLabel(scope, lang = 'id') {
 export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang = 'id' }) {
   // An older PWA shell can briefly receive newer scripts during an update.
   // Keep the reader and its update controls alive until the new HTML takes over.
-  if (!$('ilm-panel') || !$('feature-ilm')) return null;
+  if (!$('ilm-panel') || !$('feature-ilm') || !$('ilm-collections-title') || !$('ilm-collections')) return null;
   let lang = initialLang === 'en' ? 'en' : 'id';
   let activeTab = 'hadith';
   let selectedDetail = null;
@@ -399,12 +400,29 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     const options = [];
     if (includeAll) options.push(el('option', { value: 'all', textContent: w.allCollections }));
     for (const collection of COLLECTIONS) {
-      const option = el('option', { value: collection.key, textContent: collection.name });
+      const option = el('option', { value: collection.key, textContent: collectionLabel(collection, lang) });
       options.push(option);
     }
     select.replaceChildren(...options);
     if (options.some((option) => option.value === selected)) select.value = selected;
     else select.value = includeAll ? 'all' : 'bukhari';
+  }
+
+  function renderCollectionShortcuts() {
+    const container = $('ilm-collections');
+    container.replaceChildren(...COLLECTIONS.filter((collection) => collection.indonesian).map((collection) => {
+      const button = el('button', {
+        type: 'button', className: 'hadith-collection-chip', textContent: collectionLabel(collection, lang),
+        ariaLabel: `${words().book}: ${collectionLabel(collection, lang)}`,
+      });
+      button.setAttribute('aria-pressed', String($('ilm-book').value === collection.key));
+      button.addEventListener('click', () => {
+        $('ilm-book').value = collection.key;
+        for (const chip of container.querySelectorAll('button')) chip.setAttribute('aria-pressed', String(chip === button));
+        $('ilm-number').focus({ preventScroll: true });
+      });
+      return button;
+    }));
   }
 
   function updateSources() {
@@ -444,6 +462,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     $('ilm-hint').textContent = w.hint;
     $('ilm-tab-hadith').textContent = w.hadithTab;
     $('ilm-tab-tafsir').textContent = w.tafsirTab;
+    $('ilm-collections-title').textContent = w.collectionsTitle;
     $('ilm-browse-title').textContent = w.browseTitle;
     $('ilm-book-label').textContent = w.book;
     $('ilm-number-label').textContent = w.number;
@@ -473,6 +492,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     $('ilm-source-note').textContent = w.sourceNote;
     fillCollectionOptions($('ilm-book'));
     fillCollectionOptions($('ilm-search-collection'), true);
+    renderCollectionShortcuts();
     setScopeHint();
     updateSources();
     if (selectedDetail) renderDetail(selectedDetail);
@@ -766,6 +786,9 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     if (button) setTab(button.dataset.tab);
   });
   $('ilm-browse-form').addEventListener('submit', openHadithByNumber);
+  $('ilm-book').addEventListener('change', () => {
+    for (const chip of $('ilm-collections').querySelectorAll('button')) chip.setAttribute('aria-pressed', String(chip.textContent === collectionLabel(collectionFor($('ilm-book').value), lang)));
+  });
   $('ilm-search-form').addEventListener('submit', searchHadith);
   $('ilm-search-scope').addEventListener('change', setScopeHint);
   $('ilm-search-collection').addEventListener('change', () => {
