@@ -449,10 +449,24 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     const category = $('ilm-kitab-category').value;
     if (q && q.length < 2) { setStatus('ilm-kitab-status', labels().bookMin, true); return; }
     const searching = Boolean(q || category);
-    $('ilm-kitab-view').classList.toggle('has-query', searching);
+    const view = $('ilm-kitab-view');
+    view.classList.toggle('has-query', searching);
+    view.classList.remove('has-selected');
     $('ilm-kitab-catalog-heading').textContent = isEnglish()
       ? (searching ? 'Search results' : 'Browse the collection')
       : (searching ? 'Hasil pencarian' : 'Jelajahi koleksi kitab');
+    selectedKitab = null;
+    kitabDetail = null;
+    chapterResults = [];
+    $('ilm-kitab-detail').replaceChildren(node('p', {
+      id: 'ilm-kitab-detail-empty', className: 'ibadah-empty',
+      textContent: isEnglish() ? 'Choose a book above to see its author and chapter list.' : 'Pilih salah satu kitab di atas untuk melihat pengarang dan daftar bab.'
+    }));
+    setStatus('ilm-kitab-detail-status', '');
+    setStatus('ilm-kitab-chapter-status', '');
+    $('ilm-kitab-chapter-results').replaceChildren();
+    $('ilm-kitab-chapter-select').replaceChildren(node('option', { value: '', textContent: isEnglish() ? 'Choose a book first' : 'Pilih kitab terlebih dahulu' }));
+    $('ilm-kitab-open-chapter').disabled = true;
     $('ilm-kitab-books').replaceChildren();
     setStatus('ilm-kitab-status', labels().kitabLoading);
     $('ilm-kitab-books').setAttribute('aria-busy', 'true');
@@ -513,6 +527,7 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     if (!slug) { setStatus('ilm-kitab-detail-status', labels().unavailable, true); return; }
     selectedKitab = slug;
     kitabDetail = item;
+    $('ilm-kitab-view').classList.add('has-selected');
     $('ilm-kitab-detail').replaceChildren();
     $('ilm-kitab-chapter-results').replaceChildren();
     $('ilm-kitab-open-chapter').disabled = true;
