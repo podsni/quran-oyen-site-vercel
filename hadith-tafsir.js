@@ -1,7 +1,6 @@
 import { createAhmadSanusiFeatures } from './ahmad-sanusi.js?v=20261108-kitab-1';
-import { createHouseMuslimHadithFeature } from './housemuslim.js?v=20261108-housemuslim-1';
+import { createUmmahApiHadithFeature } from './ummahapi.js?v=20261108-ummahapi-2';
 
-const UMMAH_API = 'https://ummahapi.com/api';
 const FAWAZ_API = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
 const CACHE_DB = 'quran-oyen-hadith-v1';
 const CACHE_STORE = 'responses';
@@ -27,7 +26,7 @@ const WORDS = {
   id: {
     featureTitle: 'Hadis, kitab & tafsir', featureSub: 'Jelajahi hadis, Kitab Kuning, dan tafsir Al-Qur’an.',
     title: 'Hadis, kitab & tafsir', close: 'Tutup', hint: 'Cari hadis, baca Kitab Kuning klasik, atau buka tafsir lengkap per surat.',
-    hadithTab: 'Hadis', hadithApiTab: 'Hadis API', houseMuslimTab: '9 Kitab', kitabTab: 'Kitab Kuning', tafsirTab: 'Tafsir', collectionsTitle: 'Koleksi populer', browseTitle: 'Buka hadis berdasarkan kitab dan nomor',
+    hadithTab: 'Hadis', hadithApiTab: 'Hadis API', ummahApiTab: '10 Koleksi', kitabTab: 'Kitab Kuning', tafsirTab: 'Tafsir', collectionsTitle: 'Koleksi populer', browseTitle: 'Buka hadis berdasarkan kitab dan nomor',
     book: 'Kitab hadis', number: 'Nomor hadis', openNumber: 'Buka hadis',
     searchTitle: 'Cari hadis', searchQuery: 'Kata atau topik', queryPlaceholder: 'Contoh: sabar, sedekah, prayer',
     searchScope: 'Cakupan pencarian', globalScope: 'Semua kitab · teks Inggris', indScope: 'Kitab terpilih · terjemahan Indonesia',
@@ -49,7 +48,7 @@ const WORDS = {
     surah: 'Surat', findSurah: 'Cari nama surat', openTafsir: 'Buka tafsir surat',
     tafsirSource: 'Sumber tafsir: EQuran.id API v2. Konten tafsir dimuat per surat dan disimpan pada cache perangkat setelah berhasil diambil.',
     statusReady: 'Pilih salah satu fitur di atas untuk mulai.', sourceLabel: 'Sumber dan catatan',
-    sourceNote: 'Teks dan penomoran dapat berbeda antar-edisi. Hadis dan Kitab Kuning tambahan bersumber dari Ahmad Sanusi Open API; derajat hadis hanya ditampilkan bila diberikan sumber. Fitur ini bukan pengganti verifikasi ilmiah atau bimbingan ulama.',
+    sourceNote: 'Teks dan penomoran dapat berbeda antar-edisi. Tab 10 Koleksi memakai UmmahAPI (teks Inggris); hadis tambahan dan Kitab Kuning memakai Ahmad Sanusi Open API. Derajat hanya ditampilkan bila diberikan sumber. Ini bukan pengganti verifikasi ilmiah atau bimbingan ulama.',
     savedTitle: 'Hadis tersimpan', savedHint: 'Disimpan hanya di perangkat ini dan dapat dibuka tanpa koneksi. Maksimal 50 hadis.',
     save: 'Simpan', removeSaved: 'Hapus simpanan', savedCount: (count) => `${count} hadis tersimpan di perangkat ini.`,
     emptySaved: 'Belum ada hadis tersimpan. Ketuk “Simpan” pada hadis yang ingin dibaca kembali.', savedLimit: 'Simpanan penuh. Hapus satu hadis terlebih dahulu (maksimal 50).',
@@ -58,7 +57,7 @@ const WORDS = {
   en: {
     featureTitle: 'Hadis, kitab & tafsir', featureSub: 'Browse hadith, Kitab Kuning, and Quran tafsir.',
     title: 'Hadis, kitab & tafsir', close: 'Close', hint: 'Search hadith, read classical Kitab Kuning, or open full tafsir by surah.',
-    hadithTab: 'Hadis', hadithApiTab: 'Hadis API', houseMuslimTab: '9 Books', kitabTab: 'Kitab Kuning', tafsirTab: 'Quran tafsir', collectionsTitle: 'Popular collections', browseTitle: 'Open a hadith by collection and number',
+    hadithTab: 'Hadis', hadithApiTab: 'Hadis API', ummahApiTab: '10 Collections', kitabTab: 'Kitab Kuning', tafsirTab: 'Quran tafsir', collectionsTitle: 'Popular collections', browseTitle: 'Open a hadith by collection and number',
     book: 'Hadith collection', number: 'Hadith number', openNumber: 'Open hadith',
     searchTitle: 'Search hadith', searchQuery: 'Word or topic', queryPlaceholder: 'Example: patience, charity, prayer',
     searchScope: 'Search scope', globalScope: 'All collections · English text', indScope: 'Selected collection · Indonesian translation',
@@ -80,7 +79,7 @@ const WORDS = {
     surah: 'Surah', findSurah: 'Find a surah name', openTafsir: 'Open surah tafsir',
     tafsirSource: 'Tafsir source: EQuran.id API v2. Tafsir is loaded by surah and saved to the device cache after it is retrieved.',
     statusReady: 'Choose one of the features above to begin.', sourceLabel: 'Sources and notes',
-    sourceNote: 'Text and numbering may vary by edition. Additional hadith and Kitab Kuning readings come from Ahmad Sanusi Open API; grades are shown only when the source provides them. This feature does not replace scholarly verification or guidance.',
+    sourceNote: 'Text and numbering may vary by edition. The 10 Collections tab uses UmmahAPI (English text); additional hadith and Kitab Kuning readings use Ahmad Sanusi Open API. Grades are shown only when provided. This does not replace scholarly verification or guidance.',
     savedTitle: 'Saved hadith', savedHint: 'Saved only on this device and available offline. Up to 50 hadith.',
     save: 'Save', removeSaved: 'Remove saved copy', savedCount: (count) => `${count} hadith saved on this device.`,
     emptySaved: 'No saved hadith yet. Tap “Save” on any hadith you want to revisit.', savedLimit: 'Saved list is full. Remove one hadith first (maximum 50).',
@@ -299,9 +298,9 @@ async function requestJson(url, { validate = (value) => value, cache = true, cac
 }
 
 function globalSearchUrl(query, collection) {
-  const params = new URLSearchParams({ q: query, limit: '25' });
+  const params = new URLSearchParams({ resource: 'search', q: query, limit: '25' });
   if (collection && collection !== 'all') params.set('collection', collection);
-  return `${UMMAH_API}/hadith/search?${params}`;
+  return `/api/ummahapi?${params}`;
 }
 
 async function getIndonesianHadith(collection, number) {
@@ -329,7 +328,8 @@ async function getHadithDetail(collection, number) {
   let arabic = '';
   let arabicCached = false;
   let arabicUrl = '';
-  const detailUrl = `${UMMAH_API}/hadith/${encodeURIComponent(collection)}/${encodeURIComponent(String(number))}`;
+  const detailParams = new URLSearchParams({ resource: 'detail', collection: String(collection), number: String(number) });
+  const detailUrl = `/api/ummahapi?${detailParams}`;
   const araUrl = buildFawazHadithUrl('ara', collection, number);
   const [mainResult, translationResult, arabicResult] = await Promise.allSettled([
     requestJson(detailUrl, { validate: (payload) => validateHadithDetail(payload, collection, number) }),
@@ -378,9 +378,9 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
   let lang = initialLang === 'en' ? 'en' : 'id';
   let activeTab = 'hadith';
   let extraFeatures = null;
-  let houseMuslimFeatures = null;
+  let ummahApiFeatures = null;
   const hasExtraTabs = !!$('ilm-tab-hadith-api') && !!$('ilm-tab-kitab') && !!$('ilm-hadith-api-view') && !!$('ilm-kitab-view');
-  const hasHouseMuslimTab = !!$('ilm-tab-housemuslim') && !!$('ilm-housemuslim-view');
+  const hasUmmahApiTab = !!$('ilm-tab-ummah') && !!$('ilm-ummah-view');
   let selectedDetail = null;
   let selectedSearch = null;
   let searchBusy = false;
@@ -440,9 +440,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
       document.createTextNode(' · '),
       makeLink('https://api.ahmadsanusi.com/docs', 'Ahmad Sanusi Open API'),
       document.createTextNode(' · '),
-      makeLink('https://housemuslim.org/docs/api/hadith', 'HouseMuslim Hadith API'),
-      document.createTextNode(' · '),
-      makeLink('https://ummahapi.com/api/docs', 'UmmahAPI'),
+      makeLink('https://ummahapi.com/api/docs', 'UmmahAPI · 10 collections'),
       document.createTextNode(' · '),
       makeLink('https://equran.id/apidev/v2', 'EQuran.id API v2'),
     );
@@ -476,7 +474,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
       $('ilm-tab-hadith-api').textContent = w.hadithApiTab;
       $('ilm-tab-kitab').textContent = w.kitabTab;
     }
-    if (hasHouseMuslimTab) $('ilm-tab-housemuslim').textContent = w.houseMuslimTab;
+    if (hasUmmahApiTab) $('ilm-tab-ummah').textContent = w.ummahApiTab;
     $('ilm-tab-tafsir').textContent = w.tafsirTab;
     $('ilm-collections-title').textContent = w.collectionsTitle;
     $('ilm-browse-title').textContent = w.browseTitle;
@@ -525,21 +523,21 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
       $('ilm-tafsir-view').hidden = activeTab !== 'tafsir';
       return;
     }
-    activeTab = ['hadith', 'hadithApi', 'housemuslim', 'kitab', 'tafsir'].includes(tab) ? tab : 'hadith';
+    activeTab = ['hadith', 'hadithApi', 'ummahapi', 'kitab', 'tafsir'].includes(tab) ? tab : 'hadith';
     const views = {
       hadith: ['ilm-tab-hadith', 'ilm-hadith-view'],
       hadithApi: ['ilm-tab-hadith-api', 'ilm-hadith-api-view'],
       kitab: ['ilm-tab-kitab', 'ilm-kitab-view'],
       tafsir: ['ilm-tab-tafsir', 'ilm-tafsir-view'],
     };
-    if (hasHouseMuslimTab) views.housemuslim = ['ilm-tab-housemuslim', 'ilm-housemuslim-view'];
+    if (hasUmmahApiTab) views.ummahapi = ['ilm-tab-ummah', 'ilm-ummah-view'];
     for (const [key, [buttonId, viewId]] of Object.entries(views)) {
       if (!$(buttonId) || !$(viewId)) continue;
       $(buttonId).setAttribute('aria-pressed', String(activeTab === key));
       $(viewId).hidden = activeTab !== key;
     }
     extraFeatures?.activate(activeTab);
-    houseMuslimFeatures?.activate(activeTab);
+    ummahApiFeatures?.activate(activeTab);
   }
 
   async function open() {
@@ -815,7 +813,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
   }
 
   extraFeatures = createAhmadSanusiFeatures({ initialLang: lang });
-  houseMuslimFeatures = createHouseMuslimHadithFeature({ initialLang: lang });
+  ummahApiFeatures = createUmmahApiHadithFeature({ initialLang: lang });
   $('ilm-tabs').addEventListener('click', (event) => {
     const button = event.target.closest('button[data-tab]');
     if (button) setTab(button.dataset.tab);
@@ -843,7 +841,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
       lang = nextLang === 'en' ? 'en' : 'id';
       updateStaticText();
       extraFeatures?.setLanguage(lang);
-      houseMuslimFeatures?.setLanguage(lang);
+      ummahApiFeatures?.setLanguage(lang);
       if (!selectedDetail && !$('ilm-detail').children.length) setStatus($('ilm-detail-status'), words().emptyDetail);
       if (!selectedSearch && !$('ilm-search-results').children.length) setStatus($('ilm-search-status'), words().statusReady);
     },

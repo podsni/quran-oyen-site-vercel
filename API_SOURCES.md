@@ -72,17 +72,21 @@ Dokumentasi resmi menyediakan endpoint Kitab Kuning `GET /v1/kitab`, `/v1/kitab/
 - OpenAPI: <https://api.ahmadsanusi.com/openapi.json>
 - Base URL: <https://api.ahmadsanusi.com>
 
-## Konten harian dan Kutubut Tis’ah: HouseMuslim API
+## Konten harian dan 10 koleksi hadis: UmmahAPI
 
-Quran Oyen memakai endpoint publik baca-saja HouseMuslim melalui proxy same-origin `/api/housemuslim`. **Konten Hari Ini** mengambil paket ayat, Asmaul Husna, doa, dan kutipan dari upstream `GET /api/v1/daily/today`. Ayat Arab berasal dari respons API; terjemahan Indonesia ditampilkan dari berkas Kementerian Agama RI yang sudah tersedia di situs Quran Oyen. Tombol pada kartu ayat membuka ayat tersebut di pembaca internal.
+Konten harian dan tab **10 Koleksi** memakai endpoint baca-saja UmmahAPI lewat proxy same-origin Quran Oyen `/api/ummahapi`. Proxy hanya mengizinkan rute `GET` yang diperlukan, membatasi nama koleksi dan parameter, memakai timeout serta batas ukuran respons, dan tidak meneruskan cookie, API key, atau alamat IP pengunjung ke upstream. Bundel harian mengambil ayat acak, satu Asmaul Husna, dan hadis pilihan; URL memakai tanggal Asia/Jakarta agar cache CDN berlaku per hari. Tombol ayat membuka pembaca internal Quran Oyen.
 
-Tab **9 Kitab** mengambil daftar koleksi dari `/api/v1/hadith/books`, menelusuri hadis berhalaman melalui `/api/v1/hadith/books/{slug}/items`, mengambil detail melalui `/api/v1/hadith/books/{slug}/items/{number}`, dan mencari teks Arab/Indonesia pada kitab yang dipilih melalui `/api/v1/hadith/books/{slug}/search?q=...`. Proxy hanya meneruskan GET untuk sembilan slug yang diizinkan dan parameter pencarian/paginasi yang dibatasi; URL upstream tidak dapat dipilih pengguna. Dokumentasi menyebut sembilan koleksi (Bukhari, Muslim, Abu Dawud, Tirmidzi, Nasa’i, Ibnu Majah, Ahmad, Malik, dan Darimi) dengan total 38.102 hadis; jumlah dapat berubah mengikuti katalog API.
+Terjemahan ayat Kemenag lokal diutamakan; terjemahan Indonesia dari UmmahAPI menjadi fallback. Makna Asmaul Husna dan teks hadis yang diberikan API berbahasa Inggris dan UI menandainya demikian. Doa harian dipilih berputar dari katalog EQuran.id Indonesia `data/ibadah/doa.json`, yang sudah menjadi bagian situs dan cache PWA; 227 bacaan doa/wirid lengkap tetap tersedia pada panel ibadah.
 
-Respons yang pernah berhasil dimuat disimpan sebagai cache lokal terbaik-upaya pada perangkat (maksimal 10 URL terakhir) agar sebagian konten dapat dibuka lagi jika koneksi gagal. Ini bukan unduhan offline menyeluruh atau sinkronisasi akun. Kata kunci dan kitab yang dipilih dikirim ke proxy Quran Oyen lalu diteruskan ke HouseMuslim API. Browser tidak menghubungi host upstream secara langsung, dan proxy tidak memakai API key atau meneruskan cookie pengguna.
+Katalog UmmahAPI menyediakan Bukhari, Muslim, Abu Dawud, Tirmidzi, Ibnu Majah, Nasa’i, Malik, Arba’in Nawawi, 40 Hadis Qudsi, dan 40 Hadis Shah Waliullah. Tab baru menyediakan jelajah berhalaman, detail/nomor, Arab, teks Inggris, dan grade bila sumber mengirimkannya. Pencarian di tab ini menggunakan kata Inggris dan dibatasi hingga 100 hasil; pencarian Indonesia yang sudah ada pada tab Hadis tetap berjalan lokal lewat edisi Fawaz. Kueri pencarian yang diminta pengguna diteruskan ke UmmahAPI; endpoint bebas API key. Kebijakan privasi UmmahAPI menyebut pencatatan endpoint, waktu, IP, dan user-agent. Proxy tidak meneruskan IP pengunjung, tetapi teks kueri tetap dikirim sebagai parameter pencarian.
 
-- Dokumentasi konten: <https://housemuslim.org/docs/api/content>
-- Dokumentasi Hadith API: <https://housemuslim.org/docs/api/hadith>
-- Base URL: <https://api.housemuslim.org/api/v1>
+UmmahAPI menyatakan konten diambil dari sumber publik dan layanan disediakan gratis; halaman About tidak menetapkan satu lisensi menyeluruh untuk semua konten. Quran Oyen mengambil data saat diminta, menampilkan atribusi, dan tidak memaketkan seluruh koleksi hadis. Dataset sumber `fawazahmed0/hadith-api` menyatakan lisensi Unlicense pada repositorinya, tetapi provenance edisi/terjemahan dan penilaian hadis tetap perlu diperiksa secara terpisah. Konten API bukan fatwa atau pengganti bimbingan ahli.
+
+- Dokumentasi: <https://ummahapi.com/api/docs>
+- Tentang layanan dan sumber data: <https://ummahapi.com/about>
+- Kebijakan privasi: <https://ummahapi.com/privacy>
+- Katalog live: <https://ummahapi.com/api/hadith/collections>
+- Sumber koleksi hadis: <https://github.com/fawazahmed0/hadith-api> · <https://github.com/fawazahmed0/hadith-api/blob/1/LICENSE>
 
 ## Alternatif yang tidak dipakai
 

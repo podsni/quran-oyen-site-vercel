@@ -277,14 +277,14 @@
   .daily-reference { margin: 7px 0 0; color: var(--ink-3); font: 600 12px/18px var(--sans); }
   .daily-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--hair); }
   .daily-quote { border-color: rgb(224 122 36 / .25); }
-  #ilm-housemuslim-search-form { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr) auto; align-items: end; gap: 10px; padding: 13px; border: 1px solid var(--hair); border-radius: 18px; background: var(--panel); }
-  #ilm-housemuslim-search-button { min-height: 44px; }
-  #ilm-housemuslim-view .library-pager { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
-  #ilm-housemuslim-results, #ilm-housemuslim-detail { grid-template-columns: minmax(0, 1fr); }
-  #ilm-housemuslim-page { min-width: 0; color: var(--ink-3); font: 600 12px/18px var(--sans); text-align: center; }
-  .housemuslim-detail-card .ibadah-card-head { align-items: flex-start; }
-  .housemuslim-detail-card .ibadah-reference { margin: 0; }
-  .housemuslim-hadith-card { display: grid; gap: 7px; }
+  #ilm-ummah-search-form { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr) auto; align-items: end; gap: 10px; padding: 13px; border: 1px solid var(--hair); border-radius: 18px; background: var(--panel); }
+  #ilm-ummah-search-button { min-height: 44px; }
+  #ilm-ummah-view .library-pager { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
+  #ilm-ummah-results, #ilm-ummah-detail { grid-template-columns: minmax(0, 1fr); }
+  #ilm-ummah-page { min-width: 0; color: var(--ink-3); font: 600 12px/18px var(--sans); text-align: center; }
+  .ummah-detail-card .ibadah-card-head { align-items: flex-start; }
+  .ummah-detail-card .ibadah-reference { margin: 0; }
+  .ummah-hadith-card { display: grid; gap: 7px; }
   .ibadah-card-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
   .ibadah-badge { max-width: 100%; padding: 3px 9px; border-radius: 999px; background: var(--oyen-soft); color: var(--oyen-ink); font: 650 11px/16px var(--sans); }
   .ibadah-badge.tafsir { background: #eef0fa; color: var(--indigo); }
@@ -932,8 +932,8 @@
     .ibadah-shortcuts { width: 100%; min-width: 0; }
     #ilm-panel .ilm-tabs { margin-inline: 0; overflow: visible; }
     #ilm-tabs button { min-width: 0; white-space: normal; text-wrap: balance; }
-    #ilm-housemuslim-search-form { grid-template-columns: minmax(0, 1fr); }
-    #ilm-housemuslim-search-button { width: 100%; }
+    #ilm-ummah-search-form { grid-template-columns: minmax(0, 1fr); }
+    #ilm-ummah-search-button { width: 100%; }
     #ilm-kitab-search-form { grid-template-columns: minmax(0, 1fr); padding: 12px; }
     #ilm-kitab-search-form > .ibadah-status, #ilm-kitab-search-button { grid-column: 1; grid-row: auto; }
     #ilm-kitab-search-button { width: 100%; }
@@ -1239,10 +1239,10 @@
   <header class="panel-head"><h2 id="ilm-title">Hadis &amp; tafsir</h2><button class="done" id="ilm-close" type="button">Tutup</button></header>
   <div class="panel-body">
     <p class="ibadah-note" id="ilm-hint"></p>
-    <div class="seg ilm-tabs" id="ilm-tabs" role="group" aria-label="Hadis, sembilan kitab, kitab kuning, atau tafsir">
+    <div class="seg ilm-tabs" id="ilm-tabs" role="group" aria-label="Hadis, 10 koleksi, kitab kuning, atau tafsir">
       <button type="button" id="ilm-tab-hadith" data-tab="hadith" aria-pressed="true">Hadis</button>
       <button type="button" id="ilm-tab-hadith-api" data-tab="hadithApi" aria-pressed="false">Hadis API</button>
-      <button type="button" id="ilm-tab-housemuslim" data-tab="housemuslim" aria-pressed="false">9 Kitab</button>
+      <button type="button" id="ilm-tab-ummah" data-tab="ummahapi" aria-pressed="false">10 Koleksi</button>
       <button type="button" id="ilm-tab-kitab" data-tab="kitab" aria-pressed="false">Kitab Kuning</button>
       <button type="button" id="ilm-tab-tafsir" data-tab="tafsir" aria-pressed="false">Tafsir Al-Qur’an</button>
     </div>
@@ -1315,24 +1315,24 @@
       <div class="ibadah-results" id="ilm-api-hadith-detail"></div>
       <p class="ibadah-source" id="ilm-api-hadith-source"></p>
     </section>
-    <section class="ilm-view" id="ilm-housemuslim-view" role="tabpanel" aria-labelledby="ilm-tab-housemuslim" hidden>
-      <h3 id="ilm-housemuslim-title">Kutubut Tis’ah · sembilan kitab hadis</h3>
-      <p class="ibadah-note" id="ilm-housemuslim-note">Cari dalam bahasa Arab atau Indonesia pada kitab yang dipilih. Tanpa kata kunci, jelajahi hadis berurutan.</p>
-      <form class="ibadah-form" id="ilm-housemuslim-search-form">
-        <label class="ibadah-field" for="ilm-housemuslim-book"><span id="ilm-housemuslim-book-label">Kitab hadis</span><select id="ilm-housemuslim-book"><option value="">Memuat kitab…</option></select></label>
-        <label class="ibadah-field" for="ilm-housemuslim-query"><span id="ilm-housemuslim-query-label">Kata kunci</span><input id="ilm-housemuslim-query" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder="Contoh: niat, sabar, الصلاة…"></label>
-        <button class="btn" id="ilm-housemuslim-search-button" type="submit">Cari hadis</button>
+    <section class="ilm-view" id="ilm-ummah-view" role="tabpanel" aria-labelledby="ilm-tab-ummah" hidden>
+      <h3 id="ilm-ummah-title">Jelajahi 10 koleksi hadis</h3>
+      <p class="ibadah-note" id="ilm-ummah-note">Teks tersedia dalam bahasa Arab dan Inggris. Pencarian API memakai kata bahasa Inggris; untuk pencarian Indonesia, gunakan tab Hadis.</p>
+      <form class="ibadah-form" id="ilm-ummah-search-form">
+        <label class="ibadah-field" for="ilm-ummah-book"><span id="ilm-ummah-book-label">Kitab hadis</span><select id="ilm-ummah-book"><option value="">Memuat kitab…</option></select></label>
+        <label class="ibadah-field" for="ilm-ummah-query"><span id="ilm-ummah-query-label">Kata kunci (Inggris)</span><input id="ilm-ummah-query" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder="Contoh: intention, patience, prayer"></label>
+        <button class="btn" id="ilm-ummah-search-button" type="submit">Cari hadis</button>
       </form>
-      <p class="ibadah-status" id="ilm-housemuslim-status" role="status" aria-live="polite"></p>
+      <p class="ibadah-status" id="ilm-ummah-status" role="status" aria-live="polite"></p>
       <div class="library-pager" aria-label="Halaman hasil hadis">
-        <button class="pill" id="ilm-housemuslim-prev" type="button">Sebelumnya</button>
-        <span id="ilm-housemuslim-page" aria-live="polite"></span>
-        <button class="pill" id="ilm-housemuslim-next" type="button">Berikutnya</button>
+        <button class="pill" id="ilm-ummah-prev" type="button">Sebelumnya</button>
+        <span id="ilm-ummah-page" aria-live="polite"></span>
+        <button class="pill" id="ilm-ummah-next" type="button">Berikutnya</button>
       </div>
-      <div class="ibadah-results" id="ilm-housemuslim-results"></div>
-      <p class="ibadah-status" id="ilm-housemuslim-detail-status" role="status" aria-live="polite"></p>
-      <div class="ibadah-results" id="ilm-housemuslim-detail"></div>
-      <p class="ibadah-source" id="ilm-housemuslim-source">Sumber: HouseMuslim Hadith API · Sembilan kitab (Kutubut Tis’ah).</p>
+      <div class="ibadah-results" id="ilm-ummah-results"></div>
+      <p class="ibadah-status" id="ilm-ummah-detail-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-ummah-detail"></div>
+      <p class="ibadah-source" id="ilm-ummah-source">Sumber: UmmahAPI · 10 koleksi hadis berbahasa Arab/Inggris.</p>
     </section>
     <section class="ilm-view" id="ilm-kitab-view" role="tabpanel" aria-labelledby="ilm-tab-kitab" hidden>
       <h3 id="ilm-kitab-title">Kitab Kuning</h3>
@@ -1380,7 +1380,7 @@
     <p class="ibadah-status" id="daily-status" role="status" aria-live="polite"></p>
     <div class="ibadah-results" id="daily-content"></div>
     <button class="pill" id="daily-refresh" type="button">Muat ulang</button>
-    <p class="ibadah-source" id="daily-source">Sumber konten harian: HouseMuslim API.</p>
+    <p class="ibadah-source" id="daily-source">Sumber ayat, Asmaul Husna, dan hadis: UmmahAPI. Doa: katalog EQuran.id yang tersedia di Quran Oyen.</p>
   </div>
 </section>
 <div class="scrim" id="scrim" hidden></div>

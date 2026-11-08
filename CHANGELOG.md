@@ -2,12 +2,12 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
-## 8 November 2026 — Konten harian dan sembilan kitab hadis
+## 8 November 2026 — UmmahAPI dan konten harian
 
-- **Konten Hari Ini:** Panel baru menyajikan ayat, Asmaul Husna, doa, dan kutipan dari HouseMuslim. Ayat dapat dibuka di pembaca internal dengan terjemahan Kemenag lokal.
-- **Hadis:** Tab HouseMuslim menambahkan sembilan koleksi, jelajah berhalaman, detail hadis, dan pencarian Arab/Indonesia per kitab. Fitur Hadis, Hadis API Ahmad Sanusi, Kitab Kuning, tafsir, doa/ibadah, dan Gulir Ayat tetap dipertahankan.
-- **Privasi dan ketahanan:** Browser menggunakan proxy same-origin yang membatasi endpoint publik HouseMuslim; kata kunci diteruskan ke layanan untuk pencarian dan respons yang pernah berhasil dimuat disimpan best-effort di perangkat. Kegagalan layanan tidak menghalangi pembaca Quran.
-- **Pengembang:** Jalankan tes Node untuk Hadis/Ibadah dan pemeriksaan browser ponsel, lalu `python3 tools/stamp_sw.py` sebelum menerbitkan.
+- **Pengganti API:** HouseMuslim diganti UmmahAPI untuk ayat acak, Asmaul Husna, hadis harian, dan jelajah 10 koleksi; pencarian di tab baru menggunakan teks Inggris. Terjemahan ayat Kemenag lokal tetap diutamakan dan pencarian hadis Indonesia lama tetap tersedia.
+- **Bahasa Indonesia:** Doa harian berputar dari katalog EQuran.id yang sudah disimpan di situs. Makna Asma dan teks hadis Inggris diberi label bahasa; fitur doa/ibadah, Kitab Kuning, hadis lama, tafsir, dan Gulir Ayat tetap dipertahankan.
+- **Ketahanan dan privasi:** Modul baru memakai proxy same-origin dengan allowlist endpoint/parameter, cache CDN, timeout, dan batas ukuran respons. Respons yang pernah dimuat dicache best-effort di perangkat; kueri hadis diteruskan ke UmmahAPI tanpa cookie atau IP pengunjung.
+- **Pengembang:** Jalankan tes proxy dan browser UmmahAPI, tes regresi Hadis/Ibadah/offline, lalu `python3 tools/stamp_sw.py` sebelum menerbitkan.
 
 ## 5 November 2026 — Bacaan ibadah lebih nyaman di ponsel dan offline
 

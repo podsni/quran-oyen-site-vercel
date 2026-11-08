@@ -13,8 +13,8 @@ import { createNetworkPanel, networkText } from './network.js?v=9b5457c';
 import * as track from './track.js?v=9b5457c';
 import { audioForQari, getEquranSurah, getEquranSurahs, getEquranTafsir, QARIS } from './equran.js';
 import { createIbadahFeatures } from './ibadah.js?v=20261105-ibadah-2';
-import { createDailyContentFeature } from './housemuslim.js?v=20261108-housemuslim-1';
-import { createIlmFeatures } from './hadith-tafsir.js?v=20261108-housemuslim-1';
+import { createDailyContentFeature } from './ummahapi.js?v=20261108-ummahapi-2';
+import { createIlmFeatures } from './hadith-tafsir.js?v=20261108-ummahapi-2';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...children) => {
