@@ -13,7 +13,8 @@ import { createNetworkPanel, networkText } from './network.js?v=9b5457c';
 import * as track from './track.js?v=9b5457c';
 import { audioForQari, getEquranSurah, getEquranSurahs, getEquranTafsir, QARIS } from './equran.js';
 import { createIbadahFeatures } from './ibadah.js?v=20261105-ibadah-2';
-import { createIlmFeatures } from './hadith-tafsir.js?v=20261105-hadith-6';
+import { createDailyContentFeature } from './housemuslim.js?v=20261108-housemuslim-1';
+import { createIlmFeatures } from './hadith-tafsir.js?v=20261108-housemuslim-1';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...children) => {
@@ -52,6 +53,7 @@ let equranCatalogPromise = null;
 let equranCatalogCached = false;
 let audioUI = null;
 let ibadahUI = null;
+let dailyUI = null;
 let ilmUI = null;
 let tafsirRequest = 0;
 // Resolved once start() has data/index.json, for views that can be opened from the home before it arrives.
@@ -1667,6 +1669,7 @@ function setLang(lang) {
   dotsView?.relang();
   netPanel?.relang();
   ibadahUI?.relang(lang);
+  dailyUI?.relang(lang);
   ilmUI?.relang(lang);
   renderIndex();
   renderPopular();
@@ -1908,6 +1911,15 @@ sheets.own('aa', { handle: '.panel-head' });
 sheets.own('install', { handle: '.panel-head' });
 sheets.own('tafsir', { handle: '.panel-head' });
 ibadahUI = createIbadahFeatures({ sheets, onNavigate: openApiResult });
+dailyUI = createDailyContentFeature({
+  sheets, onNavigate: openApiResult,
+  getSurahs: async () => { await indexReady; return index; },
+  getAyahTranslation: async (surah, ayah) => {
+    const file = await loadTrans(surah);
+    return file.ayat?.[ayah - 1] ?? '';
+  },
+  initialLang: settings.lang,
+});
 ilmUI = createIlmFeatures({ sheets, onNavigate: openApiResult, getSurahs: async () => { await indexReady; return index; }, initialLang: settings.lang });
 sheets.adopt('map', { handle: '.map-head', closeButton: 'map-close' });
 sheets.adopt('same', { handle: '.same-head', closeButton: 'same-close', onShow: () => playFace($('same-oyen'), 'happy') });

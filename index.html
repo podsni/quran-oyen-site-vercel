@@ -209,7 +209,7 @@
   .ibadah-panel .panel-head h2 { min-width: 0; }
   .ibadah-panel .panel-body { min-width: 0; gap: 11px; padding: 2px 16px max(18px, var(--sab)); }
   .ibadah-panel [hidden] { display: none !important; }
-  .ilm-tabs { position: sticky; top: 0; z-index: 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; padding: 6px 0; background: var(--app); }
+  .ilm-tabs { position: sticky; top: 0; z-index: 4; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100%; padding: 6px 0; background: var(--app); }
   #ilm-tabs button { min-width: 0; padding-inline: 4px; font-size: 11px; line-height: 16px; white-space: normal; }
   .reading-tabs { position: sticky; top: 0; z-index: 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; padding: 5px 0; background: var(--app); }
   .reading-tabs button { min-width: 0; min-height: 44px; padding-inline: 5px; }
@@ -266,6 +266,25 @@
   .ibadah-status.is-error { color: var(--red); }
   .ibadah-results { display: grid; gap: 10px; }
   .ibadah-card { min-width: 0; padding: 14px; border: 1px solid var(--hair); border-radius: 16px; background: var(--sheet); box-shadow: 0 3px 12px rgb(var(--shadow-ink) / .035); }
+  #daily-panel { width: min(720px, calc(100vw - 24px)); }
+  #daily-panel .panel-body { gap: 12px; padding-inline: clamp(14px, 3vw, 24px); }
+  #daily-content { display: grid; gap: 11px; min-width: 0; }
+  .daily-item { min-width: 0; padding: 15px; border: 1px solid var(--hair); border-radius: 17px; background: linear-gradient(150deg, var(--sheet), color-mix(in srgb, var(--oyen-soft) 24%, var(--sheet))); }
+  .daily-item h3 { margin: 0 0 8px; color: var(--oyen-ink); font: 700 15px/21px var(--sans); }
+  .daily-arabic { margin: 5px 0 8px; color: var(--ink); font: 400 clamp(26px, 5vw, 34px)/2 var(--quran); text-align: right; overflow-wrap: anywhere; }
+  .daily-translation, .daily-transliteration { margin: 7px 0 0; color: var(--ink-2); font: 400 15px/1.75 var(--serif); white-space: pre-line; overflow-wrap: anywhere; }
+  .daily-transliteration { font-style: italic; font-size: 14px; }
+  .daily-reference { margin: 7px 0 0; color: var(--ink-3); font: 600 12px/18px var(--sans); }
+  .daily-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--hair); }
+  .daily-quote { border-color: rgb(224 122 36 / .25); }
+  #ilm-housemuslim-search-form { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr) auto; align-items: end; gap: 10px; padding: 13px; border: 1px solid var(--hair); border-radius: 18px; background: var(--panel); }
+  #ilm-housemuslim-search-button { min-height: 44px; }
+  #ilm-housemuslim-view .library-pager { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
+  #ilm-housemuslim-results, #ilm-housemuslim-detail { grid-template-columns: minmax(0, 1fr); }
+  #ilm-housemuslim-page { min-width: 0; color: var(--ink-3); font: 600 12px/18px var(--sans); text-align: center; }
+  .housemuslim-detail-card .ibadah-card-head { align-items: flex-start; }
+  .housemuslim-detail-card .ibadah-reference { margin: 0; }
+  .housemuslim-hadith-card { display: grid; gap: 7px; }
   .ibadah-card-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
   .ibadah-badge { max-width: 100%; padding: 3px 9px; border-radius: 999px; background: var(--oyen-soft); color: var(--oyen-ink); font: 650 11px/16px var(--sans); }
   .ibadah-badge.tafsir { background: #eef0fa; color: var(--indigo); }
@@ -859,7 +878,7 @@
   /* A calmer, roomier reading library. Keep every control thumb-sized and the catalogue scannable. */
   #ilm-panel { width: min(940px, calc(100vw - 24px)); }
   #ilm-panel .panel-body { gap: 16px; padding: 2px clamp(16px, 3vw, 28px) max(22px, var(--sab)); }
-  #ilm-panel .ilm-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; padding: 8px 0 10px; border-bottom: 1px solid var(--hair); }
+  #ilm-panel .ilm-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; padding: 8px 0 10px; border-bottom: 1px solid var(--hair); }
   #ilm-tabs button { min-height: 42px; padding: 7px 9px; border-radius: 13px; font: 650 13px/18px var(--sans); white-space: nowrap; }
   #ilm-tabs button[aria-pressed="true"] { color: var(--oyen-ink); background: linear-gradient(145deg, #fff, #fff7ee); box-shadow: inset 0 0 0 1px rgb(224 122 36 / .24), 0 2px 8px rgb(var(--shadow-ink) / .06); }
   #ilm-panel .ilm-view { gap: 14px; }
@@ -908,10 +927,13 @@
   }
   @media (max-width: 640px) {
     #ilm-panel { width: calc(100vw - 16px); }
+    #daily-panel { width: calc(100vw - 16px); }
     #ilm-panel .panel-body { padding-inline: 14px; }
     .ibadah-shortcuts { width: 100%; min-width: 0; }
     #ilm-panel .ilm-tabs { margin-inline: 0; overflow: visible; }
     #ilm-tabs button { min-width: 0; white-space: normal; text-wrap: balance; }
+    #ilm-housemuslim-search-form { grid-template-columns: minmax(0, 1fr); }
+    #ilm-housemuslim-search-button { width: 100%; }
     #ilm-kitab-search-form { grid-template-columns: minmax(0, 1fr); padding: 12px; }
     #ilm-kitab-search-form > .ibadah-status, #ilm-kitab-search-button { grid-column: 1; grid-row: auto; }
     #ilm-kitab-search-button { width: 100%; }
@@ -986,6 +1008,7 @@
         <a class="feature" href="learning-plans.html" id="feature-learning-plans" style="text-decoration:none;color:inherit"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h6M8 12h6M4 16h14"/></svg></span><b>Rencana Belajar</b><span class="sub">Pelajaran harian Bahasa Indonesia · baca, renungkan, dan simpan progresmu.</span><i aria-hidden="true">›</i></a>
         <button class="feature" id="feature-vector" type="button"><span class="ic" aria-hidden="true">⌕</span><b id="feature-vector-title">Cari berdasarkan makna</b><span class="sub" id="feature-vector-sub"></span><i aria-hidden="true">›</i></button>
         <button class="feature" id="feature-ilm" type="button"><span class="ic" aria-hidden="true">حديث</span><b id="feature-ilm-title">Hadis &amp; tafsir</b><span class="sub" id="feature-ilm-sub">Jelajahi kitab hadis dan tafsir lengkap per surat.</span><i aria-hidden="true">›</i></button>
+        <button class="feature" id="feature-daily" type="button"><span class="ic" aria-hidden="true">☼</span><b id="feature-daily-title">Konten Hari Ini</b><span class="sub" id="feature-daily-sub">Ayat, Asmaul Husna, doa, dan kutipan pilihan harian.</span><i aria-hidden="true">›</i></button>
         <button class="feature" id="feature-doa" type="button"><span class="ic" aria-hidden="true">دُعَاء</span><b id="feature-doa-title">Doa &amp; dzikir</b><span class="sub" id="feature-doa-sub"></span><i aria-hidden="true">›</i></button>
         <button class="feature" id="feature-prayer" type="button"><span class="ic" aria-hidden="true">◷</span><b id="feature-prayer-title">Jadwal sholat</b><span class="sub" id="feature-prayer-sub"></span><i aria-hidden="true">›</i></button>
       </section>
@@ -1216,9 +1239,10 @@
   <header class="panel-head"><h2 id="ilm-title">Hadis &amp; tafsir</h2><button class="done" id="ilm-close" type="button">Tutup</button></header>
   <div class="panel-body">
     <p class="ibadah-note" id="ilm-hint"></p>
-    <div class="seg ilm-tabs" id="ilm-tabs" role="group" aria-label="Hadis, kitab kuning, atau tafsir">
+    <div class="seg ilm-tabs" id="ilm-tabs" role="group" aria-label="Hadis, sembilan kitab, kitab kuning, atau tafsir">
       <button type="button" id="ilm-tab-hadith" data-tab="hadith" aria-pressed="true">Hadis</button>
       <button type="button" id="ilm-tab-hadith-api" data-tab="hadithApi" aria-pressed="false">Hadis API</button>
+      <button type="button" id="ilm-tab-housemuslim" data-tab="housemuslim" aria-pressed="false">9 Kitab</button>
       <button type="button" id="ilm-tab-kitab" data-tab="kitab" aria-pressed="false">Kitab Kuning</button>
       <button type="button" id="ilm-tab-tafsir" data-tab="tafsir" aria-pressed="false">Tafsir Al-Qur’an</button>
     </div>
@@ -1291,6 +1315,25 @@
       <div class="ibadah-results" id="ilm-api-hadith-detail"></div>
       <p class="ibadah-source" id="ilm-api-hadith-source"></p>
     </section>
+    <section class="ilm-view" id="ilm-housemuslim-view" role="tabpanel" aria-labelledby="ilm-tab-housemuslim" hidden>
+      <h3 id="ilm-housemuslim-title">Kutubut Tis’ah · sembilan kitab hadis</h3>
+      <p class="ibadah-note" id="ilm-housemuslim-note">Cari dalam bahasa Arab atau Indonesia pada kitab yang dipilih. Tanpa kata kunci, jelajahi hadis berurutan.</p>
+      <form class="ibadah-form" id="ilm-housemuslim-search-form">
+        <label class="ibadah-field" for="ilm-housemuslim-book"><span id="ilm-housemuslim-book-label">Kitab hadis</span><select id="ilm-housemuslim-book"><option value="">Memuat kitab…</option></select></label>
+        <label class="ibadah-field" for="ilm-housemuslim-query"><span id="ilm-housemuslim-query-label">Kata kunci</span><input id="ilm-housemuslim-query" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder="Contoh: niat, sabar, الصلاة…"></label>
+        <button class="btn" id="ilm-housemuslim-search-button" type="submit">Cari hadis</button>
+      </form>
+      <p class="ibadah-status" id="ilm-housemuslim-status" role="status" aria-live="polite"></p>
+      <div class="library-pager" aria-label="Halaman hasil hadis">
+        <button class="pill" id="ilm-housemuslim-prev" type="button">Sebelumnya</button>
+        <span id="ilm-housemuslim-page" aria-live="polite"></span>
+        <button class="pill" id="ilm-housemuslim-next" type="button">Berikutnya</button>
+      </div>
+      <div class="ibadah-results" id="ilm-housemuslim-results"></div>
+      <p class="ibadah-status" id="ilm-housemuslim-detail-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-housemuslim-detail"></div>
+      <p class="ibadah-source" id="ilm-housemuslim-source">Sumber: HouseMuslim Hadith API · Sembilan kitab (Kutubut Tis’ah).</p>
+    </section>
     <section class="ilm-view" id="ilm-kitab-view" role="tabpanel" aria-labelledby="ilm-tab-kitab" hidden>
       <h3 id="ilm-kitab-title">Kitab Kuning</h3>
       <p class="ibadah-note" id="ilm-kitab-description"></p>
@@ -1329,6 +1372,15 @@
     </section>
     <p class="ibadah-source"><b id="ilm-source-label">Sumber dan catatan</b><br><span id="ilm-source"></span></p>
     <p class="ibadah-note" id="ilm-source-note"></p>
+  </div>
+</section>
+<section class="panel ibadah-panel" id="daily-panel" hidden role="dialog" aria-modal="true" aria-labelledby="daily-title">
+  <header class="panel-head"><h2 id="daily-title">Konten Hari Ini</h2><button class="done" id="daily-close" type="button">Tutup</button></header>
+  <div class="panel-body">
+    <p class="ibadah-status" id="daily-status" role="status" aria-live="polite"></p>
+    <div class="ibadah-results" id="daily-content"></div>
+    <button class="pill" id="daily-refresh" type="button">Muat ulang</button>
+    <p class="ibadah-source" id="daily-source">Sumber konten harian: HouseMuslim API.</p>
   </div>
 </section>
 <div class="scrim" id="scrim" hidden></div>

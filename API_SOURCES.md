@@ -72,6 +72,18 @@ Dokumentasi resmi menyediakan endpoint Kitab Kuning `GET /v1/kitab`, `/v1/kitab/
 - OpenAPI: <https://api.ahmadsanusi.com/openapi.json>
 - Base URL: <https://api.ahmadsanusi.com>
 
+## Konten harian dan Kutubut Tis’ah: HouseMuslim API
+
+Quran Oyen memakai endpoint publik baca-saja HouseMuslim. **Konten Hari Ini** mengambil paket ayat, Asmaul Husna, doa, dan kutipan dari `GET https://api.housemuslim.org/api/v1/daily/today`. Ayat Arab berasal dari respons API; terjemahan Indonesia ditampilkan dari berkas Kementerian Agama RI yang sudah tersedia di situs Quran Oyen. Tombol pada kartu ayat membuka ayat tersebut di pembaca internal.
+
+Tab **9 Kitab** mengambil daftar koleksi dari `/api/v1/hadith/books`, menelusuri hadis berhalaman melalui `/api/v1/hadith/books/{slug}/items`, mengambil detail melalui `/api/v1/hadith/books/{slug}/items/{number}`, dan mencari teks Arab/Indonesia pada kitab yang dipilih melalui `/api/v1/hadith/books/{slug}/search?q=...`. Dokumentasi menyebut sembilan koleksi (Bukhari, Muslim, Abu Dawud, Tirmidzi, Nasa’i, Ibnu Majah, Ahmad, Malik, dan Darimi) dengan total 38.102 hadis; jumlah dapat berubah mengikuti katalog API.
+
+Respons yang pernah berhasil dimuat disimpan sebagai cache lokal terbaik-upaya pada perangkat (maksimal 10 URL terakhir) agar sebagian konten dapat dibuka lagi jika koneksi gagal. Ini bukan unduhan offline menyeluruh atau sinkronisasi akun. Pencarian mengirim kata kunci dan kitab yang dipilih ke HouseMuslim API. Kode browser tidak menyimpan API key karena endpoint yang dipakai publik.
+
+- Dokumentasi konten: <https://housemuslim.org/docs/api/content>
+- Dokumentasi Hadith API: <https://housemuslim.org/docs/api/hadith>
+- Base URL: <https://api.housemuslim.org/api/v1>
+
 ## Alternatif yang tidak dipakai
 
 - **Hadith API by gading.dev:** praktis dan menyebut sembilan koleksi dengan Arab/Indonesia, tetapi host publik mengalami kegagalan TLS saat riset dan repositori tidak memisahkan lisensi kumpulan data dari lisensi kode MIT. Tidak dijadikan dependensi produksi. Rujukan: <https://github.com/gadingnst/hadith-api>.
