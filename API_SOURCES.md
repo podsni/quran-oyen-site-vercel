@@ -64,6 +64,14 @@ UmmahAPI dipakai sebagai fitur tambahan untuk pencarian teks Inggris lintas 10 k
 
 Saat diperiksa, daftar koleksi menyebut sumber `fawazahmed0/hadith-api` melalui jsDelivr. Header CORS wildcard dan respons JSON berhasil diuji dari origin Quran Oyen. Batas 100/menit berasal dari dokumentasi UmmahAPI, bukan SLA uptime. API ini tidak menjadi sumber terjemahan Indonesia; terjemahan Indonesia diambil langsung dari edisi Fawaz.
 
+## Kitab Kuning dan tambahan hadis: Ahmad Sanusi Open API
+
+Dokumentasi resmi menyediakan endpoint Kitab Kuning `GET /v1/kitab`, `/v1/kitab/kategori`, `/v1/kitab/{slug}`, `/v1/kitab/{slug}/bab/{nomor}`, dan `/v1/kitab/{slug}/search`. Untuk hadis, tersedia `GET /v1/hadits/daily`, `/v1/hadits`, `/v1/hadits/search`, `/v1/hadits/{kitab}`, dan `/v1/hadits/{kitab}/{nomor}`. Data endpoints memerlukan header `X-API-Key`; Quran Oyen meneruskannya melalui Vercel Function same-origin `/api/ahmad-sanusi` dengan `AHMAD_SANUSI_API_KEY` sebagai environment variable server-side, bukan kode browser. Aplikasi menampilkan sumber API dan menyatakan bahwa teks/grade perlu diverifikasi, bukan pengganti bimbingan ahli.
+
+- Dokumentasi: <https://api.ahmadsanusi.com/docs>
+- OpenAPI: <https://api.ahmadsanusi.com/openapi.json>
+- Base URL: <https://api.ahmadsanusi.com>
+
 ## Alternatif yang tidak dipakai
 
 - **Hadith API by gading.dev:** praktis dan menyebut sembilan koleksi dengan Arab/Indonesia, tetapi host publik mengalami kegagalan TLS saat riset dan repositori tidak memisahkan lisensi kumpulan data dari lisensi kode MIT. Tidak dijadikan dependensi produksi. Rujukan: <https://github.com/gadingnst/hadith-api>.

@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SW = ROOT / "sw.js"
 FILES_RE = re.compile(r"const FILES = /\*FILES\*/.*?/\*END\*/;", re.DOTALL)
 VERSION_RE = re.compile(r'const VERSION = /\*VERSION\*/".*?"/\*END\*/;')
-EXCLUDED_TOP_LEVEL = {".git", "tools"}
+EXCLUDED_TOP_LEVEL = {".git", "tools", "api"}
 EXCLUDED_FILES = {"README.md", "sw.js", "worker.js", "CHANGELOG.md", "API_SOURCES.md"}
 
 

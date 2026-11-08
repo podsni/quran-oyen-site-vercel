@@ -9,6 +9,7 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 - **Audio surat penuh dan audio per ayat** tersedia dari enam qari EQuran.id. Pilih qari, putar seluruh surat atau satu ayat, aktifkan lanjut otomatis, atau mulai audio dari entri tafsir.
 - **Tafsir per ayat** dapat dibuka dari halaman surat dengan ringkasan konteks surat dan pencarian nomor/kata. Setiap entri dapat diputar atau dibuka langsung di ayatnya; respons katalog, detail, dan tafsir API disimpan di IndexedDB untuk membantu saat koneksi terputus.
 - **Hadis dan tafsir lengkap per surat** tersedia dari satu panel. Pengguna dapat membuka hadis Arab/Indonesia berdasarkan kitab dan nomor, mencari teks Indonesia secara lokal pada edisi Bukhari, Muslim, Abu Dawud, Tirmidhi, Nasa'i, Ibn Majah, atau Malik, serta mencari lintas koleksi memakai teks Inggris UmmahAPI. Tafsir EQuran.id dapat dibuka untuk masing-masing dari 114 surat.
+- **Kitab Kuning dan tambahan hadis** memakai Ahmad Sanusi Open API: daftar/kategori kitab, bab dan pencarian bab; hadis harian, daftar kitab hadis, pencarian terjemahan, daftar per kitab, dan detail berdasarkan nomor. Browser hanya memanggil `/api/ahmad-sanusi`; fungsi server Vercel menyimpan header API key agar rahasia tidak masuk ke JavaScript publik. Data memerlukan koneksi internet.
 - Hadis dapat disimpan dari tampilan detail maupun hasil pencarian. Maksimal 50 teks tersimpan secara lokal pada perangkat dan bisa dibuka kembali tanpa koneksi; simpanan tidak disinkronkan ke akun atau perangkat lain.
 - **Pencarian semantik ayat dan tafsir** menggunakan Vector Search EQuran.id. Hasil menampilkan teks Arab, transliterasi Latin bila tersedia, terjemahan/tafsir, tingkat kecocokan, serta tautan untuk membuka, mendengarkan, atau melihat tafsir ayat terkait.
 - **Doa, wirid, Maulid, dan Tahlil** tersedia sebagai bacaan lokal: 227 rekaman katalog EQuran.id, 18 bab Maulid Barzanji beserta doa penutup, dan 28 bagian Tahlil. Tab bacaan tidak mengalihkan ke situs lain; data yang telah dimuat bisa disajikan dari cache service worker. Satu rekaman katalog hanya menyediakan keterangan naratif, tanpa teks doa Arab, Latin, atau arti, dan UI menyatakannya apa adanya.
@@ -78,8 +79,9 @@ Sebelum menerbitkan perubahan pada aset aplikasi, jalankan `python3 tools/stamp_
 1. Di dashboard Vercel, pilih **Add New… > Project**, hubungkan GitHub, lalu impor `podsni/quran-oyen-site-vercel` (atau fork Anda). Beri Vercel akses ke repository bila diminta.
 2. Atur **Root Directory** ke `./` (root repository) dan **Framework Preset** ke **Other**.
 3. Pada pengaturan build, aktifkan override **Build Command** lalu biarkan kosong agar Vercel melewati build. Tidak ada perintah install atau dependency aplikasi yang perlu dijalankan. Set **Output Directory** ke `.`; repository ini tidak memiliki direktori `public` atau folder hasil build.
-4. Pilih branch produksi `main`, lalu pilih **Deploy**. Jika proyek dihubungkan ke Git, push berikutnya ke branch produksi akan memicu deployment baru.
-5. Untuk domain sendiri, tambahkan domain melalui **Project Settings > Domains** dan ikuti instruksi DNS Vercel. Pastikan deployment memakai HTTPS.
+4. Untuk Kitab Kuning dan hadis dari Ahmad Sanusi, tambahkan environment variable **`AHMAD_SANUSI_API_KEY`** pada **Project Settings > Environment Variables** untuk Production. Jangan gunakan prefix `NEXT_PUBLIC_` atau menaruh key di berkas situs.
+5. Pilih branch produksi `main`, lalu pilih **Deploy**. Jika proyek dihubungkan ke Git, push berikutnya ke branch produksi akan memicu deployment baru.
+6. Untuk domain sendiri, tambahkan domain melalui **Project Settings > Domains** dan ikuti instruksi DNS Vercel. Pastikan deployment memakai HTTPS.
 
 Rujukan: [Vercel — Configuring a Build](https://vercel.com/docs/builds/configure-a-build) (lihat bagian *Skip Build Step* dan *Output Directory*).
 

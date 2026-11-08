@@ -209,7 +209,8 @@
   .ibadah-panel .panel-head h2 { min-width: 0; }
   .ibadah-panel .panel-body { min-width: 0; gap: 11px; padding: 2px 16px max(18px, var(--sab)); }
   .ibadah-panel [hidden] { display: none !important; }
-  .ilm-tabs { position: sticky; top: 0; z-index: 4; padding: 6px 0; background: var(--app); }
+  .ilm-tabs { position: sticky; top: 0; z-index: 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; padding: 6px 0; background: var(--app); }
+  #ilm-tabs button { min-width: 0; padding-inline: 4px; font-size: 11px; line-height: 16px; white-space: normal; }
   .reading-tabs { position: sticky; top: 0; z-index: 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; padding: 5px 0; background: var(--app); }
   .reading-tabs button { min-width: 0; min-height: 44px; padding-inline: 5px; }
   .reading-resource { display: grid; gap: 9px; padding: 18px; border-color: rgb(240 137 46 / .28); background: linear-gradient(145deg, var(--oyen-soft), var(--sheet) 78%); }
@@ -246,6 +247,12 @@
   .hadith-saved > summary { display: flex; align-items: center; justify-content: space-between; gap: 9px; cursor: pointer; color: var(--oyen-ink); font: 700 14px/20px var(--sans); }
   .hadith-saved .ibadah-status { padding-top: 6px; }
   .hadith-saved .ibadah-results { margin-top: 9px; }
+  .library-card { display: grid; gap: 9px; }
+  .library-card > p { margin: 0; }
+  .library-card-title { margin: 0; color: var(--oyen-ink); font: 700 16px/22px var(--sans); }
+  .library-source { padding-top: 7px; border-top: 1px solid var(--hair); }
+  .library-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .library-pager .pill { min-width: 0; }
   .ibadah-note, .ibadah-source { margin: 0; color: var(--ink-3); font: 400 13px/19px var(--sans); }
   .ibadah-source { padding-top: 9px; border-top: 1px solid var(--hair); font-size: 11px; }
   .ibadah-source a { color: var(--oyen-ink); font-weight: 650; text-decoration: underline; text-underline-offset: 2px; }
@@ -1126,8 +1133,10 @@
   <header class="panel-head"><h2 id="ilm-title">Hadis &amp; tafsir</h2><button class="done" id="ilm-close" type="button">Tutup</button></header>
   <div class="panel-body">
     <p class="ibadah-note" id="ilm-hint"></p>
-    <div class="seg ilm-tabs" id="ilm-tabs" role="group" aria-label="Hadis atau tafsir">
+    <div class="seg ilm-tabs" id="ilm-tabs" role="group" aria-label="Hadis, kitab kuning, atau tafsir">
       <button type="button" id="ilm-tab-hadith" data-tab="hadith" aria-pressed="true">Hadis</button>
+      <button type="button" id="ilm-tab-hadith-api" data-tab="hadithApi" aria-pressed="false">Hadis API</button>
+      <button type="button" id="ilm-tab-kitab" data-tab="kitab" aria-pressed="false">Kitab Kuning</button>
       <button type="button" id="ilm-tab-tafsir" data-tab="tafsir" aria-pressed="false">Tafsir Al-Qur’an</button>
     </div>
     <section class="ilm-view" id="ilm-hadith-view" role="tabpanel" aria-labelledby="ilm-tab-hadith">
@@ -1160,6 +1169,70 @@
         <p class="ibadah-note" id="ilm-saved-hint"></p>
         <div class="ibadah-results" id="ilm-saved-list"></div>
       </details>
+    </section>
+    <section class="ilm-view" id="ilm-hadith-api-view" role="tabpanel" aria-labelledby="ilm-tab-hadith-api" hidden>
+      <h3 id="ilm-api-hadith-title">Hadis dari API Ahmad Sanusi</h3>
+      <p class="ibadah-note" id="ilm-api-hadith-description"></p>
+      <section class="reading-resource" aria-labelledby="ilm-api-hadith-daily-title">
+        <h3 id="ilm-api-hadith-daily-title">Hadis hari ini</h3>
+        <p class="ibadah-status" id="ilm-api-hadith-daily-status" role="status" aria-live="polite"></p>
+        <div class="ibadah-results" id="ilm-api-hadith-daily"></div>
+      </section>
+      <h3 id="ilm-api-hadith-search-title">Cari hadis berbahasa Indonesia</h3>
+      <form class="ibadah-form" id="ilm-api-hadith-search-form">
+        <label class="ibadah-field" for="ilm-api-hadith-query"><span id="ilm-api-hadith-search-label">Cari topik atau kata</span><input id="ilm-api-hadith-query" type="search" autocomplete="off" minlength="3" enterkeyhint="search"></label>
+        <label class="ibadah-field" for="ilm-api-hadith-search-book"><span id="ilm-api-hadith-search-book-label">Filter kitab</span><select id="ilm-api-hadith-search-book"><option value="">Semua kitab</option></select></label>
+        <button class="btn" id="ilm-api-hadith-search-button" type="submit">Cari hadis</button>
+      </form>
+      <p class="ibadah-status" id="ilm-api-hadith-search-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-api-hadith-search-results"></div>
+      <div class="library-pager" aria-label="Halaman hasil pencarian hadis">
+        <button class="pill" id="ilm-api-hadith-search-prev" type="button">Sebelumnya</button>
+        <button class="pill" id="ilm-api-hadith-search-next" type="button">Berikutnya</button>
+      </div>
+      <h3 id="ilm-api-hadith-browse-title">Jelajahi berdasarkan kitab hadis</h3>
+      <label class="ibadah-field" for="ilm-api-hadith-book"><span id="ilm-api-hadith-book-label">Kitab hadis</span><select id="ilm-api-hadith-book"><option value="">Memuat kitab…</option></select></label>
+      <p class="ibadah-status" id="ilm-api-hadith-books-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-api-hadith-list"></div>
+      <div class="library-pager" aria-label="Halaman daftar hadis">
+        <button class="pill" id="ilm-api-hadith-prev" type="button">Sebelumnya</button>
+        <button class="pill" id="ilm-api-hadith-next" type="button">Berikutnya</button>
+      </div>
+      <form class="ibadah-form" id="ilm-api-hadith-detail-form">
+        <div class="ibadah-form-grid">
+          <label class="ibadah-field" for="ilm-api-hadith-number"><span id="ilm-api-hadith-number-label">Nomor hadis</span><input id="ilm-api-hadith-number" type="text" inputmode="numeric" value="1" autocomplete="off"></label>
+          <button class="btn" id="ilm-api-hadith-open-number" type="submit">Buka hadis</button>
+        </div>
+      </form>
+      <p class="ibadah-status" id="ilm-api-hadith-detail-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-api-hadith-detail"></div>
+      <p class="ibadah-source" id="ilm-api-hadith-source"></p>
+    </section>
+    <section class="ilm-view" id="ilm-kitab-view" role="tabpanel" aria-labelledby="ilm-tab-kitab" hidden>
+      <h3 id="ilm-kitab-title">Kitab Kuning</h3>
+      <p class="ibadah-note" id="ilm-kitab-description"></p>
+      <form class="ibadah-form" id="ilm-kitab-search-form">
+        <label class="ibadah-field" for="ilm-kitab-query"><span id="ilm-kitab-query-label">Cari kitab, pengarang, atau topik</span><input id="ilm-kitab-query" type="search" autocomplete="off" enterkeyhint="search"></label>
+        <label class="ibadah-field" for="ilm-kitab-category"><span id="ilm-kitab-category-label">Kategori</span><select id="ilm-kitab-category"><option value="">Semua kategori</option></select></label>
+        <p class="ibadah-status" id="ilm-kitab-category-status" role="status" aria-live="polite"></p>
+        <button class="btn" id="ilm-kitab-search-button" type="submit">Cari kitab</button>
+      </form>
+      <p class="ibadah-status" id="ilm-kitab-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-kitab-books"></div>
+      <h3 id="ilm-kitab-selected-heading">Kitab yang dibuka</h3>
+      <p class="ibadah-status" id="ilm-kitab-detail-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-kitab-detail"></div>
+      <form class="ibadah-form" id="ilm-kitab-chapter-search-form">
+        <label class="ibadah-field" for="ilm-kitab-chapter-query"><span id="ilm-kitab-chapter-query-label">Cari judul bab</span><input id="ilm-kitab-chapter-query" type="search" autocomplete="off" minlength="2"></label>
+        <button class="btn" id="ilm-kitab-chapter-search-button" type="submit">Cari bab</button>
+      </form>
+      <p class="ibadah-status" id="ilm-kitab-chapter-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-form-grid">
+        <label class="ibadah-field" for="ilm-kitab-chapter-select"><span id="ilm-kitab-chapter-select-label">Daftar bab</span><select id="ilm-kitab-chapter-select"><option value="">Pilih kitab terlebih dahulu</option></select></label>
+        <button class="btn" id="ilm-kitab-open-chapter" type="button" disabled>Buka bab</button>
+      </div>
+      <div class="ibadah-results" id="ilm-kitab-chapter-results"></div>
+      <p class="ibadah-source" id="ilm-kitab-source"></p>
     </section>
     <section class="ilm-view" id="ilm-tafsir-view" role="tabpanel" aria-labelledby="ilm-tab-tafsir" hidden>
       <h3 id="ilm-tafsir-title">Jelajahi tafsir lengkap</h3>

@@ -1,3 +1,5 @@
+import { createAhmadSanusiFeatures } from './ahmad-sanusi.js?v=20261108-kitab-1';
+
 const UMMAH_API = 'https://ummahapi.com/api';
 const FAWAZ_API = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
 const CACHE_DB = 'quran-oyen-hadith-v1';
@@ -22,9 +24,9 @@ export const COLLECTIONS = [
 
 const WORDS = {
   id: {
-    featureTitle: 'Hadis & tafsir', featureSub: 'Cari topik, jelajahi koleksi, dan simpan bacaan.',
-    title: 'Hadis & tafsir', close: 'Tutup', hint: 'Baca hadis Arab/Indonesia, cari topik lintas kitab, atau buka tafsir lengkap per surat.',
-    hadithTab: 'Hadis', tafsirTab: 'Tafsir Al-Qur’an', collectionsTitle: 'Koleksi populer', browseTitle: 'Buka hadis berdasarkan kitab dan nomor',
+    featureTitle: 'Hadis, kitab & tafsir', featureSub: 'Jelajahi hadis, Kitab Kuning, dan tafsir Al-Qur’an.',
+    title: 'Hadis, kitab & tafsir', close: 'Tutup', hint: 'Cari hadis, baca Kitab Kuning klasik, atau buka tafsir lengkap per surat.',
+    hadithTab: 'Hadis', hadithApiTab: 'Hadis API', kitabTab: 'Kitab Kuning', tafsirTab: 'Tafsir', collectionsTitle: 'Koleksi populer', browseTitle: 'Buka hadis berdasarkan kitab dan nomor',
     book: 'Kitab hadis', number: 'Nomor hadis', openNumber: 'Buka hadis',
     searchTitle: 'Cari hadis', searchQuery: 'Kata atau topik', queryPlaceholder: 'Contoh: sabar, sedekah, prayer',
     searchScope: 'Cakupan pencarian', globalScope: 'Semua kitab · teks Inggris', indScope: 'Kitab terpilih · terjemahan Indonesia',
@@ -46,16 +48,16 @@ const WORDS = {
     surah: 'Surat', findSurah: 'Cari nama surat', openTafsir: 'Buka tafsir surat',
     tafsirSource: 'Sumber tafsir: EQuran.id API v2. Konten tafsir dimuat per surat dan disimpan pada cache perangkat setelah berhasil diambil.',
     statusReady: 'Pilih salah satu fitur di atas untuk mulai.', sourceLabel: 'Sumber dan catatan',
-    sourceNote: 'Teks dan penomoran dapat berbeda antar-edisi. Derajat hadis hanya ditampilkan bila diberikan sumber; fitur ini bukan pengganti verifikasi ilmiah atau bimbingan ulama.',
+    sourceNote: 'Teks dan penomoran dapat berbeda antar-edisi. Hadis dan Kitab Kuning tambahan bersumber dari Ahmad Sanusi Open API; derajat hadis hanya ditampilkan bila diberikan sumber. Fitur ini bukan pengganti verifikasi ilmiah atau bimbingan ulama.',
     savedTitle: 'Hadis tersimpan', savedHint: 'Disimpan hanya di perangkat ini dan dapat dibuka tanpa koneksi. Maksimal 50 hadis.',
     save: 'Simpan', removeSaved: 'Hapus simpanan', savedCount: (count) => `${count} hadis tersimpan di perangkat ini.`,
     emptySaved: 'Belum ada hadis tersimpan. Ketuk “Simpan” pada hadis yang ingin dibaca kembali.', savedLimit: 'Simpanan penuh. Hapus satu hadis terlebih dahulu (maksimal 50).',
     savedStorageError: 'Simpanan tidak dapat diperbarui di perangkat ini. Periksa ruang penyimpanan browser.', savedOffline: 'Dibuka dari simpanan perangkat; tersedia tanpa koneksi.',
   },
   en: {
-    featureTitle: 'Hadith & tafsir', featureSub: 'Search topics, browse collections, and save readings.',
-    title: 'Hadith & tafsir', close: 'Close', hint: 'Read Arabic/Indonesian hadith, search across collections, or open full tafsir by surah.',
-    hadithTab: 'Hadith', tafsirTab: 'Quran tafsir', collectionsTitle: 'Popular collections', browseTitle: 'Open a hadith by collection and number',
+    featureTitle: 'Hadis, kitab & tafsir', featureSub: 'Browse hadith, Kitab Kuning, and Quran tafsir.',
+    title: 'Hadis, kitab & tafsir', close: 'Close', hint: 'Search hadith, read classical Kitab Kuning, or open full tafsir by surah.',
+    hadithTab: 'Hadis', hadithApiTab: 'Hadis API', kitabTab: 'Kitab Kuning', tafsirTab: 'Quran tafsir', collectionsTitle: 'Popular collections', browseTitle: 'Open a hadith by collection and number',
     book: 'Hadith collection', number: 'Hadith number', openNumber: 'Open hadith',
     searchTitle: 'Search hadith', searchQuery: 'Word or topic', queryPlaceholder: 'Example: patience, charity, prayer',
     searchScope: 'Search scope', globalScope: 'All collections · English text', indScope: 'Selected collection · Indonesian translation',
@@ -77,7 +79,7 @@ const WORDS = {
     surah: 'Surah', findSurah: 'Find a surah name', openTafsir: 'Open surah tafsir',
     tafsirSource: 'Tafsir source: EQuran.id API v2. Tafsir is loaded by surah and saved to the device cache after it is retrieved.',
     statusReady: 'Choose one of the features above to begin.', sourceLabel: 'Sources and notes',
-    sourceNote: 'Text and numbering may vary by edition. A hadith grade is shown only when supplied by the source; this feature does not replace scholarly verification or guidance.',
+    sourceNote: 'Text and numbering may vary by edition. Additional hadith and Kitab Kuning readings come from Ahmad Sanusi Open API; grades are shown only when the source provides them. This feature does not replace scholarly verification or guidance.',
     savedTitle: 'Saved hadith', savedHint: 'Saved only on this device and available offline. Up to 50 hadith.',
     save: 'Save', removeSaved: 'Remove saved copy', savedCount: (count) => `${count} hadith saved on this device.`,
     emptySaved: 'No saved hadith yet. Tap “Save” on any hadith you want to revisit.', savedLimit: 'Saved list is full. Remove one hadith first (maximum 50).',
@@ -374,6 +376,8 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
   if (!$('ilm-panel') || !$('feature-ilm') || !$('ilm-collections-title') || !$('ilm-collections')) return null;
   let lang = initialLang === 'en' ? 'en' : 'id';
   let activeTab = 'hadith';
+  let extraFeatures = null;
+  const hasExtraTabs = !!$('ilm-tab-hadith-api') && !!$('ilm-tab-kitab') && !!$('ilm-hadith-api-view') && !!$('ilm-kitab-view');
   let selectedDetail = null;
   let selectedSearch = null;
   let searchBusy = false;
@@ -428,8 +432,10 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
   function updateSources() {
     const source = $('ilm-source');
     source.replaceChildren(
-      document.createTextNode(lang === 'id' ? 'Hadis: edisi Fawaz/JSDelivr; pencarian global opsional UmmahAPI (teks Inggris). Tafsir: EQuran.id. ' : 'Hadith: Fawaz/JSDelivr editions; optional global UmmahAPI search (English text). Tafsir: EQuran.id. '),
+      document.createTextNode(lang === 'id' ? 'Hadis: edisi Fawaz/JSDelivr dan API Ahmad Sanusi; pencarian global opsional UmmahAPI (teks Inggris). Tafsir: EQuran.id. ' : 'Hadith: Fawaz/JSDelivr editions and Ahmad Sanusi API; optional global UmmahAPI search (English text). Tafsir: EQuran.id. '),
       makeLink('https://github.com/fawazahmed0/hadith-api', 'Fawaz Hadith API'),
+      document.createTextNode(' · '),
+      makeLink('https://api.ahmadsanusi.com/docs', 'Ahmad Sanusi Open API'),
       document.createTextNode(' · '),
       makeLink('https://ummahapi.com/api/docs', 'UmmahAPI'),
       document.createTextNode(' · '),
@@ -461,6 +467,10 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     $('ilm-close').textContent = w.close;
     $('ilm-hint').textContent = w.hint;
     $('ilm-tab-hadith').textContent = w.hadithTab;
+    if (hasExtraTabs) {
+      $('ilm-tab-hadith-api').textContent = w.hadithApiTab;
+      $('ilm-tab-kitab').textContent = w.kitabTab;
+    }
     $('ilm-tab-tafsir').textContent = w.tafsirTab;
     $('ilm-collections-title').textContent = w.collectionsTitle;
     $('ilm-browse-title').textContent = w.browseTitle;
@@ -501,12 +511,26 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
   }
 
   function setTab(tab) {
-    activeTab = tab === 'tafsir' ? 'tafsir' : 'hadith';
-    const isHadith = activeTab === 'hadith';
-    $('ilm-tab-hadith').setAttribute('aria-pressed', String(isHadith));
-    $('ilm-tab-tafsir').setAttribute('aria-pressed', String(!isHadith));
-    $('ilm-hadith-view').hidden = !isHadith;
-    $('ilm-tafsir-view').hidden = isHadith;
+    if (!hasExtraTabs) {
+      activeTab = tab === 'tafsir' ? 'tafsir' : 'hadith';
+      $('ilm-tab-hadith').setAttribute('aria-pressed', String(activeTab === 'hadith'));
+      $('ilm-tab-tafsir').setAttribute('aria-pressed', String(activeTab === 'tafsir'));
+      $('ilm-hadith-view').hidden = activeTab !== 'hadith';
+      $('ilm-tafsir-view').hidden = activeTab !== 'tafsir';
+      return;
+    }
+    activeTab = ['hadith', 'hadithApi', 'kitab', 'tafsir'].includes(tab) ? tab : 'hadith';
+    const views = {
+      hadith: ['ilm-tab-hadith', 'ilm-hadith-view'],
+      hadithApi: ['ilm-tab-hadith-api', 'ilm-hadith-api-view'],
+      kitab: ['ilm-tab-kitab', 'ilm-kitab-view'],
+      tafsir: ['ilm-tab-tafsir', 'ilm-tafsir-view'],
+    };
+    for (const [key, [buttonId, viewId]] of Object.entries(views)) {
+      $(buttonId).setAttribute('aria-pressed', String(activeTab === key));
+      $(viewId).hidden = activeTab !== key;
+    }
+    extraFeatures?.activate(activeTab);
   }
 
   async function open() {
@@ -781,6 +805,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     onNavigate(number, 1, 'tafsir');
   }
 
+  extraFeatures = createAhmadSanusiFeatures({ initialLang: lang });
   $('ilm-tabs').addEventListener('click', (event) => {
     const button = event.target.closest('button[data-tab]');
     if (button) setTab(button.dataset.tab);
@@ -807,6 +832,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     relang(nextLang) {
       lang = nextLang === 'en' ? 'en' : 'id';
       updateStaticText();
+      extraFeatures?.setLanguage(lang);
       if (!selectedDetail && !$('ilm-detail').children.length) setStatus($('ilm-detail-status'), words().emptyDetail);
       if (!selectedSearch && !$('ilm-search-results').children.length) setStatus($('ilm-search-status'), words().statusReady);
     },
