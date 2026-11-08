@@ -228,7 +228,10 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     $('ilm-kitab-query').placeholder = isEnglish() ? 'Example: fiqh, Nawawi' : 'Contoh: fikih, Nawawi';
     $('ilm-kitab-category-label').textContent = isEnglish() ? 'Category' : 'Kategori';
     $('ilm-kitab-search-button').textContent = isEnglish() ? 'Search books' : 'Cari kitab';
-    $('ilm-kitab-catalog-heading').textContent = isEnglish() ? 'Browse the collection' : 'Jelajahi koleksi kitab';
+    const searchingKitab = $('ilm-kitab-view').classList.contains('has-query');
+    $('ilm-kitab-catalog-heading').textContent = isEnglish()
+      ? (searchingKitab ? 'Search results' : 'Browse the collection')
+      : (searchingKitab ? 'Hasil pencarian' : 'Jelajahi koleksi kitab');
     $('ilm-kitab-chapter-query-label').textContent = isEnglish() ? 'Search chapter title' : 'Cari judul bab';
     $('ilm-kitab-chapters-heading').textContent = isEnglish() ? 'Find a chapter' : 'Telusuri bab';
     $('ilm-kitab-chapter-query').placeholder = isEnglish() ? 'At least 2 characters' : 'Minimal 2 karakter';
@@ -425,11 +428,32 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     container.replaceChildren(...cards);
   }
 
+  function scrollKitabFocus(target) {
+    if (!target || !window.matchMedia('(max-width: 640px)').matches) return;
+    const body = $('ilm-panel').querySelector('.panel-body');
+    requestAnimationFrame(() => {
+      const bodyRect = body.getBoundingClientRect();
+      const tabsHeight = $('ilm-tabs').getBoundingClientRect().height;
+      const searchHeight = $('ilm-kitab-view').classList.contains('has-query')
+        ? $('ilm-kitab-search-form').getBoundingClientRect().height : 0;
+      const topInContent = target.getBoundingClientRect().top - bodyRect.top + body.scrollTop;
+      const stickySpace = tabsHeight + searchHeight + 12;
+      const nextTop = Math.max(0, Math.min(topInContent - stickySpace, body.scrollHeight - body.clientHeight));
+      body.scrollTo({ top: nextTop, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    });
+  }
+
   async function searchKitabBooks(event) {
     event?.preventDefault();
     const q = $('ilm-kitab-query').value.trim();
     const category = $('ilm-kitab-category').value;
     if (q && q.length < 2) { setStatus('ilm-kitab-status', labels().bookMin, true); return; }
+    const searching = Boolean(q || category);
+    $('ilm-kitab-view').classList.toggle('has-query', searching);
+    $('ilm-kitab-catalog-heading').textContent = isEnglish()
+      ? (searching ? 'Search results' : 'Browse the collection')
+      : (searching ? 'Hasil pencarian' : 'Jelajahi koleksi kitab');
+    $('ilm-kitab-books').replaceChildren();
     setStatus('ilm-kitab-status', labels().kitabLoading);
     $('ilm-kitab-books').setAttribute('aria-busy', 'true');
     try {
@@ -438,7 +462,11 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
       renderKitabBooks(kitabCatalog);
       setStatus('ilm-kitab-status', kitabCatalog.length ? `${kitabCatalog.length} ${isEnglish() ? 'books' : 'kitab'}` : labels().noKitab, !kitabCatalog.length);
     } catch { setStatus('ilm-kitab-status', labels().unavailable, true); }
-    finally { $('ilm-kitab-books').removeAttribute('aria-busy'); }
+    finally {
+      const books = $('ilm-kitab-books');
+      books.removeAttribute('aria-busy');
+      if (searching) scrollKitabFocus(books.firstElementChild || $('ilm-kitab-status'));
+    }
   }
 
   function chapterNumber(item, index) {
@@ -506,6 +534,7 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
       showChapters();
       setStatus('ilm-kitab-detail-status', chapterResults.length ? `${chapterResults.length} ${isEnglish() ? 'chapters' : 'bab'}` : labels().noChapters, !chapterResults.length);
     } catch { setStatus('ilm-kitab-detail-status', labels().unavailable, true); }
+    finally { scrollKitabFocus($('ilm-kitab-selected-heading')); }
   }
 
   async function searchChapters(event) {

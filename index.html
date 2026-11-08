@@ -908,6 +908,7 @@
   @media (max-width: 640px) {
     #ilm-panel { width: calc(100vw - 16px); }
     #ilm-panel .panel-body { padding-inline: 14px; }
+    .ibadah-shortcuts { width: 100%; min-width: 0; }
     #ilm-panel .ilm-tabs { margin-inline: 0; overflow: visible; }
     #ilm-tabs button { min-width: 0; white-space: normal; text-wrap: balance; }
     #ilm-kitab-search-form { grid-template-columns: minmax(0, 1fr); padding: 12px; }
@@ -918,7 +919,14 @@
     #ilm-kitab-chapter-search-button, #ilm-kitab-open-chapter { width: 100%; }
     #ilm-kitab-view > .ibadah-form-grid { grid-template-columns: minmax(0, 1fr); }
     .kitab-book-card { padding: 15px !important; }
+    #ilm-kitab-view.has-query #ilm-kitab-title, #ilm-kitab-view.has-query #ilm-kitab-description { display: none; }
+    #ilm-kitab-view.has-query #ilm-kitab-search-form { position: sticky; top: 112px; z-index: 5; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 10px; border-color: rgb(224 122 36 / .24); background: rgb(255 253 248 / .96); box-shadow: 0 7px 18px rgb(var(--shadow-ink) / .1); backdrop-filter: blur(10px); }
+    #ilm-kitab-view.has-query #ilm-kitab-search-form > .ibadah-field:first-child { grid-column: 1; grid-row: 1; }
+    #ilm-kitab-view.has-query #ilm-kitab-search-form > .ibadah-field:nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
+    #ilm-kitab-view.has-query #ilm-kitab-search-form > .ibadah-status { grid-column: 1 / -1; grid-row: 3; min-height: 0; }
+    #ilm-kitab-view.has-query #ilm-kitab-search-button { grid-column: 2; grid-row: 1; width: auto; min-width: 82px; min-height: 46px; align-self: end; padding-inline: 12px; }
   }
+  @media (min-width: 521px) and (max-width: 640px) { #ilm-kitab-view.has-query #ilm-kitab-search-form { top: 64px; } }
   @media (max-width: 520px) { #ilm-panel .ilm-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 380px) {
     #ilm-panel .panel-body { padding-inline: 12px; }
