@@ -228,7 +228,9 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     $('ilm-kitab-query').placeholder = isEnglish() ? 'Example: fiqh, Nawawi' : 'Contoh: fikih, Nawawi';
     $('ilm-kitab-category-label').textContent = isEnglish() ? 'Category' : 'Kategori';
     $('ilm-kitab-search-button').textContent = isEnglish() ? 'Search books' : 'Cari kitab';
+    $('ilm-kitab-catalog-heading').textContent = isEnglish() ? 'Browse the collection' : 'Jelajahi koleksi kitab';
     $('ilm-kitab-chapter-query-label').textContent = isEnglish() ? 'Search chapter title' : 'Cari judul bab';
+    $('ilm-kitab-chapters-heading').textContent = isEnglish() ? 'Find a chapter' : 'Telusuri bab';
     $('ilm-kitab-chapter-query').placeholder = isEnglish() ? 'At least 2 characters' : 'Minimal 2 karakter';
     $('ilm-kitab-chapter-search-button').textContent = isEnglish() ? 'Search chapters' : 'Cari bab';
     $('ilm-kitab-chapter-select-label').textContent = isEnglish() ? 'Chapter' : 'Daftar bab';
@@ -237,10 +239,12 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     $('ilm-api-hadith-browse-title').textContent = isEnglish() ? 'Browse by hadith book' : 'Jelajahi berdasarkan kitab hadis';
     $('ilm-api-hadith-title').textContent = isEnglish() ? 'Hadith from Ahmad Sanusi API' : 'Hadis dari API Ahmad Sanusi';
     $('ilm-kitab-title').textContent = isEnglish() ? 'Classical Islamic books' : 'Kitab Kuning';
-    $('ilm-kitab-selected-heading').textContent = isEnglish() ? 'Selected book' : 'Kitab yang dibuka';
+    $('ilm-kitab-selected-heading').textContent = isEnglish() ? 'Your selected book' : 'Kitab pilihan';
+    const detailEmpty = $('ilm-kitab-detail-empty');
+    if (detailEmpty) detailEmpty.textContent = isEnglish() ? 'Choose a book above to see its author and chapter list.' : 'Pilih salah satu kitab di atas untuk melihat pengarang dan daftar bab.';
     $('ilm-kitab-description').textContent = isEnglish()
       ? 'Browse classical books, filter by category, search chapters, and open the original text supplied by the API.'
-      : 'Jelajahi kitab klasik, saring menurut kategori, cari bab, lalu buka isi yang disediakan API.';
+      : 'Cari kitab klasik berdasarkan judul, pengarang, atau kategori. Buka sebuah kitab untuk menelusuri bab dan membaca teksnya.';
     $('ilm-api-hadith-description').textContent = isEnglish()
       ? 'Read a daily hadith, search Indonesian translations, browse books, and open a hadith by number.'
       : 'Baca hadis harian, cari terjemahan Indonesia, jelajahi kitab, dan buka hadis berdasarkan nomor.';
@@ -401,16 +405,20 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     if (!items.length) { container.replaceChildren(node('p', { className: 'ibadah-empty', textContent: labels().noKitab })); return; }
     const cards = items.map((item, index) => {
       const book = makeBookOption(item, index);
-      const card = node('article', { className: 'ibadah-card library-card' });
-      card.append(node('div', { className: 'ibadah-card-head' }, node('span', { className: 'ibadah-badge', textContent: book.label })));
+      const card = node('article', { className: 'ibadah-card library-card kitab-book-card' });
+      const icon = node('span', { className: 'kitab-book-icon', textContent: 'ك', ariaHidden: 'true' });
+      const titles = node('div', { className: 'kitab-book-titles' },
+        node('span', { className: 'kitab-book-kicker', textContent: isEnglish() ? 'CLASSICAL TEXT' : 'KITAB KLASIK' }),
+        node('h4', { className: 'kitab-book-title', textContent: book.label, dir: 'auto' }));
+      card.append(node('div', { className: 'kitab-book-head' }, icon, titles));
       const author = firstText(item, ['pengarang', 'author', 'penulis', 'muallif']);
       const category = firstText(item, ['kategori', 'category']);
       const summary = firstText(item, ['deskripsi', 'description', 'ringkasan', 'summary']);
-      if (author) card.append(node('p', { className: 'ibadah-prose', dir: 'auto' }, node('b', { textContent: isEnglish() ? 'Author: ' : 'Pengarang: ' }), document.createTextNode(author)));
-      if (category) card.append(node('p', { className: 'ibadah-note', textContent: `${isEnglish() ? 'Category' : 'Kategori'}: ${category}` }));
-      if (summary) card.append(node('p', { className: 'ibadah-prose', dir: 'auto', textContent: summary }));
+      if (author) card.append(node('p', { className: 'ibadah-prose kitab-book-author', dir: 'auto' }, node('b', { textContent: isEnglish() ? 'Author: ' : 'Pengarang: ' }), document.createTextNode(author)));
+      if (category) card.append(node('p', { className: 'ibadah-note kitab-book-category', textContent: category }));
+      if (summary) card.append(node('p', { className: 'ibadah-prose kitab-book-summary', dir: 'auto', textContent: summary }));
       const actions = node('div', { className: 'ibadah-actions' });
-      actions.append(makeButton(isEnglish() ? 'Open book' : 'Buka kitab', () => loadKitab(book.slug, item)));
+      actions.append(makeButton(isEnglish() ? 'Read this book' : 'Baca kitab ini', () => loadKitab(book.slug, item), 'pill solid kitab-open-button'));
       card.append(actions);
       return card;
     });
