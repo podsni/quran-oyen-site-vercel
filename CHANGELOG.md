@@ -6,7 +6,7 @@ Perubahan penting pada Quran Oyen dicatat di sini.
 
 - **Konten Hari Ini:** Panel baru menyajikan ayat, Asmaul Husna, doa, dan kutipan dari HouseMuslim. Ayat dapat dibuka di pembaca internal dengan terjemahan Kemenag lokal.
 - **Hadis:** Tab HouseMuslim menambahkan sembilan koleksi, jelajah berhalaman, detail hadis, dan pencarian Arab/Indonesia per kitab. Fitur Hadis, Hadis API Ahmad Sanusi, Kitab Kuning, tafsir, doa/ibadah, dan Gulir Ayat tetap dipertahankan.
-- **Privasi dan ketahanan:** Permintaan hadis dan kata kunci pencarian dikirim ke HouseMuslim; respons yang pernah berhasil dimuat disimpan best-effort di perangkat. Kegagalan layanan tidak menghalangi pembaca Quran.
+- **Privasi dan ketahanan:** Browser menggunakan proxy same-origin yang membatasi endpoint publik HouseMuslim; kata kunci diteruskan ke layanan untuk pencarian dan respons yang pernah berhasil dimuat disimpan best-effort di perangkat. Kegagalan layanan tidak menghalangi pembaca Quran.
 - **Pengembang:** Jalankan tes Node untuk Hadis/Ibadah dan pemeriksaan browser ponsel, lalu `python3 tools/stamp_sw.py` sebelum menerbitkan.
 
 ## 5 November 2026 — Bacaan ibadah lebih nyaman di ponsel dan offline

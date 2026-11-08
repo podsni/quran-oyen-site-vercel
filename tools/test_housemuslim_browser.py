@@ -5,7 +5,7 @@ from urllib.parse import urlparse, parse_qs
 from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('QURAN_TEST_BASE', 'http://127.0.0.1:8765').rstrip('/')
-API = 'https://api.housemuslim.org/api/v1'
+PROXY = '**/api/housemuslim**'
 allow_api = True
 requests = []
 BOOKS = [
@@ -31,8 +31,8 @@ def api_route(route):
     url = route.request.url
     requests.append(url)
     parsed = urlparse(url)
-    path = parsed.path.removeprefix('/api/v1')
     query = parse_qs(parsed.query)
+    path = query.get('path', [''])[0]
     if path == '/daily/today':
         fulfill(route, {'success': True, 'data': {
             'date': '2026-11-08',
@@ -76,7 +76,9 @@ with sync_playwright() as p:
     page = context.new_page()
     errors = []
     page.on('pageerror', lambda error: errors.append(str(error)))
-    page.route(f'{API}/**', api_route)
+    external_api_requests = []
+    page.on('request', lambda request: external_api_requests.append(request.url) if 'api.housemuslim.org' in request.url else None)
+    page.route(PROXY, api_route)
     page.goto(BASE + '/', wait_until='domcontentloaded')
     page.locator('#feature-daily').wait_for(state='visible')
 
@@ -104,7 +106,7 @@ with sync_playwright() as p:
     page.locator('#ilm-housemuslim-query').fill('niat')
     page.locator('#ilm-housemuslim-search-button').click()
     page.wait_for_function("document.querySelector('#ilm-housemuslim-results').innerText.includes('Hadis tentang niat')")
-    assert any('/search?q=niat' in url for url in requests)
+    assert any(parse_qs(urlparse(url).query).get('path') == ['/hadith/books/bukhari/search'] and parse_qs(urlparse(url).query).get('q') == ['niat'] for url in requests)
     assert 'Halaman 1 dari 3' in page.locator('#ilm-housemuslim-page').inner_text()
     page.locator('#ilm-housemuslim-results button').first.click()
     page.wait_for_function("document.querySelector('#ilm-housemuslim-detail').innerText.includes('Sesungguhnya setiap amal')")
@@ -137,6 +139,7 @@ with sync_playwright() as p:
     page.wait_for_function("document.querySelector('#daily-status').innerText.includes('saved on this device')")
     assert 'Sebaik-baik manusia' in page.locator('#daily-content').inner_text()
     assert not errors, errors
+    assert not external_api_requests, external_api_requests
     context.close()
     browser.close()
 

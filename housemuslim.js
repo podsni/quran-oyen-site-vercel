@@ -8,6 +8,15 @@ const el = (tag, props = {}, ...children) => {
   return node;
 };
 const string = (value) => typeof value === 'string' ? value.trim() : '';
+function proxyUrl(url) {
+  const target = new URL(url);
+  const api = new URL(API);
+  if (target.origin !== api.origin || !target.pathname.startsWith(`${api.pathname}/`)) throw new Error('invalid-endpoint');
+  const local = new URL('/api/housemuslim', globalThis.location.origin);
+  local.searchParams.set('path', target.pathname.slice(api.pathname.length));
+  for (const [key, value] of target.searchParams) local.searchParams.append(key, value);
+  return local.toString();
+}
 const pickText = (object, keys) => {
   if (!object || typeof object !== 'object') return '';
   for (const key of keys) {
@@ -47,8 +56,8 @@ async function requestJson(url, { force = false } = {}) {
   const controller = typeof AbortController === 'function' ? new AbortController() : null;
   const timer = controller ? setTimeout(() => controller.abort(), 14000) : 0;
   try {
-    const response = await fetch(url, {
-      method: 'GET', mode: 'cors', credentials: 'omit', signal: controller?.signal,
+    const response = await fetch(proxyUrl(url), {
+      method: 'GET', mode: 'same-origin', credentials: 'omit', signal: controller?.signal,
       headers: { Accept: 'application/json' }, cache: force ? 'reload' : 'default',
     });
     let payload;
