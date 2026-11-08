@@ -12,13 +12,16 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = os.environ.get('BASE_URL', 'http://127.0.0.1:8765').rstrip('/')
 URL = BASE + '/learning-plans.html'
 PLANS = json.loads((ROOT / 'data/learning-plans.json').read_text())['plans']
+SOURCE_PLANS = [plan for plan in PLANS if plan.get('sourceUrl')]
+assert len(SOURCE_PLANS) == 8
+assert all(plan['lessons'] and plan.get('topics') and plan.get('sourceCredit') for plan in SOURCE_PLANS)
 ARTIFACTS = Path(os.environ.get('TEST_ARTIFACTS', '/workspace/quran-learning-test-artifacts'))
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
 
 
 def ready(page):
     page.goto(URL)
-    expect(page.locator('#plan-grid .plan-card')).to_have_count(12)
+    expect(page.locator('#plan-grid .plan-card')).to_have_count(len(PLANS))
 
 
 def navigate(page, fragment):
@@ -52,17 +55,20 @@ with sync_playwright() as p:
         page.locator('#filter-toggle').click()
         expect(page.locator('#filter-panel')).to_be_visible()
         page.locator('#filter-surah').select_option('112')
-        expect(page.locator('#plan-grid .plan-card')).to_have_count(1)
-        expect(page.locator('#plan-grid')).to_contain_text('Al-Ikhlas')
+        surah_plans = [plan for plan in PLANS if 112 in plan['surahs']]
+        expect(page.locator('#plan-grid .plan-card')).to_have_count(len(surah_plans))
+        expect(page.locator('#plan-grid [data-plan-id="al-ikhlas"]')).to_be_visible()
         page.locator('#filter-category').select_option('Tematik')
-        expect(page.locator('#empty-state')).to_be_visible()
-        page.locator('[data-clear-all]').click()
-        expect(page.locator('#plan-grid .plan-card')).to_have_count(12)
+        thematic_plans = [plan for plan in surah_plans if plan['category'] == 'Tematik']
+        expect(page.locator('#plan-grid .plan-card')).to_have_count(len(thematic_plans))
+        page.locator('#clear-filters').click()
+        expect(page.locator('#plan-grid .plan-card')).to_have_count(len(PLANS))
         page.locator('#plan-search').fill('zzzz-no-match')
         expect(page.locator('#empty-state')).to_be_visible()
         page.locator('[data-clear-all]').click()
         page.locator('#plan-sort').select_option('shortest')
-        assert page.locator('#plan-grid .card-meta').first.inner_text().startswith('3 hari')
+        shortest_duration = min(len(plan['lessons']) for plan in PLANS)
+        assert page.locator('#plan-grid .card-meta').first.inner_text().startswith(f'{shortest_duration} hari')
         page.locator('#filter-toggle').click()
         navigate(page, 'diikuti')
         expect(page.locator('#empty-state')).to_contain_text('Perjalananmu')
@@ -127,12 +133,23 @@ with sync_playwright() as p:
         lesson(page,'al-ikhlas',1,2)
         page.screenshot(path=str(ARTIFACTS / f'lesson-{width}.png'))
         if width == 1440:
+            for source_plan in SOURCE_PLANS:
+                navigate(page, f"rencana/{source_plan['id']}")
+                expect(page.locator('#detail-view h1')).to_have_text(source_plan['title'])
+                expect(page.locator('#detail-overview .source-note a')).to_have_attribute('href', source_plan['sourceUrl'])
+                expect(page.locator('#detail-overview .prose')).to_contain_text('Topik yang dibahas')
+                if source_plan.get('purpose'):
+                    expect(page.locator('#detail-overview .prose')).to_contain_text('Tujuan rencana')
+                if source_plan.get('keyVerses'):
+                    expect(page.locator('#detail-overview .prose')).to_contain_text('Ayat kunci')
+                no_overflow(page)
             for plan in PLANS:
                 for day, item in enumerate(plan['lessons'],1):
                     lesson(page,plan['id'],day,len(item['refs']))
                     expect(page.locator('#lesson-view h1')).to_have_text(item['title'])
                     no_overflow(page)
-            print('PASS: all 51 lessons render valid Arabic/Indonesian verses', flush=True)
+            lesson_count = sum(len(plan['lessons']) for plan in PLANS)
+            print(f'PASS: all {lesson_count} lessons render valid Arabic/Indonesian verses', flush=True)
         print(f'PASS: catalogue, filters, notes, progress, sharing, reset and layout at {width}px', flush=True)
         context.close()
 
@@ -188,7 +205,7 @@ with sync_playwright() as p:
     expect(page.locator('#lesson-note')).to_have_value('Tetap belajar saat offline')
     page.locator('#lesson-view [data-complete]').click()
     navigate(page,'jelajahi')
-    expect(page.locator('#plan-grid .plan-card')).to_have_count(12)
+    expect(page.locator('#plan-grid .plan-card')).to_have_count(len(PLANS))
     navigate(page,'rencana/tawakal/hari/1')
     count = len(next(plan for plan in PLANS if plan['id'] == 'tawakal')['lessons'][0]['refs'])
     expect(page.locator('#lesson-view .load-error')).to_have_count(count,timeout=30000)
