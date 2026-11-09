@@ -21,7 +21,7 @@ with sync_playwright() as p:
         assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), f'{label}: horizontal overflow before search'
 
         search.fill('Maha Pemurah')
-        page.wait_for_function("document.querySelector('#gulir-quran-search').value === 'Maha Pemurah' && document.querySelector('#gulir-quran-search').parentElement.parentElement.querySelector('.quran-search-results')?.textContent.includes('Ditemukan')", timeout=30000)
+        page.wait_for_function("document.querySelector('#gulir-search-results')?.textContent.includes('Ditemukan') && document.querySelector('#gulir-search-results')?.getAttribute('aria-busy') === 'false'", timeout=30000)
         hits = page.locator('[data-search-ref]').evaluate_all('(els) => els.map(el => el.dataset.searchRef)')
         assert '1:1' in hits, f'{label}: Indonesian translation search missed Al-Fatihah 1:1: {hits[:10]}'
         assert page.locator('.quran-search-result mark').count() > 0, f'{label}: matched phrase was not highlighted'
@@ -30,19 +30,34 @@ with sync_playwright() as p:
         page.locator('[data-search-ref="2:255"]').wait_for(timeout=10000)
         assert page.locator('[data-search-ref="2:255"] .quran-search-arabic').inner_text().strip()
 
-        search.fill('بسم الله')
-        page.locator('[data-search-ref="1:1"]').wait_for(timeout=30000)
-        assert page.locator('[data-search-ref="1:1"] .quran-search-translation').inner_text()
+        search.fill('بِسْمِ اللَّهِ،')
+        page.wait_for_function("document.querySelector('#gulir-search-results')?.getAttribute('aria-busy') === 'false'", timeout=30000)
+        page.locator('[data-search-ref="1:1"]').wait_for(timeout=10000)
+        statuses = page.locator('.quran-search-status').all_text_contents()
+        assert not any('1 dari 2 kata pencarian' in status for status in statuses), f'{label}: Arabic punctuation was not normalized: {statuses}'
 
-        search.fill('Al Baqara 255')
+        search.fill('Baqarah 255')
         page.locator('[data-search-ref="2:255"]').wait_for(timeout=10000)
         page.locator('[data-search-ref="2:255"]').click()
         page.locator('#reader .verse[data-key="2:255"]').wait_for(timeout=30000)
-        assert page.locator('#reader').is_visible()
+        page.locator('[data-view="library"]').click()
+        search = page.locator('#gulir-quran-search')
+        assert search.input_value() == 'Baqarah 255', f'{label}: search query was lost when returning from the reader'
+        page.wait_for_function("document.querySelector('#gulir-search-results')?.getAttribute('aria-busy') === 'false'", timeout=30000)
+        page.locator('[data-search-ref="2:255"]').wait_for(timeout=10000)
+
+        search.fill('Allah')
+        page.wait_for_function("document.querySelector('#gulir-search-results')?.textContent.includes('menampilkan 20 dari') && document.querySelector('#gulir-search-results')?.getAttribute('aria-busy') === 'false'", timeout=30000)
+        assert page.locator('[data-search-ref]').count() == 20, f'{label}: expected first page of 20 results'
+        more = page.locator('.quran-search-more')
+        more_box = more.bounding_box()
+        assert more_box and more_box['height'] >= 44, f'{label}: load-more touch target is too short'
+        more.click()
+        assert page.locator('[data-search-ref]').count() == 40, f'{label}: load-more did not append the next page'
         assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'), f'{label}: horizontal overflow after opening a search result'
         assert not errors, f'{label}: browser errors: {errors}'
         context.close()
         print(f'{label} search browser tests: ok')
     browser.close()
 
-print('gulir search browser tests: Indonesian text, Arabic, citation, named citation, result navigation, and mobile/desktop layout: ok')
+print('gulir search browser tests: Indonesian, Arabic punctuation, citations, surah aliases, load-more, query restoration, and responsive layout: ok')

@@ -44,3 +44,5 @@ main{height:calc(100% - var(--head) - var(--nav) - env(safe-area-inset-top) - en
 .share-buttons .button{min-height:48px}
 @media(max-width:480px){.share-body{padding-bottom:max(22px,env(safe-area-inset-bottom))}.story-frame{height:min(46dvh,400px);max-width:min(70vw,270px)}.story-controls{gap:14px}.story-themes{flex-wrap:wrap}.story-themes button{min-height:38px}}
 @media(max-height:620px) and (max-width:480px){.story-frame{height:min(42dvh,270px)}}
+
+.quran-search-more{width:100%;min-height:44px}
