@@ -1,3 +1,4 @@
+import { makeShareButton, makeShareUrl } from './share-content.js?v=20261109-share-1';
 const PROXY = '/api/ummahapi';
 const CACHE_KEY = 'quran-oyen.ummahapi.responses.v1';
 const MEMORY_CACHE = new Map();
@@ -148,6 +149,7 @@ export function createDailyContentFeature({ sheets, onNavigate, getSurahs, getAy
   let lang = initialLang === 'en' ? 'en' : 'id';
   let loaded = false;
   let dailyData = null;
+  let dailyDate = '';
   let activeRequest = 0;
   const words = () => DAILY_WORDS[lang];
   sheets.own('daily-panel', { handle: '.panel-head' });
@@ -169,12 +171,13 @@ export function createDailyContentFeature({ sheets, onNavigate, getSurahs, getAy
       setStatus($('daily-status'), dailyData.partial ? words().partial : (dailyData.cached ? words().cached : ''));
     }
   }
-  async function loadDaily(force = false) {
+  async function loadDaily(force = false, dateOverride = '') {
     const ticket = ++activeRequest;
     $('daily-refresh').disabled = true;
     setStatus($('daily-status'), words().loading);
     if (!dailyData) $('daily-content').replaceChildren();
-    const date = jakartaDate();
+    const date = /^\d{4}-\d{2}-\d{2}$/.test(String(dateOverride)) ? String(dateOverride) : jakartaDate();
+    dailyDate = date;
     const [remote, localDua] = await Promise.all([
       requestJson(apiUrl('daily', { date }), { force }).then((result) => ({ result })).catch((error) => ({ error })),
       getLocalDailyDua(date).catch(() => null),
@@ -187,12 +190,12 @@ export function createDailyContentFeature({ sheets, onNavigate, getSurahs, getAy
       const ayah = data.ayah;
       const arabic = pickText(ayah, ['text_uthmani', 'text_arabic', 'arab']);
       if (result && arabic) {
-        dailyData = { data, cached: result.cached, partial: false };
+        dailyData = { data, cached: result.cached, partial: false, date };
         loaded = true;
         await renderDaily(data, result.cached);
         setStatus($('daily-status'), result.cached ? words().cached : '');
       } else if (localDua) {
-        dailyData = { data: { dua: localDua }, cached: true, partial: true };
+        dailyData = { data: { dua: localDua }, cached: true, partial: true, date };
         loaded = false;
         await renderDaily(dailyData.data, true);
         setStatus($('daily-status'), words().partial);
@@ -239,11 +242,16 @@ export function createDailyContentFeature({ sheets, onNavigate, getSurahs, getAy
         ...(reference ? [el('p', { className: 'daily-reference', textContent: reference })] : []));
       if (surahNumber && ayahNumber) {
         const readButton = el('button', { className: 'pill solid', type: 'button', textContent: words().read });
+        const shareButton = makeShareButton({
+          title: `${reference || `QS. ${surahNumber}:${ayahNumber}`} · Ayat · Quran Oyen`,
+          text: [ayahArabic, translation && `Terjemahan Kemenag RI: ${translation}`, 'Sumber: Tanzil Project · terjemahan Kementerian Agama RI.'].filter(Boolean).join('\n\n'),
+          url: makeShareUrl({ surah: surahNumber, ayah: ayahNumber }),
+        }, { className: 'pill', label: 'Bagikan ayat' });
         readButton.addEventListener('click', () => {
           sheets.close('daily-panel');
           onNavigate?.(surahNumber, ayahNumber, 'reader');
         });
-        ayahCard.append(el('div', { className: 'daily-actions' }, readButton));
+        ayahCard.append(el('div', { className: 'daily-actions' }, readButton, shareButton));
       }
       sections.push(ayahCard);
     }
@@ -261,7 +269,14 @@ export function createDailyContentFeature({ sheets, onNavigate, getSurahs, getAy
         if (englishMeaning) card.append(el('p', { className: 'daily-reference', textContent: words().englishMeaning }));
         card.append(el('p', { className: 'daily-translation', lang: englishMeaning ? 'en' : 'id', textContent: meaning }));
       }
-      if (card.children.length > 1) sections.push(card);
+      if (card.children.length > 1) {
+        card.append(el('div', { className: 'daily-actions' }, makeShareButton({
+          title: `${transliteration || asmaName || words().asma} · Quran Oyen`,
+          text: [asmaName, transliteration, meaning && `Makna: ${meaning}`, 'Sumber: Konten Hari Ini · Quran Oyen.'].filter(Boolean).join('\n\n'),
+          url: makeShareUrl({ share: 'daily', date: dailyDate || jakartaDate() }),
+        }, { className: 'pill', label: 'Bagikan' })));
+        sections.push(card);
+      }
     }
 
     const dua = data?.dua && typeof data.dua === 'object' ? data.dua : null;
@@ -277,7 +292,14 @@ export function createDailyContentFeature({ sheets, onNavigate, getSurahs, getAy
       if (meaning) card.append(el('p', { className: 'daily-translation', lang: 'id', textContent: meaning }));
       const source = pickText(dua, ['source']);
       if (source) card.append(el('p', { className: 'daily-reference', textContent: source }));
-      if (card.children.length > 1) sections.push(card);
+      if (card.children.length > 1) {
+        card.append(el('div', { className: 'daily-actions' }, makeShareButton({
+          title: `${title || words().dua} · Quran Oyen`,
+          text: [title, arabic, latin && `Latin: ${latin}`, meaning && `Makna: ${meaning}`, source && `Sumber: ${source}`].filter(Boolean).join('\n\n'),
+          url: makeShareUrl({ share: 'daily', date: dailyDate || jakartaDate() }),
+        }, { className: 'pill', label: 'Bagikan doa' })));
+        sections.push(card);
+      }
     }
 
     const quote = data?.quote && typeof data.quote === 'object' ? data.quote : null;
@@ -291,16 +313,38 @@ export function createDailyContentFeature({ sheets, onNavigate, getSurahs, getAy
       if (text) card.append(el('p', { className: 'daily-reference', textContent: words().englishText }), el('p', { className: 'daily-translation', lang: 'en', textContent: `“${text}”` }));
       if (author) card.append(el('p', { className: 'daily-reference', textContent: author }));
       if (grade) card.append(el('p', { className: 'daily-reference', textContent: `${words().grade}: ${grade}` }));
-      if (card.children.length > 1) sections.push(card);
+      if (card.children.length > 1) {
+        card.append(el('div', { className: 'daily-actions' }, makeShareButton({
+          title: `${words().quote} · Quran Oyen`,
+          text: [arabic, text && `Kutipan: “${text}”`, author && `Sumber: ${author}`, grade && `Derajat: ${grade}`].filter(Boolean).join('\n\n'),
+          url: makeShareUrl({ share: 'daily', date: dailyDate || jakartaDate() }),
+        }, { className: 'pill', label: 'Bagikan kutipan' })));
+        sections.push(card);
+      }
     } else if (typeof data?.quote === 'string' && data.quote.trim()) {
-      sections.push(el('article', { className: 'daily-item daily-quote' }, el('h3', { textContent: words().quote }), el('p', { className: 'daily-translation', textContent: `“${data.quote.trim()}”` })));
+      const card = el('article', { className: 'daily-item daily-quote' }, el('h3', { textContent: words().quote }), el('p', { className: 'daily-translation', textContent: `“${data.quote.trim()}”` }));
+      card.append(el('div', { className: 'daily-actions' }, makeShareButton({
+        title: `${words().quote} · Quran Oyen`,
+        text: `“${data.quote.trim()}”\n\nSumber: UmmahAPI.`,
+        url: makeShareUrl({ share: 'daily', date: dailyDate || jakartaDate() }),
+      }, { className: 'pill', label: 'Bagikan kutipan' })));
+      sections.push(card);
     }
 
     $('daily-content').replaceChildren(...sections);
     $('daily-source').textContent = words().source;
   }
   updateText();
-  return { relang(nextLang) { lang = nextLang === 'en' ? 'en' : 'id'; updateText(); } };
+  return {
+    async openShared(date = '') {
+      sheets.open('daily-panel');
+      const requested = /^\d{4}-\d{2}-\d{2}$/.test(String(date)) ? String(date) : '';
+      if (requested && requested !== dailyDate) { dailyData = null; loaded = false; }
+      if (!loaded) await loadDaily(Boolean(requested), requested);
+      $('daily-content').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    },
+    relang(nextLang) { lang = nextLang === 'en' ? 'en' : 'id'; updateText(); },
+  };
 }
 
 const BOOK_NAMES = {
@@ -394,7 +438,12 @@ export function createUmmahApiHadithFeature({ initialLang = 'id' } = {}) {
       if (grade) card.append(el('p', { className: 'ibadah-reference', textContent: `${words().grade}: ${grade}` }));
       const button = el('button', { className: 'pill', type: 'button', textContent: words().open, disabled: !number });
       button.addEventListener('click', () => number && loadDetail(number));
-      card.append(el('div', { className: 'ibadah-actions' }, button));
+      const share = number ? makeShareButton({
+        title: `${name} · Hadis ${number} · Quran Oyen`,
+        text: [arabic, english && `Teks Inggris: ${english}`, grade && `Derajat: ${grade}`, words().source].filter(Boolean).join('\n\n'),
+        url: makeShareUrl({ share: 'ummah-hadith', collection: activeBook, number }),
+      }, { className: 'pill', label: 'Bagikan hadis' }) : null;
+      card.append(el('div', { className: 'ibadah-actions' }, button, ...(share ? [share] : [])));
       return card;
     }));
   }
@@ -424,7 +473,12 @@ export function createUmmahApiHadithFeature({ initialLang = 'id' } = {}) {
         setStatus($('ilm-ummah-detail-status'), words().copied);
       } catch { setStatus($('ilm-ummah-detail-status'), words().copyFailed, true); }
     });
-    card.append(el('div', { className: 'ibadah-actions' }, copyButton));
+    const shareButton = makeShareButton({
+      title: `${name} · Hadis ${number} · Quran Oyen`,
+      text: [arabic, english && `Teks Inggris: ${english}`, grade && `Derajat: ${grade}`, words().source].filter(Boolean).join('\n\n'),
+      url: makeShareUrl({ share: 'ummah-hadith', collection: activeBook, number }),
+    }, { className: 'pill', label: 'Bagikan hadis' });
+    card.append(el('div', { className: 'ibadah-actions' }, copyButton, shareButton));
     container._item = item;
     container.replaceChildren(card);
   }
@@ -530,9 +584,23 @@ export function createUmmahApiHadithFeature({ initialLang = 'id' } = {}) {
     }
   }
   function activate(tab) {
-    if (tab !== 'ummahapi') return;
-    if (!booksLoaded) loadBooks();
-    else if (!$('ilm-ummah-results')._items?.length) loadItems();
+    if (tab !== 'ummahapi') return Promise.resolve();
+    if (!booksLoaded) return loadBooks();
+    if (!$('ilm-ummah-results')._items?.length) return loadItems();
+    return Promise.resolve();
+  }
+  async function openShared(collection, number) {
+    await loadBooks();
+    if (!books.some((item) => item.slug === String(collection)) || !hadithNumber(number)) return;
+    activeBook = String(collection);
+    $('ilm-ummah-book').value = activeBook;
+    $('ilm-ummah-query').value = '';
+    searchResults = null;
+    searchCache = null;
+    page = 1;
+    renderBookOptions();
+    await loadDetail(String(number));
+    $('ilm-ummah-detail').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
   $('ilm-ummah-book').addEventListener('change', () => {
     activeBook = $('ilm-ummah-book').value;
@@ -563,6 +631,7 @@ export function createUmmahApiHadithFeature({ initialLang = 'id' } = {}) {
   $('ilm-ummah-page').textContent = '';
   return {
     activate,
+    openShared,
     setLanguage(nextLang) {
       lang = nextLang === 'en' ? 'en' : 'id';
       updateText();

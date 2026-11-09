@@ -94,7 +94,12 @@ with sync_playwright() as p:
     assert page.locator('#daily-content .daily-dua .daily-translation').first.get_attribute('lang') == 'id'
     assert 'UmmahAPI' in page.locator('#daily-source').inner_text()
     assert page.locator('#daily-content .daily-translation').first.get_attribute('lang') == 'id'
-    page.locator('#daily-content .daily-ayah button').click()
+    page.locator('#daily-content .daily-ayah button[aria-label="Bagikan ayat"]').click()
+    preview = page.locator('.share-content-dialog textarea').input_value()
+    assert 'Ayat' in page.locator('.share-content-dialog h2').inner_text()
+    assert 'surah=1' in preview and 'ayah=1' in preview
+    page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
+    page.locator('#daily-content .daily-ayah button.pill.solid').click()
     page.locator('#reader-view').wait_for(state='visible')
     current_url = urlparse(page.url)
     assert current_url.netloc == urlparse(BASE).netloc and current_url.path == '/', page.url
@@ -113,6 +118,11 @@ with sync_playwright() as p:
     page.locator('#ilm-ummah-results button').first.click()
     page.wait_for_function("document.querySelector('#ilm-ummah-detail').innerText.includes('every person will have what they intended')")
     assert 'Teks hadis lengkap' in page.locator('#ilm-ummah-detail').inner_text()
+    page.locator('#ilm-ummah-detail button[aria-label="Bagikan hadis"]').click()
+    hadith_preview = page.locator('.share-content-dialog textarea').input_value()
+    assert 'Bukhari' in hadith_preview and 'share=ummah-hadith' in hadith_preview
+    assert 'collection=bukhari' in hadith_preview and 'number=1' in hadith_preview
+    page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
     page.locator('#ilm-ummah-next').click()
     page.wait_for_function("document.querySelector('#ilm-ummah-page').innerText.includes('Halaman 2')")
 

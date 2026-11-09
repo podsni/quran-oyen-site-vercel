@@ -1,3 +1,4 @@
+import { makeShareButton, makeShareUrl } from './share-content.js?v=20261109-share-1';
 const HADITH_BOOKS = [
   'shahih_bukhari', 'shahih_muslim', 'sunan_abu_daud', 'sunan_tirmidzi',
   'sunan_nasai', 'sunan_ibnu_majah', 'musnad_ahmad', 'musnad_syafii',
@@ -104,7 +105,7 @@ function recordBody(record) {
   }
   return { arabic, translation };
 }
-function renderTextCard(container, record, heading, sourceLabel = '') {
+function renderTextCard(container, record, heading, sourceLabel = '', shareInfo = null) {
   const data = findRecord(record);
   const card = node('article', { className: 'ibadah-card library-card' });
   if (heading) card.append(node('h4', { className: 'library-card-title', textContent: heading }));
@@ -118,6 +119,14 @@ function renderTextCard(container, record, heading, sourceLabel = '') {
     if (fallback) card.append(labeledLine('Isi', fallback[1]));
   }
   if (sourceLabel) card.append(node('p', { className: 'ibadah-note library-source', textContent: sourceLabel }));
+  if (shareInfo?.params) {
+    const parts = [arabic, translation && `Terjemahan / isi: ${translation}`, sourceLabel && `Sumber: ${sourceLabel}`].filter(Boolean);
+    card.append(node('div', { className: 'ibadah-actions' }, makeShareButton({
+      title: shareInfo.title || `${heading || 'Bacaan'} · Quran Oyen`,
+      text: parts.join('\n\n'),
+      url: makeShareUrl(shareInfo.params),
+    }, { className: 'pill', label: shareInfo.label || 'Bagikan' })));
+  }
   container.replaceChildren(card);
 }
 function metadataLine(item, skip = []) {
@@ -260,7 +269,11 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     const number = firstText(record, NUMBER_KEYS);
     const book = firstText(record, ['nama_kitab', 'kitab', 'kitab_name', 'collection_name']);
     const heading = [book, number ? `No. ${number}` : ''].filter(Boolean).join(' · ') || labels().daily;
-    renderTextCard($('ilm-api-hadith-daily'), record, heading, labels().source);
+    renderTextCard($('ilm-api-hadith-daily'), record, heading, labels().source, {
+      title: `${heading} · Hadis · Quran Oyen`,
+      params: { share: 'hadith-api-daily' },
+      label: 'Bagikan hadis',
+    });
   }
 
   function renderBookOptions(select, list, { includeAll = false } = {}) {
@@ -298,8 +311,14 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
         if (text) card.append(labeledLine(isEnglish() ? 'Text' : 'Teks', text));
       }
       const slug = firstText(item, ['kitab', 'kitab_slug', 'slug', 'book_slug']);
+      const shareBook = slug || $('ilm-api-hadith-book').value || $('ilm-api-hadith-search-book').value;
       const actions = node('div', { className: 'ibadah-actions' });
       actions.append(makeButton(isEnglish() ? 'Open' : 'Buka', () => onOpen({ item, number: num, slug })));
+      actions.append(makeShareButton({
+        title: `${title} · Hadis · Quran Oyen`,
+        text: [body.arabic, body.translation && `Terjemahan: ${body.translation}`, 'Sumber: Ahmad Sanusi Open API.'].filter(Boolean).join('\n\n'),
+        url: makeShareUrl({ share: 'hadith-api', ...(shareBook ? { book: shareBook } : {}), number: num }),
+      }, { className: 'pill', label: 'Bagikan hadis' }));
       card.append(actions);
       return card;
     });
@@ -351,7 +370,11 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
       const payload = await fetchData('hadits-detail', { kitab: book, nomor: number });
       const record = findRecord(payload, ['hadits', 'hadith', 'detail', 'item', 'record']);
       const title = `${titleOf(hadithCatalog.find((item, index) => slugOf(item, HADITH_BOOKS[index] || '') === book), book)} · No. ${number}`;
-      renderTextCard($('ilm-api-hadith-detail'), record, title, labels().source);
+      renderTextCard($('ilm-api-hadith-detail'), record, title, labels().source, {
+        title: `${title} · Hadis · Quran Oyen`,
+        params: { share: 'hadith-api', book, number },
+        label: 'Bagikan hadis',
+      });
       setStatus('ilm-api-hadith-detail-status', '');
     } catch { setStatus('ilm-api-hadith-detail-status', labels().unavailable, true); }
   }
@@ -422,6 +445,11 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
       if (summary) card.append(node('p', { className: 'ibadah-prose kitab-book-summary', dir: 'auto', textContent: summary }));
       const actions = node('div', { className: 'ibadah-actions' });
       actions.append(makeButton(isEnglish() ? 'Read this book' : 'Baca kitab ini', () => loadKitab(book.slug, item), 'pill solid kitab-open-button'));
+      actions.append(makeShareButton({
+        title: `${book.label} · Kitab Kuning · Quran Oyen`,
+        text: [author && `${isEnglish() ? 'Author' : 'Pengarang'}: ${author}`, category, summary, 'Sumber: Ahmad Sanusi Open API.'].filter(Boolean).join('\n\n'),
+        url: makeShareUrl({ share: 'kitab', slug: book.slug }),
+      }, { className: 'pill', label: 'Bagikan kitab' }));
       card.append(actions);
       return card;
     });
@@ -544,6 +572,11 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
       if (summary) metadata.append(node('p', { className: 'ibadah-prose', textContent: summary }));
       const meta = metadataLine(record);
       if (meta) metadata.append(node('p', { className: 'ibadah-note', textContent: meta }));
+      metadata.append(node('div', { className: 'ibadah-actions' }, makeShareButton({
+        title: `${detailName} · Kitab Kuning · Quran Oyen`,
+        text: [author && `${isEnglish() ? 'Author' : 'Pengarang'}: ${author}`, summary, meta, labels().source].filter(Boolean).join('\n\n'),
+        url: makeShareUrl({ share: 'kitab', slug }),
+      }, { className: 'pill', label: 'Bagikan kitab' })));
       $('ilm-kitab-detail').replaceChildren(metadata);
       chapterResults = findChapters(payload);
       showChapters();
@@ -576,7 +609,11 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
       const payload = await fetchData('kitab-chapter', { slug: selectedKitab, nomor: number });
       const record = findRecord(payload, ['bab', 'chapter', 'detail', 'item', 'record']);
       const title = chapterTitle(chapterResults.find((item, index) => chapterNumber(item, index) === number), Number(number) - 1);
-      renderTextCard($('ilm-kitab-chapter-results'), record, title, labels().source);
+      renderTextCard($('ilm-kitab-chapter-results'), record, title, labels().source, {
+        title: `${title} · Kitab Kuning · Quran Oyen`,
+        params: { share: 'kitab', slug: selectedKitab, chapter: number },
+        label: 'Bagikan bab',
+      });
       setStatus('ilm-kitab-chapter-status', '');
     } catch { setStatus('ilm-kitab-chapter-status', labels().unavailable, true); }
   }
@@ -589,6 +626,30 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
     if (tab === 'kitab' && !kitabStarted) {
       kitabStarted = true;
       await Promise.all([loadKitabCategories(), searchKitabBooks()]);
+    }
+  }
+
+  async function openSharedHadith(book, number) {
+    if (!/^[a-z0-9_-]+$/i.test(String(book)) || !/^\d+$/.test(String(number)) || Number(number) < 1) return;
+    const select = $('ilm-api-hadith-book');
+    if (![...select.options].some((option) => option.value === String(book))) return;
+    select.value = String(book);
+    $('ilm-api-hadith-number').value = String(number);
+    await loadHadithDetail(String(book), String(number));
+    $('ilm-api-hadith-detail').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+  async function openSharedDaily() {
+    $('ilm-api-hadith-daily').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+  async function openSharedKitab(slug, chapter = '') {
+    if (!/^[a-z0-9_-]+$/i.test(String(slug))) return;
+    const item = kitabCatalog.find((candidate, index) => slugOf(candidate, HADITH_BOOKS[index] || '') === String(slug)) || null;
+    await loadKitab(String(slug), item);
+    if (/^\d+$/.test(String(chapter)) && Number(chapter) > 0
+      && [...$('ilm-kitab-chapter-select').options].some((option) => option.value === String(chapter))) {
+      $('ilm-kitab-chapter-select').value = String(chapter);
+      await loadChapter();
+      $('ilm-kitab-chapter-results').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
   }
 
@@ -619,6 +680,9 @@ export function createAhmadSanusiFeatures({ initialLang = 'id' } = {}) {
 
   return {
     activate,
+    openSharedHadith,
+    openSharedDaily,
+    openSharedKitab,
     setLanguage(nextLang) { lang = nextLang === 'en' ? 'en' : 'id'; updateLabels(); },
   };
 }

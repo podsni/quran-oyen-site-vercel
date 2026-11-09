@@ -1,3 +1,4 @@
+import { makeShareButton, makeShareUrl } from './share-content.js?v=20261109-share-1';
 const API = 'https://equran.id';
 const CACHE_DB = 'quran-oyen-islamic-api';
 const CACHE_STORE = 'responses';
@@ -225,6 +226,53 @@ export function normalizeAladhanCalendar(payload) {
     }),
   };
 }
+const SHARED_PRAYER_KEYS = ['imsak', 'subuh', 'terbit', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
+export function encodeSharedPrayerSchedule(jadwal) {
+  if (!Array.isArray(jadwal) || !jadwal.length || jadwal.length > 31) return '';
+  const rows = jadwal.map((entry) => {
+    const date = /-(\d{2})$/.exec(String(entry?.tanggal_lengkap ?? ''));
+    const day = String(date?.[1] ?? entry?.tanggal ?? '').padStart(2, '0');
+    if (!/^\d{2}$/.test(day) || Number(day) < 1 || Number(day) > 31) return '';
+    const values = SHARED_PRAYER_KEYS.map((key) => {
+      const match = /^(\d{1,2}):([0-5]\d)/.exec(String(entry?.[key] ?? '').trim());
+      if (!match || Number(match[1]) > 23) return '---';
+      const minutes = Number(match[1]) * 60 + Number(match[2]);
+      return minutes.toString(36).padStart(3, '0');
+    });
+    return `${day}${values.join('')}`;
+  });
+  return rows.some((row) => !row) ? '' : rows.join('.');
+}
+export function decodeSharedPrayerSchedule(value, month) {
+  const match = /^(\d{4})-(\d{2})$/.exec(String(month));
+  if (!match || !/^[0-9a-z.\-]{1,900}$/i.test(String(value ?? ''))) return null;
+  const year = Number(match[1]);
+  const monthNumber = Number(match[2]);
+  if (year < 1900 || year > 2100 || monthNumber < 1 || monthNumber > 12) return null;
+  const daysInMonth = new Date(year, monthNumber, 0).getDate();
+  const rows = String(value).split('.');
+  if (!rows.length || rows.length > daysInMonth) return null;
+  const seen = new Set();
+  const jadwal = [];
+  for (const row of rows) {
+    if (row.length !== 2 + SHARED_PRAYER_KEYS.length * 3) return null;
+    const day = Number(row.slice(0, 2));
+    if (day < 1 || day > daysInMonth || seen.has(day)) return null;
+    seen.add(day);
+    const tanggal = String(day).padStart(2, '0');
+    const entry = { tanggal, tanggal_lengkap: `${match[1]}-${match[2]}-${tanggal}` };
+    for (let index = 0; index < SHARED_PRAYER_KEYS.length; index += 1) {
+      const code = row.slice(2 + index * 3, 5 + index * 3);
+      if (code === '---') { entry[SHARED_PRAYER_KEYS[index]] = '—'; continue; }
+      if (!/^[0-9a-z]{3}$/i.test(code)) return null;
+      const minutes = Number.parseInt(code, 36);
+      if (!Number.isFinite(minutes) || minutes < 0 || minutes >= 1440) return null;
+      entry[SHARED_PRAYER_KEYS[index]] = `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+    }
+    jadwal.push(entry);
+  }
+  return jadwal;
+}
 function vectorResults(payload) {
   if (payload?.status !== 'sukses' || !Array.isArray(payload.hasil)) throw new Error(payload?.message || 'Format hasil pencarian tidak valid.');
   return payload.hasil;
@@ -337,6 +385,7 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
       $(`doa-${type}-prev`).textContent = w.previous;
       $(`doa-${type}-next`).textContent = w.next;
       $(`doa-${type}-copy`).textContent = w.copy;
+      $(`doa-${type}-share`).textContent = lang === 'id' ? 'Bagikan bacaan' : 'Share reading';
       $(`doa-${type}-latin-label`).textContent = w.readLatin;
       $(`doa-${type}-meaning-label`).textContent = w.meaning;
     }
@@ -497,7 +546,12 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
         open.addEventListener('click', () => { sheets.close('vector-search'); onNavigate(surahNumber, ayahNumber, type === 'tafsir' ? 'tafsir' : 'open'); });
         const play = el('button', { type: 'button', className: 'pill solid', textContent: w.playAyah });
         play.addEventListener('click', () => { sheets.close('vector-search'); onNavigate(surahNumber, ayahNumber, 'play'); });
-        actions.append(open, play);
+        const share = makeShareButton({
+          title: `${surahName || `QS. ${surahNumber}`} · Ayat ${ayahNumber}${type === 'tafsir' ? ' · Tafsir' : ''} · Quran Oyen`,
+          text: [arabic && String(arabic), latin && `${w.latin}: ${latin}`, translation && `${w.translation}: ${translation}`, 'Sumber: EQuran.id Vector Search.'].filter(Boolean).join('\n\n'),
+          url: makeShareUrl({ surah: surahNumber, ayah: ayahNumber, ...(type === 'tafsir' ? { tafsir: '1' } : {}) }),
+        }, { className: 'pill', label: type === 'tafsir' ? 'Bagikan tafsir' : 'Bagikan ayat' });
+        actions.append(open, play, share);
         card.append(actions);
       }
       container.append(card);
@@ -561,6 +615,13 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
         card.append(more);
       }
       if (Array.isArray(item.tag) && item.tag.length) card.append(el('p', { className: 'ibadah-tags' }, el('b', { textContent: `${w.tags}: ` }), item.tag.map((tag) => `#${tag}`).join(' ')));
+      card.dataset.shareId = item.id == null ? '' : String(item.id);
+      const shareText = [item.nama, item.ar, item.tr && `${w.readLatin}: ${item.tr}`, item.idn && `${w.meaning}: ${item.idn}`, item.grup && `Kategori: ${item.grup}`, item.tentang && `Keterangan: ${item.tentang}`].filter(Boolean).join('\n\n');
+      card.append(el('div', { className: 'ibadah-actions' }, makeShareButton({
+        title: `${item.nama || w.doaPanel} · Quran Oyen`,
+        text: shareText,
+        url: makeShareUrl({ share: 'doa', id: item.id, tab: activeReadingTab }),
+      }, { className: 'pill', label: activeReadingTab === 'wirid' ? 'Bagikan wirid' : 'Bagikan doa' })));
       fragment.append(card);
     }
     if (shown) list.append(fragment);
@@ -594,6 +655,25 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     $(`doa-${type}-next`).disabled = index === items.length - 1;
     const sourceNames = Array.isArray(reading.sources) ? reading.sources.map((source) => source.name).filter(Boolean).join(' · ') : '';
     $(`doa-${type}-source`).textContent = [sourceNames && `${lang === 'id' ? 'Sumber' : 'Source'}: ${sourceNames}`, reading.sourceNote].filter(Boolean).join('. ');
+    const shareButton = $(`doa-${type}-share`);
+    if (!shareButton.dataset.shareReady) {
+      const ready = makeShareButton(() => {
+        const current = localReadingData[type]?.items?.[localReadingIndexes[type]];
+        const currentReading = localReadingData[type];
+        const currentSources = Array.isArray(currentReading?.sources) ? currentReading.sources.map((source) => source.name).filter(Boolean).join(' · ') : '';
+        return {
+          title: `${current?.title || (type === 'maulid' ? text().maulidTitle : text().tahlilTitle)} · Quran Oyen`,
+          text: [current?.title, current?.ar, current?.latin && `${text().readLatin}: ${current.latin}`, current?.idn && `${text().meaning}: ${current.idn}`, currentSources && `Sumber: ${currentSources}`, currentReading?.sourceNote].filter(Boolean).join('\n\n'),
+          url: makeShareUrl({ share: 'reading', type, section: localReadingIndexes[type] }),
+        };
+      }, { className: 'pill reading-share', label: lang === 'id' ? 'Bagikan bacaan' : 'Share reading' });
+      ready.id = `doa-${type}-share`;
+      ready.dataset.shareReady = 'true';
+      shareButton.replaceWith(ready);
+    } else {
+      shareButton.textContent = lang === 'id' ? 'Bagikan bacaan' : 'Share reading';
+      shareButton.setAttribute('aria-label', shareButton.textContent);
+    }
   }
 
   async function loadLocalReading(type) {
@@ -663,8 +743,8 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
       const select = $('prayer-province');
       setOptions(select, text().chooseProvince, provinces, location.province);
       select.disabled = false;
-      if (coordinateLocation) {
-        // Keep the GPS-selected schedule and its status while manual locations load in the background.
+      if (coordinateLocation || schedule?.sharedSnapshot) {
+        // Keep a GPS or shared snapshot schedule visible while manual locations load.
       } else if (location.province && provinces.includes(location.province)) {
         await loadCities(location.province, location.city);
       } else {
@@ -673,11 +753,11 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
         $('prayer-city').disabled = true;
         setStatus(status, text().chooseLocation);
       }
-      if (response.cached && !coordinateLocation) setStatus(status, text().cached);
+      if (response.cached && !coordinateLocation && !schedule?.sharedSnapshot) setStatus(status, text().cached);
       return response;
     }).catch(() => {
       provinceRequest = null;
-      setStatus(status, text().prayerError, true);
+      if (!schedule?.sharedSnapshot) setStatus(status, text().prayerError, true);
       return null;
     });
     return provinceRequest;
@@ -797,6 +877,9 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     const target = $('prayer-results');
     target.replaceChildren();
     if (!schedule || !Array.isArray(schedule.jadwal)) return;
+    if (schedule.sharedSnapshot && schedule.sharedPlace) {
+      target.append(el('p', { className: 'ibadah-status', textContent: `${lang === 'id' ? 'Jadwal untuk' : 'Schedule for'}: ${schedule.sharedPlace}` }));
+    }
     const today = dateKey(new Date());
     const todaySchedule = schedule.jadwal.find((entry) => entry.tanggal_lengkap === today);
     if (todaySchedule) {
@@ -835,7 +918,27 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     scroll.append(table);
     details.append(scroll);
     target.append(details);
-    if (scheduleCached) target.append(el('p', { className: 'ibadah-status' }, w.cached));
+    const place = schedule.sharedPlace || (schedule.coordinateBased
+      ? (schedule.sharedSnapshot
+        ? (lang === 'id' ? 'Berdasarkan lokasi pengirim (koordinat tidak dibagikan)' : 'Based on sender location (coordinates not shared)')
+        : (lang === 'id' ? 'Lokasi saat ini (koordinat tidak dicantumkan)' : 'Current location (coordinates omitted)'))
+      : [schedule.kabkota || location.city, schedule.provinsi || location.province].filter(Boolean).join(', '));
+    const monthKey = `${selectedMonth.getFullYear()}-${String(selectedMonth.getMonth() + 1).padStart(2, '0')}`;
+    const scheduleText = schedule.jadwal.map((entry) => {
+      const day = entry.tanggal_lengkap || entry.tanggal || '';
+      const timesText = columns.map(({ key, name }) => `${name}: ${entry[key] ?? '—'}`).join(' · ');
+      return `${day} — ${timesText}`;
+    }).join('\n');
+    target.append(el('div', { className: 'ibadah-actions' }, makeShareButton({
+      title: `${w.monthSchedule} · ${place || 'Quran Oyen'}`,
+      text: [place && `Lokasi: ${place}`, `${w.monthSchedule} (${monthKey})`, scheduleText, w.source].filter(Boolean).join('\n\n'),
+      url: makeShareUrl({ share: 'prayer-times', month: monthKey, schedule: encodeSharedPrayerSchedule(schedule.jadwal), mode: schedule.coordinateBased ? 'coordinate' : 'city', place }),
+    }, { className: 'pill', label: lang === 'id' ? 'Bagikan jadwal' : 'Share schedule' })));
+    if (schedule.sharedSnapshot) {
+      target.append(el('p', { className: 'ibadah-status', textContent: lang === 'id'
+        ? 'Jadwal ini disertakan dalam tautan berbagi. Pilih lokasi Anda untuk memuat ulang jadwal berdasarkan tempat Anda.'
+        : 'This schedule is embedded in the shared link. Choose your location to refresh times for your area.' }));
+    } else if (scheduleCached) target.append(el('p', { className: 'ibadah-status' }, w.cached));
   }
 
   function renderMonthLabel() {
@@ -889,10 +992,63 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     else { $('prayer-results').replaceChildren(); setStatus($('prayer-status'), text().chooseLocation); }
   });
 
+  async function openShared({ kind, type = '', id = '', tab = '', section = '', month = '', schedule: sharedSchedule = '', mode = '', place = '' } = {}) {
+    if (kind === 'doa') {
+      sheets.open('doa-panel');
+      setReadingTab(tab === 'wirid' ? 'wirid' : 'doa');
+      $('doa-search').value = '';
+      if (!doaEntries.length) await loadDoa();
+      updateDoaCategories();
+      $('doa-category').value = '';
+      renderDoa();
+      const card = [...$('doa-list').children].find((item) => id && item.dataset.shareId === String(id));
+      card?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      return;
+    }
+    if (kind === 'reading' && ['maulid', 'tahlil'].includes(type)) {
+      sheets.open('doa-panel');
+      setReadingTab(type);
+      await loadLocalReading(type);
+      const index = Number(section);
+      if (Number.isInteger(index) && index >= 0 && index < (localReadingData[type]?.items?.length || 0)) localReadingIndexes[type] = index;
+      renderLocalReading(type);
+      $(`doa-${type}-view`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      return;
+    }
+    if (kind === 'prayer-times') {
+      sheets.open('shalat-panel');
+      const match = /^(\d{4})-(\d{2})$/.exec(String(month));
+      if (match && Number(match[2]) >= 1 && Number(match[2]) <= 12) {
+        selectedMonth = new Date(Number(match[1]), Number(match[2]) - 1, 1);
+        renderMonthLabel();
+      }
+      const monthKey = `${selectedMonth.getFullYear()}-${String(selectedMonth.getMonth() + 1).padStart(2, '0')}`;
+      const sharedRows = decodeSharedPrayerSchedule(sharedSchedule, monthKey);
+      if (sharedRows) {
+        const safePlace = String(place ?? '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 120);
+        schedule = {
+          jadwal: sharedRows,
+          coordinateBased: mode === 'coordinate',
+          sharedSnapshot: true,
+          sharedPlace: safePlace || (lang === 'id' ? 'Jadwal dari tautan berbagi' : 'Shared schedule'),
+        };
+        scheduleCached = false;
+        renderSchedule();
+        if (!provinces.length) void loadProvinces();
+        setStatus($('prayer-status'), lang === 'id' ? 'Jadwal dibuka dari tautan berbagi; koordinat GPS tidak disertakan.' : 'Opened from a shared link; no GPS coordinates were included.');
+      } else if (hasPrayerLocation()) {
+        await loadPrayerSchedule();
+      } else {
+        if (!provinces.length) void loadProvinces();
+        setStatus($('prayer-status'), text().chooseLocation);
+      }
+    }
+  }
+
   function relang(newLang) {
     lang = newLang === 'en' ? 'en' : 'id';
     setPanelText();
   }
   relang('id');
-  return { relang };
+  return { relang, openShared };
 }

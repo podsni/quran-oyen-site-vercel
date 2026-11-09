@@ -1,5 +1,6 @@
-import { createAhmadSanusiFeatures } from './ahmad-sanusi.js?v=20261108-kitab-1';
-import { createUmmahApiHadithFeature } from './ummahapi.js?v=20261108-ummahapi-2';
+import { createAhmadSanusiFeatures } from './ahmad-sanusi.js?v=20261109-share-1';
+import { createUmmahApiHadithFeature } from './ummahapi.js?v=20261109-share-1';
+import { makeShareButton, makeShareUrl } from './share-content.js?v=20261109-share-1';
 
 const FAWAZ_API = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
 const CACHE_DB = 'quran-oyen-hadith-v1';
@@ -536,8 +537,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
       $(buttonId).setAttribute('aria-pressed', String(activeTab === key));
       $(viewId).hidden = activeTab !== key;
     }
-    extraFeatures?.activate(activeTab);
-    ummahApiFeatures?.activate(activeTab);
+    return Promise.all([extraFeatures?.activate(activeTab), ummahApiFeatures?.activate(activeTab)]);
   }
 
   async function open() {
@@ -620,6 +620,11 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     const actions = el('div', { className: 'ibadah-actions' });
     const hadithUrl = `https://ummahapi.com/api/hadith/${encodeURIComponent(item.collection)}/${encodeURIComponent(item.number)}`;
     actions.append(makeSaveButton(item));
+    actions.append(makeShareButton({
+      title: `${item.collectionName} · ${item.number} · Hadis · Quran Oyen`,
+      text: [item.arabic, item.indonesian && `Terjemahan Indonesia: ${item.indonesian}`, item.english && `Teks Inggris: ${item.english}`, item.grade && `Derajat pada sumber: ${item.grade}`, `Sumber: Hadith API / Fawaz melalui Quran Oyen${item.sourceUrl ? ` · ${item.sourceUrl}` : ''}`].filter(Boolean).join('\n\n'),
+      url: makeShareUrl({ share: 'hadith', collection: item.collection, number: item.number }),
+    }, { className: 'pill', label: 'Bagikan hadis' }));
     actions.append(makeLink(item.sourceUrl || hadithUrl, lang === 'id' ? 'Sumber hadis' : 'Hadith source'));
     if (item.arabicUrl) actions.append(makeLink(item.arabicUrl, lang === 'id' ? 'Edisi Arab' : 'Arabic edition'));
     if (item.indonesianUrl) actions.append(makeLink(item.indonesianUrl, lang === 'id' ? 'Edisi Indonesia' : 'Indonesian edition'));
@@ -685,7 +690,11 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
         setStatus($('ilm-detail-status'), words().savedOffline);
         $('ilm-detail').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       });
-      actions.append(openButton, makeSaveButton(item));
+      actions.append(openButton, makeSaveButton(item), makeShareButton({
+        title: `${item.collectionName} · ${item.number} · Hadis · Quran Oyen`,
+        text: [item.arabic, item.indonesian && `Terjemahan Indonesia: ${item.indonesian}`, item.english && `Teks Inggris: ${item.english}`, item.grade && `Derajat pada sumber: ${item.grade}`, 'Sumber: Hadith API / Fawaz.'].filter(Boolean).join('\n\n'),
+        url: makeShareUrl({ share: 'hadith', collection: item.collection, number: item.number }),
+      }, { className: 'pill', label: 'Bagikan hadis' }));
       card.append(actions);
       return card;
     }));
@@ -772,6 +781,11 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
         grade: isGlobal ? item.grade ?? '' : '',
       };
       actions.append(makeSaveButton(savedRecord));
+      actions.append(makeShareButton({
+        title: `${savedRecord.collectionName} · ${number} · Hadis · Quran Oyen`,
+        text: [savedRecord.arabic, savedRecord.indonesian && `Terjemahan Indonesia: ${savedRecord.indonesian}`, savedRecord.english && `Teks Inggris: ${savedRecord.english}`, savedRecord.grade && `Derajat pada sumber: ${savedRecord.grade}`, 'Sumber: Hadith API / Fawaz.'].filter(Boolean).join('\n\n'),
+        url: makeShareUrl({ share: 'hadith', collection, number }),
+      }, { className: 'pill', label: 'Bagikan hadis' }));
       const detail = el('button', { type: 'button', className: 'pill', textContent: w.openDetail });
       detail.addEventListener('click', () => {
         $('ilm-book').value = collection;
@@ -812,6 +826,29 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     onNavigate(number, 1, 'tafsir');
   }
 
+  async function openShared({ kind, collection = '', number = '', book = '', slug = '', chapter = '' } = {}) {
+    await open();
+    if (kind === 'hadith' && collectionFor(collection) && /^\d+(?:\.\d+)?$/.test(String(number))) {
+      await setTab('hadith');
+      $('ilm-book').value = collection;
+      $('ilm-number').value = String(number);
+      await loadDetail(collection, String(number));
+      $('ilm-detail').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    } else if (kind === 'hadith-api') {
+      await setTab('hadithApi');
+      await extraFeatures?.openSharedHadith(book, number);
+    } else if (kind === 'hadith-api-daily') {
+      await setTab('hadithApi');
+      await extraFeatures?.openSharedDaily();
+    } else if (kind === 'ummah-hadith') {
+      await setTab('ummahapi');
+      await ummahApiFeatures?.openShared(collection, number);
+    } else if (kind === 'kitab') {
+      await setTab('kitab');
+      await extraFeatures?.openSharedKitab(slug, chapter);
+    }
+  }
+
   extraFeatures = createAhmadSanusiFeatures({ initialLang: lang });
   ummahApiFeatures = createUmmahApiHadithFeature({ initialLang: lang });
   $('ilm-tabs').addEventListener('click', (event) => {
@@ -837,6 +874,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
 
   return {
     open,
+    openShared,
     relang(nextLang) {
       lang = nextLang === 'en' ? 'en' : 'id';
       updateStaticText();

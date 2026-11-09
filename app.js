@@ -12,9 +12,10 @@ import { faceSVG, MOODS } from './vendor/oyen-face-d00ce3e/oyen-face.js';
 import { createNetworkPanel, networkText } from './network.js?v=9b5457c';
 import * as track from './track.js?v=9b5457c';
 import { audioForQari, getEquranSurah, getEquranSurahs, getEquranTafsir, QARIS } from './equran.js';
-import { createIbadahFeatures } from './ibadah.js?v=20261105-ibadah-2';
-import { createDailyContentFeature } from './ummahapi.js?v=20261108-ummahapi-2';
-import { createIlmFeatures } from './hadith-tafsir.js?v=20261108-ummahapi-2';
+import { createIbadahFeatures } from './ibadah.js?v=20261109-share-1';
+import { createDailyContentFeature } from './ummahapi.js?v=20261109-share-1';
+import { createIlmFeatures } from './hadith-tafsir.js?v=20261109-share-1';
+import { makeShareButton, makeShareUrl } from './share-content.js?v=20261109-share-1';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...children) => {
@@ -407,12 +408,25 @@ function createReaderTools(n) {
   ayahSelect.append(...Array.from({ length: count }, (_, i) => el('option', { value: String(i + 1), textContent: text.ayah(i + 1) })));
   const playButton = el('button', { type: 'button', className: 'btn', textContent: text.playAyah, disabled: true });
   const verseLabel = el('span', { className: 'equran-verse-label', textContent: text.verseLabel });
+  const shareVerse = makeShareButton(() => {
+    const ayahNumber = Number(ayahSelect.value) || 1;
+    const words = view?.n === n ? view.data.ayat[ayahNumber - 1] ?? [] : [];
+    const arabic = words.map(shownWord).join(' ');
+    const latin = words.map((word) => word[6] || '').filter(Boolean).join(' ');
+    const translation = view?.n === n ? String(view.trans?.ayat?.[ayahNumber - 1] ?? '') : '';
+    const name = index[n - 1]?.latin ?? `Surah ${n}`;
+    return {
+      title: `${name} ${n}:${ayahNumber} · Quran Oyen`,
+      text: [arabic, latin && `Latin: ${latin}`, translation && `Terjemahan Kemenag RI: ${translation}`, `QS. ${name} (${n}:${ayahNumber})`, 'Teks Arab: Tanzil Project · Terjemahan: Kemenag RI melalui Tanzil (non-komersial).'].filter(Boolean).join('\n\n'),
+      url: makeShareUrl({ surah: n, ayah: ayahNumber }),
+    };
+  }, { className: 'pill', label: 'Bagikan ayat' });
   const autoNext = el('input', { type: 'checkbox', checked: store.get('autoNext', false) });
   const autoText = document.createTextNode(text.autoNext);
   const autoLabel = el('label', { className: 'equran-autonext' }, autoNext, autoText);
   const verseRow = el('div', { className: 'equran-verse' }, ayahSelect, playButton, autoLabel);
   const status = el('p', { className: 'equran-status', role: 'status', textContent: text.loading });
-  node.append(heading, qariWrap, tafsirButton, fullLabel, player, verseLabel, verseRow, status);
+  node.append(heading, qariWrap, tafsirButton, fullLabel, player, verseLabel, verseRow, shareVerse, status);
 
   const ui = {
     n, node, qariSelect, player, ayahSelect, playButton, autoNext, status, mode: 'full', cached: false,
@@ -599,7 +613,12 @@ function openTafsir(n, focusAyah = 0) {
       };
       const open = el('button', { type: 'button', className: 'pill', textContent: et('openAyah') });
       open.onclick = () => { if (view?.n === n) { sheets.close('tafsir'); goToAyah(n, item.ayat - 1, 0); } };
-      actions.append(play, open);
+      const share = makeShareButton({
+        title: `${et('tafsir')} · ${meta?.latin ?? n} ${n}:${item.ayat} · Quran Oyen`,
+        text: `${plainApiText(item.teks)}\n\nSumber: EQuran.id API · tafsir Kementerian Agama RI.`,
+        url: makeShareUrl({ surah: n, ayah: item.ayat, tafsir: 1 }),
+      }, { className: 'pill', label: 'Bagikan tafsir' });
+      actions.append(play, open, share);
       entry.append(prose, actions);
       list.append(entry);
       return entry;
@@ -2165,6 +2184,23 @@ function warm() {
 // ---------- start ----------
 
 let basmala = '';
+async function openSharedRoute(params) {
+  const kind = params.get('share');
+  if (['hadith', 'hadith-api', 'hadith-api-daily', 'ummah-hadith', 'kitab'].includes(kind)) {
+    await ilmUI?.openShared({
+      kind,
+      collection: params.get('collection') || '',
+      book: params.get('book') || '',
+      number: params.get('number') || '',
+      slug: params.get('slug') || '',
+      chapter: params.get('chapter') || '',
+    });
+  } else if (kind === 'doa' || kind === 'reading' || kind === 'prayer-times') {
+    await ibadahUI?.openShared({ kind, type: params.get('type') || '', id: params.get('id') || '', tab: params.get('tab') || '', section: params.get('section') || '', month: params.get('month') || '', schedule: params.get('schedule') || '', mode: params.get('mode') || '', place: params.get('place') || '' });
+  } else if (kind === 'daily') {
+    await dailyUI?.openShared(params.get('date') || '');
+  }
+}
 async function start() {
   // The first screen (a surah's own address counts when it opens), then how this visit opened: the installed app or a
   // browser tab, and the settings it came with.
@@ -2189,8 +2225,16 @@ async function start() {
     $('intro-basmala').textContent = basmala;
     syncSize();
   }).catch(() => {});
+  const params = new URLSearchParams(location.search);
+  const sharedSurah = Number(params.get('surah'));
+  const sharedAyah = Number(params.get('ayah'));
   const m = /^#s(\d{1,3})$/.exec(location.hash);
-  if (m && Number(m[1]) >= 1 && Number(m[1]) <= 114) {
+  if (sharedSurah >= 1 && sharedSurah <= 114 && sharedAyah >= 1) {
+    if (params.get('tafsir') === '1') openApiResult(sharedSurah, sharedAyah, 'tafsir');
+    else goToAyah(sharedSurah, sharedAyah - 1, 0);
+  } else if (params.has('share')) {
+    openSharedRoute(params).catch(() => {});
+  } else if (m && Number(m[1]) >= 1 && Number(m[1]) <= 114) {
     const n = Number(m[1]);
     const last = store.get('last', null);
     // Opened again on the surah it was left on (a reload, or the installed app coming back): back to that ayah.

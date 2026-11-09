@@ -49,6 +49,10 @@ def main() -> None:
             page.locator('#ilm-api-hadith-query').fill('niat')
             page.locator('#ilm-api-hadith-search-button').click()
             page.get_by_text('Amal bergantung pada niat.', exact=False).first.wait_for(timeout=15000)
+            page.locator('#ilm-api-hadith-search-results button[aria-label="Bagikan hadis"]').click()
+            hadith_preview = page.locator('.share-content-dialog textarea').input_value()
+            assert 'share=hadith-api' in hadith_preview and 'book=shahih_bukhari' in hadith_preview and 'number=1' in hadith_preview
+            page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
             page.locator('#ilm-api-hadith-search-results button').first.click()
             page.get_by_text('Hadis lengkap dari kitab yang dipilih.').wait_for(timeout=15000)
             page.locator('#ilm-tab-kitab').click()
@@ -59,6 +63,10 @@ def main() -> None:
             page.locator('#ilm-kitab-chapter-search-button').click()
             page.locator('#ilm-kitab-open-chapter').click()
             page.get_by_text('Bab ini membahas bersuci.').wait_for(timeout=15000)
+            page.locator('#ilm-kitab-chapter-results button[aria-label="Bagikan bab"]').click()
+            chapter_preview = page.locator('.share-content-dialog textarea').input_value()
+            assert 'share=kitab' in chapter_preview and 'slug=fathul-qarib' in chapter_preview and 'chapter=1' in chapter_preview
+            page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
             overflow = page.evaluate('document.documentElement.scrollWidth > window.innerWidth')
             assert not overflow, 'Horizontal overflow on a 360px viewport.'
             assert not errors, f'Browser errors: {errors}'

@@ -2,6 +2,7 @@
 """Mobile browser regression for local worship readings, hadith, and prayer times."""
 import datetime as dt
 import os
+from urllib.parse import urlparse
 from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('QURAN_TEST_BASE', 'http://127.0.0.1:8000').rstrip('/')
@@ -64,6 +65,10 @@ with sync_playwright() as p:
     assert source_entry.locator('.dua-source-text').is_visible()
     assert 'Nabi Shallallahu' in source_entry.inner_text()
     assert 'tidak menyertakan teks doa Arab' in source_entry.inner_text()
+    source_entry.locator('button[aria-label="Bagikan doa"]').click()
+    dua_preview = page.locator('.share-content-dialog textarea').input_value()
+    assert 'share=doa' in dua_preview and 'Bila Ada Sesuatu Yang Menggembirakan' in dua_preview
+    page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
 
     page.locator('#doa-tab-wirid').click()
     page.wait_for_function("document.querySelectorAll('#doa-list .dua-card').length > 0")
@@ -80,6 +85,10 @@ with sync_playwright() as p:
     page.locator('#doa-maulid-select').select_option('18')
     assert '19 dari 19' in page.locator('#doa-maulid-progress').inner_text()
     assert page.locator('#doa-maulid-ar').inner_text().strip()
+    page.locator('#doa-maulid-share').click()
+    maulid_preview = page.locator('.share-content-dialog textarea').input_value()
+    assert 'share=reading' in maulid_preview and 'type=maulid' in maulid_preview and 'section=18' in maulid_preview
+    page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
 
     page.locator('#doa-tab-tahlil').click()
     page.locator('#doa-tahlil-view').wait_for(state='visible')
@@ -110,12 +119,32 @@ with sync_playwright() as p:
     assert 'method=20' in calendar_requests[0]
     assert 'timezonestring=Asia%2FJakarta' in calendar_requests[0]
     assert not page.evaluate("Object.keys(localStorage).some((key) => key.includes('prayer-location'))")
+    page.locator('#prayer-results button[aria-label="Bagikan jadwal"]').click()
+    gps_preview = page.locator('.share-content-dialog textarea').input_value()
+    assert 'mode=coordinate' in gps_preview
+    assert '-6.2' not in gps_preview and '106.8167' not in gps_preview
+    page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
     page.locator('#prayer-province').select_option('DKI Jakarta')
     page.wait_for_function("!document.querySelector('#prayer-city').disabled")
     page.locator('#prayer-city').select_option('Jakarta Selatan')
     page.wait_for_function("document.querySelector('#prayer-status').textContent.includes('EQuran.id')")
     assert page.locator('#prayer-results .prayer-time').count() == 8
     assert 'Dhuha' in page.locator('#prayer-results').inner_text()
+    page.locator('#prayer-results button[aria-label="Bagikan jadwal"]').click()
+    prayer_preview = page.locator('.share-content-dialog textarea').input_value()
+    assert 'share=prayer-times' in prayer_preview and 'Jakarta Selatan' in prayer_preview
+    assert 'schedule=' in prayer_preview
+    assert '-6.2' not in prayer_preview and '106.8167' not in prayer_preview
+    page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
+    shared_url = prayer_preview.strip().splitlines()[-1]
+    shared_query = urlparse(shared_url).query
+    assert shared_query and len(shared_query) < 1200, f'Share URL should remain compact: {len(shared_query)} characters.'
+    page.evaluate("localStorage.removeItem('quran-oyen-prayer-location')")
+    page.goto(BASE + '/?' + shared_query, wait_until='domcontentloaded')
+    page.locator('#shalat-panel').wait_for(state='visible')
+    page.wait_for_function("document.querySelectorAll('#prayer-results .prayer-time').length === 8")
+    assert 'Jakarta Selatan' in page.locator('#prayer-results').inner_text()
+    assert not page.evaluate("localStorage.getItem('quran-oyen-prayer-location')")
     assert not errors, errors
     context.close()
     browser.close()
