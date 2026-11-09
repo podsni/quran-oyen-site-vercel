@@ -187,7 +187,7 @@ function drawPage(ctx, verse, page, pageNo, pageCount, palette, reference, surah
   ctx.direction = 'ltr';
   setFont(ctx, 17, 'system-ui, sans-serif', 600);
   ctx.fillStyle = palette.ink;
-  ctx.fillText('alquran.bangundwir.my.id', WIDTH / 2, 1712);
+  ctx.fillText('quran-oyen-site.vercel.app', WIDTH / 2, 1712);
   setFont(ctx, 14, 'system-ui, sans-serif', 400);
   ctx.fillStyle = palette.muted;
   ctx.fillText(includeLatin ? 'Teks: Tanzil  ·  Terjemahan: Kemenag RI  ·  Latin: Quranic Arabic Corpus/EQuran.id' : 'Teks: Tanzil  ·  Terjemahan Kemenag RI (non-komersial)', WIDTH / 2, 1745, 870);

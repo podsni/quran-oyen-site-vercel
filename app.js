@@ -16,7 +16,7 @@ import { createIbadahFeatures } from './ibadah.js?v=20261109-share-1';
 import { createDailyContentFeature } from './ummahapi.js?v=20261109-share-1';
 import { createIlmFeatures } from './hadith-tafsir.js?v=20261109-share-1';
 import { makeShareButton, makeShareUrl } from './share-content.js?v=20261109-share-1';
-
+import { renderStoryCards } from './gulir-share.js?v=20261109-story-share-1';
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...children) => {
   const node = Object.assign(document.createElement(tag), props);
@@ -390,6 +390,235 @@ const et = (key, ...args) => {
   return typeof value === 'function' ? value(...args) : value;
 };
 
+let quranStoryUI = null;
+let quranStoryVerse = null;
+let quranStoryTheme = 'forest';
+let quranStoryPage = 0;
+let quranStoryBlobs = [];
+let quranStoryUrls = [];
+let quranStoryRenderRun = 0;
+
+function quranVerseSnapshot(s, a) {
+  const words = view?.n === s ? view.data.ayat[a - 1] ?? [] : [];
+  const translation = view?.n === s ? String(view.trans?.ayat?.[a - 1] ?? '') : '';
+  const name = index[s - 1]?.latin ?? `Surah ${s}`;
+  return {
+    s, a, name,
+    arabic: words.map(shownWord).join(' '),
+    latin: words.map((word) => word[6] || '').filter(Boolean).join(' '),
+    translation,
+    url: makeShareUrl({ surah: s, ayah: a }),
+  };
+}
+
+function quranVerseSharePayload(s, a) {
+  const verse = quranVerseSnapshot(s, a);
+  return {
+    title: `${verse.name} ${s}:${a} · Quran Oyen`,
+    text: [verse.arabic, verse.latin && `Latin: ${verse.latin}`, verse.translation && `Terjemahan Kemenag RI: ${verse.translation}`, `QS. ${verse.name} (${s}:${a})`, 'Teks Arab: Tanzil Project · Terjemahan: Kemenag RI melalui Tanzil (non-komersial).'].filter(Boolean).join('\n\n'),
+    url: verse.url,
+  };
+}
+
+async function loadQuranStoryVerse(s, a) {
+  const data = view?.n === s ? view.data : await loadSurah(s);
+  const words = data.ayat?.[a - 1] ?? [];
+  if (!words.length) throw new Error('Ayat tidak tersedia.');
+  let translation = view?.n === s ? view.trans?.ayat?.[a - 1] : '';
+  if (!translation) {
+    try { translation = (await loadTrans(s)).ayat?.[a - 1] ?? ''; } catch { /* ayat and text share remain available */ }
+  }
+  return {
+    s, a,
+    name: index[s - 1]?.latin ?? `Surah ${s}`,
+    arabic: words.map(shownWord).join(' '),
+    latin: words.map((word) => word[6] || '').filter(Boolean).join(' '),
+    translation: String(translation ?? '').trim(),
+    url: makeShareUrl({ surah: s, ayah: a }),
+  };
+}
+
+function clearQuranStoryImages() {
+  for (const url of quranStoryUrls) URL.revokeObjectURL(url);
+  quranStoryUrls = [];
+  quranStoryBlobs = [];
+  quranStoryPage = 0;
+  if (quranStoryUI) {
+    quranStoryUI.image.removeAttribute('src');
+    quranStoryUI.image.hidden = true;
+    quranStoryUI.previewStatus.hidden = false;
+    quranStoryUI.pager.hidden = true;
+    quranStoryUI.shareButton.disabled = true;
+    quranStoryUI.downloadButton.disabled = true;
+  }
+}
+
+function quranStoryDialog() {
+  if (quranStoryUI) return quranStoryUI;
+  const dialog = el('dialog', { className: 'quran-story-dialog' });
+  dialog.setAttribute('aria-labelledby', 'quran-story-title');
+  const title = el('h2', { id: 'quran-story-title', textContent: 'Bagikan ayat ke Story' });
+  const close = el('button', { type: 'button', className: 'quran-story-close', textContent: 'Tutup', ariaLabel: 'Tutup kartu Story' });
+  close.onclick = () => { if (typeof dialog.close === 'function') dialog.close(); else dialog.removeAttribute('open'); };
+  const header = el('header', { className: 'quran-story-head' },
+    el('div', {}, el('span', { className: 'quran-story-eyebrow', textContent: 'KARTU VERTIKAL 9:16' }), title), close);
+  const image = el('img', { className: 'quran-story-image', alt: 'Pratinjau kartu ayat untuk Story', hidden: true });
+  const previewStatus = el('p', { className: 'quran-story-preview-status', role: 'status', textContent: 'Menyiapkan gambar ayat…' });
+  const preview = el('div', { className: 'quran-story-preview' }, image, previewStatus);
+  const pageLabel = el('span', { textContent: '' });
+  const prev = el('button', { type: 'button', className: 'quran-story-page', textContent: '‹', ariaLabel: 'Gambar sebelumnya', disabled: true });
+  const next = el('button', { type: 'button', className: 'quran-story-page', textContent: '›', ariaLabel: 'Gambar berikutnya', disabled: true });
+  const pager = el('div', { className: 'quran-story-pager', hidden: true }, prev, pageLabel, next);
+  const latin = el('input', { type: 'checkbox' });
+  const latinLabel = el('label', { className: 'quran-story-latin' }, latin, el('span', { textContent: 'Sertakan transliterasi Latin' }));
+  const themes = el('div', { className: 'quran-story-themes', role: 'group' });
+  themes.setAttribute('aria-label', 'Pilih tema kartu');
+  const themeLabels = { forest: 'Hening', paper: 'Kertas', dusk: 'Senja' };
+  for (const [theme, label] of Object.entries(themeLabels)) {
+    const choice = el('button', { type: 'button', className: `quran-story-theme theme-${theme}`, ariaPressed: String(theme === quranStoryTheme) },
+      el('i', { className: `quran-story-dot theme-${theme}`, ariaHidden: 'true' }), label);
+    choice.onclick = () => {
+      quranStoryTheme = theme;
+      for (const option of themes.children) option.setAttribute('aria-pressed', String(option === choice));
+      void refreshQuranStoryPreview();
+    };
+    themes.append(choice);
+  }
+  latin.onchange = () => { void refreshQuranStoryPreview(); };
+  prev.onclick = () => showQuranStoryPage(quranStoryPage - 1);
+  next.onclick = () => showQuranStoryPage(quranStoryPage + 1);
+  const shareButton = el('button', { type: 'button', className: 'pill solid', textContent: 'Bagikan gambar ke Story / Status', disabled: true });
+  const whatsappButton = el('button', { type: 'button', className: 'pill', textContent: 'Teks + tautan via WhatsApp' });
+  const downloadButton = el('button', { type: 'button', className: 'pill', textContent: 'Unduh gambar', disabled: true });
+  const status = el('p', { className: 'quran-story-status', role: 'status', ariaLive: 'polite' });
+  const note = el('p', { className: 'quran-story-note', textContent: 'Jika WhatsApp Status atau Instagram Story tidak muncul di menu berbagi, unduh gambar lalu unggah dari aplikasi tersebut.' });
+  const actions = el('div', { className: 'quran-story-actions' }, shareButton, whatsappButton, downloadButton);
+  const body = el('div', { className: 'quran-story-body' },
+    el('p', { className: 'quran-story-intro', textContent: 'Pratinjau gambar ayat siap pakai. Teks Arab dan terjemahan ditata dalam kartu vertikal untuk dibagikan.' }),
+    preview, pager,
+    el('div', { className: 'quran-story-controls' }, latinLabel, themes),
+    actions, status, note);
+  dialog.append(header, body);
+  document.body.append(dialog);
+  quranStoryUI = { dialog, title, image, previewStatus, pager, pageLabel, prev, next, latin, shareButton, whatsappButton, downloadButton, status };
+
+  shareButton.onclick = () => { void shareQuranStoryImage(); };
+  downloadButton.onclick = () => downloadQuranStoryImage();
+  whatsappButton.onclick = () => shareQuranVerseText();
+  dialog.addEventListener('close', () => {
+    quranStoryRenderRun++;
+    quranStoryVerse = null;
+    clearQuranStoryImages();
+  });
+  return quranStoryUI;
+}
+
+async function refreshQuranStoryPreview() {
+  if (!quranStoryVerse) return;
+  const ui = quranStoryDialog();
+  const ticket = ++quranStoryRenderRun;
+  clearQuranStoryImages();
+  ui.previewStatus.textContent = 'Menyiapkan gambar ayat…';
+  ui.status.textContent = '';
+  try {
+    const blobs = await renderStoryCards(quranStoryVerse, { includeLatin: ui.latin.checked, theme: quranStoryTheme });
+    if (ticket !== quranStoryRenderRun || !ui.dialog.open) return;
+    quranStoryBlobs = blobs;
+    quranStoryUrls = blobs.map((blob) => URL.createObjectURL(blob));
+    ui.previewStatus.hidden = true;
+    ui.image.hidden = false;
+    ui.image.src = quranStoryUrls[0];
+    ui.image.alt = `Pratinjau kartu ${quranStoryVerse.name} ${quranStoryVerse.s}:${quranStoryVerse.a}`;
+    ui.pager.hidden = blobs.length < 2;
+    ui.pageLabel.textContent = `Gambar 1 dari ${blobs.length}`;
+    ui.prev.disabled = true;
+    ui.next.disabled = blobs.length < 2;
+    ui.shareButton.disabled = false;
+    ui.downloadButton.disabled = false;
+  } catch {
+    if (ticket !== quranStoryRenderRun) return;
+    ui.previewStatus.hidden = false;
+    ui.previewStatus.textContent = 'Gambar belum bisa dibuat. Coba lagi saat ayat dan terjemahan tersedia.';
+    ui.status.textContent = 'Teks ayat tetap bisa dibagikan melalui tombol WhatsApp.';
+  }
+}
+
+function showQuranStoryPage(page) {
+  if (page < 0 || page >= quranStoryBlobs.length || !quranStoryUI) return;
+  quranStoryPage = page;
+  quranStoryUI.image.src = quranStoryUrls[page];
+  quranStoryUI.image.alt = `Pratinjau gambar ${page + 1} dari ${quranStoryBlobs.length}, ${quranStoryVerse.name} ${quranStoryVerse.s}:${quranStoryVerse.a}`;
+  quranStoryUI.pageLabel.textContent = `Gambar ${page + 1} dari ${quranStoryBlobs.length}`;
+  quranStoryUI.prev.disabled = page === 0;
+  quranStoryUI.next.disabled = page === quranStoryBlobs.length - 1;
+}
+
+async function openQuranStory(getVerse) {
+  const ui = quranStoryDialog();
+  const ticket = ++quranStoryRenderRun;
+  quranStoryVerse = null;
+  clearQuranStoryImages();
+  ui.title.textContent = 'Bagikan ayat ke Story';
+  ui.previewStatus.hidden = false;
+  ui.previewStatus.textContent = 'Memuat ayat…';
+  ui.status.textContent = '';
+  if (!ui.dialog.open) {
+    if (typeof ui.dialog.showModal === 'function') ui.dialog.showModal();
+    else ui.dialog.setAttribute('open', '');
+  }
+  try {
+    const verse = await getVerse();
+    if (ticket !== quranStoryRenderRun || !ui.dialog.open) return;
+    quranStoryVerse = verse;
+    ui.title.textContent = `${verse.name} ${verse.s}:${verse.a}`;
+    await refreshQuranStoryPreview();
+  } catch {
+    if (ticket !== quranStoryRenderRun) return;
+    ui.previewStatus.textContent = 'Ayat belum bisa dimuat. Periksa koneksi lalu coba lagi.';
+  }
+}
+
+function makeQuranStoryButton(getVerse, label = 'Kartu Story 9:16') {
+  const b = el('button', { type: 'button', className: 'pill', textContent: label });
+  b.onclick = () => { void openQuranStory(getVerse); };
+  return b;
+}
+
+function downloadQuranStoryImage() {
+  const blob = quranStoryBlobs[quranStoryPage];
+  if (!blob || !quranStoryVerse) return;
+  const url = URL.createObjectURL(blob);
+  const a = el('a', { href: url, download: `quran-oyen-${quranStoryVerse.s}-${quranStoryVerse.a}-story${quranStoryBlobs.length > 1 ? `-${quranStoryPage + 1}` : ''}.png` });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  quranStoryUI.status.textContent = 'Gambar tersimpan. Unggah ke Instagram Story atau Status WhatsApp.';
+}
+
+async function shareQuranStoryImage() {
+  const blob = quranStoryBlobs[quranStoryPage];
+  if (!blob || !quranStoryVerse) return;
+  try {
+    const file = new File([blob], `quran-oyen-${quranStoryVerse.s}-${quranStoryVerse.a}-story-${quranStoryPage + 1}.png`, { type: 'image/png' });
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file], title: `QS. ${quranStoryVerse.name} ${quranStoryVerse.s}:${quranStoryVerse.a}`, text: `${quranStoryVerse.name} ${quranStoryVerse.s}:${quranStoryVerse.a}\n${quranStoryVerse.url}` });
+      quranStoryUI.status.textContent = 'Gambar dibagikan. Pilih Instagram Story atau Status WhatsApp jika tersedia.';
+      return;
+    }
+  } catch (error) {
+    if (error?.name === 'AbortError') return;
+  }
+  downloadQuranStoryImage();
+}
+
+function shareQuranVerseText() {
+  if (!quranStoryVerse) return;
+  const { arabic, latin, translation, name, s, a, url } = quranStoryVerse;
+  const text = [arabic, quranStoryUI.latin.checked && latin ? `Latin: ${latin}` : '', translation && `Terjemahan Kemenag RI: ${translation}`, `QS. ${name} (${s}:${a})`, 'Teks Arab: Tanzil Project · Terjemahan: Kemenag RI melalui Tanzil (non-komersial).', url].filter(Boolean).join('\n\n');
+  globalThis.open?.(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+}
+
 function createReaderTools(n) {
   const text = EQURAN_TEXT[settings.lang];
   const node = el('div', { className: 'equran-tools' });
@@ -408,25 +637,15 @@ function createReaderTools(n) {
   ayahSelect.append(...Array.from({ length: count }, (_, i) => el('option', { value: String(i + 1), textContent: text.ayah(i + 1) })));
   const playButton = el('button', { type: 'button', className: 'btn', textContent: text.playAyah, disabled: true });
   const verseLabel = el('span', { className: 'equran-verse-label', textContent: text.verseLabel });
-  const shareVerse = makeShareButton(() => {
-    const ayahNumber = Number(ayahSelect.value) || 1;
-    const words = view?.n === n ? view.data.ayat[ayahNumber - 1] ?? [] : [];
-    const arabic = words.map(shownWord).join(' ');
-    const latin = words.map((word) => word[6] || '').filter(Boolean).join(' ');
-    const translation = view?.n === n ? String(view.trans?.ayat?.[ayahNumber - 1] ?? '') : '';
-    const name = index[n - 1]?.latin ?? `Surah ${n}`;
-    return {
-      title: `${name} ${n}:${ayahNumber} · Quran Oyen`,
-      text: [arabic, latin && `Latin: ${latin}`, translation && `Terjemahan Kemenag RI: ${translation}`, `QS. ${name} (${n}:${ayahNumber})`, 'Teks Arab: Tanzil Project · Terjemahan: Kemenag RI melalui Tanzil (non-komersial).'].filter(Boolean).join('\n\n'),
-      url: makeShareUrl({ surah: n, ayah: ayahNumber }),
-    };
-  }, { className: 'pill', label: 'Bagikan ayat' });
+  const shareVerse = makeShareButton(() => quranVerseSharePayload(n, Number(ayahSelect.value) || 1), { className: 'pill', label: 'Bagikan ayat' });
+  const shareStory = makeQuranStoryButton(() => loadQuranStoryVerse(n, Number(ayahSelect.value) || 1));
+  const shareTools = el('div', { className: 'equran-share-tools' }, shareVerse, shareStory);
   const autoNext = el('input', { type: 'checkbox', checked: store.get('autoNext', false) });
   const autoText = document.createTextNode(text.autoNext);
   const autoLabel = el('label', { className: 'equran-autonext' }, autoNext, autoText);
   const verseRow = el('div', { className: 'equran-verse' }, ayahSelect, playButton, autoLabel);
   const status = el('p', { className: 'equran-status', role: 'status', textContent: text.loading });
-  node.append(heading, qariWrap, tafsirButton, fullLabel, player, verseLabel, verseRow, shareVerse, status);
+  node.append(heading, qariWrap, tafsirButton, fullLabel, player, verseLabel, verseRow, shareTools, status);
 
   const ui = {
     n, node, qariSelect, player, ayahSelect, playButton, autoNext, status, mode: 'full', cached: false,
@@ -1053,6 +1272,10 @@ async function fillLinks(card, a, i) {
     row.onclick = () => goToAyah(ls, la - 1, 0);
     list.append(row);
   }
+  const shareActions = el('div', { className: 'card-actions ayah-share-actions' },
+    makeShareButton(() => quranVerseSharePayload(n, a + 1), { className: 'pill', label: 'Bagikan ayat' }),
+    makeQuranStoryButton(() => loadQuranStoryVerse(n, a + 1)));
+  card.append(shareActions);
   // The list arrived after the card opened: give the network its real height.
   const ay = view.ayat[a];
   ay.machine.set(ay.machine.built.cells.cardHeight, measureCard());

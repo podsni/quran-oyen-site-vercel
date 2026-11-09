@@ -35,3 +35,12 @@ main{height:calc(100% - var(--head) - var(--nav) - env(safe-area-inset-top) - en
 
 .quran-search{margin:22px 0 28px;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}.quran-search-label{display:block;font-size:14px;font-weight:700;color:var(--ink)}.quran-search-input{width:100%;min-height:48px;margin-top:10px;font-size:15px}.quran-search-hint{margin:8px 0 0;font-size:11px}.quran-search-results{display:grid;gap:8px;margin-top:12px}.quran-search-results[aria-busy=true]{opacity:.78}.quran-search-status{margin:3px 0}.quran-search-result{display:grid;gap:8px;width:100%;min-height:60px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:var(--paper);text-align:left;line-height:1.6}.quran-search-result:hover{border-color:var(--accent);background:var(--soft)}.quran-search-result:focus-visible{outline-offset:2px}.quran-search-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;color:var(--muted)}.quran-search-meta b{color:var(--accent);font-weight:700}.quran-search-meta span{flex:none;font-size:10px}.quran-search-arabic{font:24px/1.9 "Amiri Quran",serif;text-align:right;color:var(--ink)}.quran-search-translation{font:14px/1.65 Georgia,"Times New Roman",serif;color:var(--ink)}.quran-search-translation mark{background:var(--soft);color:var(--accent);border-radius:3px;padding:0 2px}
 @media(max-width:480px){.quran-search{margin:18px 0 24px;padding:15px;border-radius:16px}.quran-search-input{font-size:16px}.quran-search-result{padding:12px;min-height:56px}.quran-search-arabic{font-size:22px}.quran-search-translation{font-size:13px}}
+
+
+/* Story cards: more legible previews and comfortable mobile controls. */
+.story-frame{border:1px solid #ffffff20;box-shadow:0 16px 38px #0003}
+.story-frame img{object-fit:contain;background:#17362b}
+.story-pager button{width:40px;height:40px}
+.share-buttons .button{min-height:48px}
+@media(max-width:480px){.share-body{padding-bottom:max(22px,env(safe-area-inset-bottom))}.story-frame{height:min(46dvh,400px);max-width:min(70vw,270px)}.story-controls{gap:14px}.story-themes{flex-wrap:wrap}.story-themes button{min-height:38px}}
+@media(max-height:620px) and (max-width:480px){.story-frame{height:min(42dvh,270px)}}
