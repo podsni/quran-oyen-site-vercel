@@ -2,6 +2,13 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 10 November 2026 — Jadwal salat lokal dengan adhan-js
+
+- **Kalkulasi lokal:** Jadwal GPS bulanan dihitung di perangkat dengan adhan-js 4.4.6; koordinat tidak dikirim ke layanan lain atau disimpan. Metode awal memakai sudut Fajar 20°/Isya 18° dengan Asar Syafi’i, dan tersedia pilihan metode serta Hanafi.
+- **UI/UX:** Panel kini menonjolkan salat berikutnya dengan hitung mundur, garis waktu lima salat, arah kiblat/kompas, jadwal harian, dan navigasi kalender yang lebih mudah disentuh. Tata letak diuji pada ponsel, lanskap, tablet, dan desktop.
+- **Offline:** Bundel dan lisensi adhan-js disertakan di situs dan cache service worker; kalkulasi GPS dapat berjalan tanpa koneksi setelah aplikasi tersimpan. Pilihan jadwal kota manual EQuran.id tetap tersedia.
+- **Pengembang:** Jalankan tes jadwal, browser ponsel, offline PWA, `node --test tools/test_sw_paths.mjs`, lalu `python3 tools/stamp_sw.py` sebelum menerbitkan.
+
 ## 8 November 2026 — UmmahAPI dan konten harian
 
 - **Pengganti API:** HouseMuslim diganti UmmahAPI untuk ayat acak, Asmaul Husna, hadis harian, dan jelajah 10 koleksi; pencarian di tab baru menggunakan teks Inggris. Terjemahan ayat Kemenag lokal tetap diutamakan dan pencarian hadis Indonesia lama tetap tersedia.

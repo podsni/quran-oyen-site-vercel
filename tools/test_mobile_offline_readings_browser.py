@@ -19,6 +19,7 @@ with sync_playwright() as p:
     context = browser.new_context(
         viewport={'width': 390, 'height': 844},
         is_mobile=True, has_touch=True, locale='id-ID', timezone_id='Asia/Jakarta',
+        permissions=['geolocation'], geolocation={'latitude': -6.2, 'longitude': 106.8167},
         reduced_motion='reduce', service_workers='allow',
     )
     page = context.new_page()
@@ -105,8 +106,42 @@ with sync_playwright() as p:
     page.wait_for_function("document.querySelector('#doa-tahlil-ar').textContent.length > 100")
     assert page.locator('#doa-maulid-select').locator('option').count() == 19
     assert page.locator('#doa-tahlil-select').locator('option').count() == 28
+    page.locator('#doa-close').click()
+    page.locator('#feature-prayer').click()
+    page.locator('#prayer-use-location').click()
+    page.wait_for_function("document.querySelector('#prayer-status').textContent.includes('Kemenag RI')")
+    assert page.locator('.prayer-qibla').count() == 1
+    assert page.locator('#prayer-countdown').inner_text() != '—'
+    page.locator('#prayer-settings-label').click()
+    adhan_cached = page.evaluate('''async () => {
+      const cacheName = (await caches.keys()).find((name) => name.startsWith('quran-'));
+      const requests = await (await caches.open(cacheName)).keys();
+      return requests.some((request) => request.url.includes('/vendor/adhan-4.4.6/adhan.esm.min.js'));
+    }''')
+    assert adhan_cached, 'the self-hosted adhan-js module must be in the service-worker cache'
+    for width, height in VIEWPORTS:
+        page.set_viewport_size({'width': width, 'height': height})
+        metrics = page.evaluate('''() => {
+          const panel = document.querySelector('#shalat-panel');
+          const body = panel.querySelector('.panel-body');
+          const box = panel.getBoundingClientRect();
+          return {
+            rootWidth: document.documentElement.scrollWidth,
+            panelLeft: box.left, panelRight: box.right,
+            panelClient: panel.clientWidth, panelScroll: panel.scrollWidth,
+            bodyClient: body.clientWidth, bodyScroll: body.scrollWidth,
+            buttonHeight: document.querySelector('#prayer-use-location').getBoundingClientRect().height,
+            fieldHeights: [...panel.querySelectorAll('.prayer-settings select')].map((field) => field.getBoundingClientRect().height),
+          };
+        }''')
+        assert metrics['rootWidth'] <= width, (width, metrics)
+        assert metrics['panelLeft'] >= 0 and metrics['panelRight'] <= width, (width, metrics)
+        assert metrics['panelScroll'] <= metrics['panelClient'], (width, metrics)
+        assert metrics['bodyScroll'] <= metrics['bodyClient'], (width, metrics)
+        assert metrics['buttonHeight'] >= 44, (width, metrics)
+        assert all(height >= 44 for height in metrics['fieldHeights']), (width, metrics)
     assert not errors, errors
     context.close()
     browser.close()
 
-print(f'responsive/offline browser tests: ok · {len(VIEWPORTS)} viewports, 44px targets, 227 duas, 19 Maulid, 28 Tahlil offline')
+print(f'responsive/offline browser tests: ok · {len(VIEWPORTS)} viewports, 44px targets, local readings, adhan-js and GPS prayer times after an offline reload')

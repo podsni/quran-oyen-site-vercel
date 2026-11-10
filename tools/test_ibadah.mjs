@@ -1,30 +1,31 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { decodeSharedPrayerSchedule, encodeSharedPrayerSchedule, normalizeAladhanCalendar } from '../ibadah.js';
+import { calculateCoordinatePrayerMonth, decodeSharedPrayerSchedule, encodeSharedPrayerSchedule } from '../ibadah.js';
 
-const aladhanDay = {
-  date: { gregorian: { date: '05-11-2026', weekday: { en: 'Thursday' } } },
-  timings: {
-    Imsak: '03:55 (WIB)', Fajr: '04:05 (WIB)', Sunrise: '05:25 (WIB)',
-    Dhuhr: '11:35 (WIB)', Asr: '14:52 (WIB)', Maghrib: '17:45 (WIB)', Isha: '18:57 (WIB)',
-  },
-};
-
-test('normalizes AlAdhan calendar dates and removes timezone annotations from displayed times', () => {
-  const result = normalizeAladhanCalendar({ code: 200, status: 'OK', data: [aladhanDay] });
-  assert.equal(result.jadwal.length, 1);
-  assert.equal(result.jadwal[0].tanggal_lengkap, '2026-11-05');
-  assert.equal(result.jadwal[0].tanggal, '05');
-  assert.equal(result.jadwal[0].subuh, '04:05');
-  assert.equal(result.jadwal[0].terbit, '05:25');
-  assert.equal(result.jadwal[0].dzuhur, '11:35');
-  assert.equal(result.jadwal[0].isya, '18:57');
-  assert.equal('dhuha' in result.jadwal[0], false);
+test('calculates a full GPS prayer calendar locally with Kemenag defaults, imsak, sunrise, and Qibla', () => {
+  const result = calculateCoordinatePrayerMonth({ latitude: -6.2, longitude: 106.8167, year: 2026, month: 11, timeZone: 'Asia/Jakarta' });
+  assert.equal(result.jadwal.length, 30);
+  assert.equal(result.jadwal[0].tanggal_lengkap, '2026-11-01');
+  assert.equal(result.jadwal.at(-1).tanggal_lengkap, '2026-11-30');
+  assert.equal(result.nextDay.tanggal_lengkap, '2026-12-01');
+  assert.match(result.jadwal[0].subuh, /^\d{2}:\d{2}$/);
+  assert.match(result.jadwal[0].terbit, /^\d{2}:\d{2}$/);
+  const fajrMinutes = Number(result.jadwal[0].subuh.slice(0, 2)) * 60 + Number(result.jadwal[0].subuh.slice(3));
+  const imsakMinutes = Number(result.jadwal[0].imsak.slice(0, 2)) * 60 + Number(result.jadwal[0].imsak.slice(3));
+  assert.equal((fajrMinutes - imsakMinutes + 1440) % 1440, 10, 'Imsak defaults to 10 minutes before Subuh');
+  assert.ok(result.qibla >= 0 && result.qibla < 360);
+  assert.equal(result.method, 'kemenag');
+  assert.equal(result.madhab, 'shafi');
 });
 
-test('rejects invalid AlAdhan calendar envelopes and malformed day dates', () => {
-  assert.throws(() => normalizeAladhanCalendar({ code: 500, data: [] }), /tidak valid/);
-  assert.throws(() => normalizeAladhanCalendar({ code: 200, data: [{ ...aladhanDay, date: {} }] }), /Tanggal/);
+test('supports alternate calculation angles and Hanafi Asr without network dependencies', () => {
+  const location = { latitude: -6.2, longitude: 106.8167, year: 2026, month: 11, timeZone: 'Asia/Jakarta' };
+  const kemenag = calculateCoordinatePrayerMonth(location);
+  const mwl = calculateCoordinatePrayerMonth({ ...location, method: 'mwl' });
+  const hanafi = calculateCoordinatePrayerMonth({ ...location, madhab: 'hanafi' });
+  assert.notEqual(mwl.jadwal[0].subuh, kemenag.jadwal[0].subuh);
+  assert.notEqual(hanafi.jadwal[0].ashar, kemenag.jadwal[0].ashar);
+  assert.throws(() => calculateCoordinatePrayerMonth({ ...location, latitude: 95 }), /tidak valid/);
 });
 
 test('encodes and validates a compact share snapshot without coordinates', () => {

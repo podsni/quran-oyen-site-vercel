@@ -249,7 +249,7 @@
   .hadith-collection-chip { flex: none; min-height: 39px; padding: 0 14px; border: 1px solid var(--hair); border-radius: 999px; background: var(--sheet); color: var(--ink-2); font: 600 13px/18px var(--sans); cursor: pointer; }
   .hadith-collection-chip[aria-pressed="true"] { border-color: var(--copper-line); background: var(--oyen-soft); color: var(--oyen-ink); }
   .prayer-gps { display: grid; gap: 7px; }
-  .prayer-gps .btn { justify-self: start; min-height: 42px; }
+  .prayer-gps .btn { justify-self: start; min-height: 44px; }
   .prayer-location-note { font-size: 12px; }
   .ilm-view { display: grid; gap: 11px; min-width: 0; }
   .ilm-view[hidden] { display: none; }
@@ -316,9 +316,14 @@
   .ibadah-more summary, .prayer-month summary { cursor: pointer; color: var(--oyen-ink); font: 650 13px/19px var(--sans); }
   .ibadah-tags { margin: 8px 0 0; color: var(--ink-3); font: 400 12px/18px var(--sans); }
   .ibadah-empty { margin: 0; padding: 18px 12px; border: 1px dashed var(--rule-strong); border-radius: 14px; color: var(--ink-3); font: 400 14px/21px var(--sans); text-align: center; }
+  #shalat-panel { width: min(760px, calc(100vw - 32px)); }
+  .prayer-settings { border: 1px solid var(--hair); border-radius: 13px; background: var(--sheet); padding: 10px 12px; }
+  .prayer-settings summary { cursor: pointer; color: var(--oyen-ink); font: 650 13px/19px var(--sans); }
+  .prayer-settings[open] summary { margin-bottom: 10px; }
+  .prayer-settings .ibadah-form-grid { grid-template-columns: minmax(0, 1.3fr) minmax(130px, .7fr); }
   .prayer-location { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-  .prayer-month-tools { display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; align-items: center; gap: 7px; }
-  .prayer-month-tools button { min-height: 38px; border: 1px solid var(--hair); border-radius: 11px; background: var(--sheet); color: var(--oyen-ink); font: 650 17px/1 var(--sans); cursor: pointer; }
+  .prayer-month-tools { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 7px; }
+  .prayer-month-tools button { min-height: 44px; border: 1px solid var(--hair); border-radius: 11px; background: var(--sheet); color: var(--oyen-ink); font: 650 17px/1 var(--sans); cursor: pointer; }
   .prayer-month-tools #prayer-month-label { text-align: center; font: 700 15px/20px var(--sans); text-transform: capitalize; }
   .prayer-month-tools #prayer-now { grid-column: 1 / -1; justify-self: center; border: 0; background: none; padding: 3px 8px; color: var(--oyen-ink); font: 600 12px/18px var(--sans); }
   .prayer-today { padding: 14px; border: 1px solid rgb(240 137 46 / .38); border-radius: 16px; background: linear-gradient(145deg, var(--oyen-soft), var(--sheet) 78%); }
@@ -338,10 +343,43 @@
   .prayer-table th:first-child, .prayer-table td:first-child { text-align: left; }
   .prayer-table tbody th { font-weight: 550; }
   .prayer-table tr.is-today { background: var(--oyen-soft); color: var(--oyen-ink); font-weight: 700; }
+  .prayer-hero { display: grid; gap: 15px; padding: 17px; border: 1px solid color-mix(in srgb, var(--copper) 38%, var(--hair)); border-radius: 18px; background: radial-gradient(circle at 96% 0%, color-mix(in srgb, var(--oyen) 21%, transparent), transparent 36%), linear-gradient(145deg, var(--oyen-soft), var(--sheet) 76%); }
+  .prayer-hero-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; }
+  .prayer-next-copy, .prayer-countdown-wrap { display: grid; gap: 3px; min-width: 0; }
+  .prayer-eyebrow { color: var(--ink-3); font: 700 10px/14px var(--sans); letter-spacing: .09em; text-transform: uppercase; }
+  .prayer-next-copy > b { color: var(--oyen-ink); font: 750 clamp(22px, 4vw, 30px)/1.1 var(--sans); letter-spacing: -.025em; }
+  .prayer-next-time { color: var(--ink-2); font: 550 13px/18px var(--sans); font-variant-numeric: tabular-nums; }
+  .prayer-countdown-wrap { text-align: right; }
+  .prayer-countdown { color: var(--ink); font: 650 clamp(22px, 4vw, 30px)/1.1 var(--sans); font-variant-numeric: tabular-nums; letter-spacing: -.035em; white-space: nowrap; }
+  .prayer-timeline { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .prayer-timeline::before { content: ""; position: absolute; top: 5px; left: 10%; right: 10%; border-top: 1px dotted color-mix(in srgb, var(--ink-3) 65%, transparent); }
+  .prayer-step { position: relative; z-index: 1; display: grid; justify-items: center; gap: 3px; min-width: 0; color: var(--ink-3); text-align: center; }
+  .prayer-dot { width: 10px; height: 10px; border: 2px solid var(--sheet); border-radius: 50%; background: color-mix(in srgb, var(--ink-3) 56%, var(--sheet)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink-3) 35%, transparent); }
+  .prayer-step-name { max-width: 100%; overflow: hidden; font: 500 11px/15px var(--sans); text-overflow: ellipsis; white-space: nowrap; }
+  .prayer-step b { color: var(--ink-2); font: 550 12px/16px var(--sans); font-variant-numeric: tabular-nums; }
+  .prayer-step.is-past { opacity: .63; }
+  .prayer-step.is-next { color: var(--oyen-ink); }
+  .prayer-step.is-next .prayer-dot { width: 13px; height: 13px; margin: -1px 0 -2px; border-color: var(--oyen); background: var(--oyen-ink); box-shadow: 0 0 0 3px color-mix(in srgb, var(--oyen) 28%, transparent); }
+  .prayer-step.is-next .prayer-step-name, .prayer-step.is-next b { color: var(--oyen-ink); font-weight: 750; }
+  .prayer-hero-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 9px; padding-top: 10px; border-top: 1px solid color-mix(in srgb, var(--oyen) 25%, var(--hair)); }
+  .prayer-method-chip { max-width: 100%; padding: 5px 9px; border-radius: 999px; background: color-mix(in srgb, var(--oyen) 20%, var(--sheet)); color: var(--oyen-ink); font: 650 11px/16px var(--sans); }
+  .prayer-qibla { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); }
+  .prayer-qibla > span:last-child { display: grid; gap: 0; }
+  .prayer-qibla small { color: var(--ink-3); font: 550 10px/13px var(--sans); }
+  .prayer-qibla b { color: var(--ink); font: 700 12px/16px var(--sans); font-variant-numeric: tabular-nums; }
+  .prayer-compass { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--hair); border-radius: 50%; background: var(--sheet); }
+  .prayer-compass::before { content: "N"; position: absolute; top: 1px; color: var(--ink-3); font: 700 7px/9px var(--sans); }
+  .prayer-needle { position: relative; width: 2px; height: 17px; border-radius: 2px; background: linear-gradient(var(--red) 0 50%, var(--ink-3) 50%); transform-origin: 50% 50%; }
   @media (max-width: 480px) {
     .ibadah-shortcuts { grid-template-columns: 1fr; }
     .ibadah-form-grid, .prayer-location { grid-template-columns: 1fr; }
     .prayer-time-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .prayer-settings .ibadah-form-grid { grid-template-columns: 1fr; }
+    .prayer-hero { gap: 13px; padding: 14px 12px; }
+    .prayer-timeline { gap: 1px; }
+    .prayer-step-name { font-size: 10px; }
+    .prayer-step b { font-size: 11px; }
+    .prayer-hero-meta { align-items: flex-start; }
     .ibadah-panel .panel-head { padding-inline: 16px 12px; }
     .ibadah-panel input, .ibadah-panel select { font-size: 16px; }
     .reading-navigation { gap: 4px; }
@@ -847,7 +885,7 @@
     /* sheets come up from the bottom, with a handle; their header is where a drag closes them (sheet.js) */
     #map, #same, #search, .panel { inset: calc(var(--sat) + 10px) 0 0 0; width: auto; max-width: none; max-height: none; margin: 0; border: 0; border-radius: 22px 22px 0 0; padding-bottom: var(--sab); box-shadow: 0 -10px 40px -12px rgb(var(--shadow-ink) / 0.3); }
     .panel { top: auto; max-height: calc(100% - var(--sat) - 10px); }
-    #doa-panel { width: auto; }
+    #doa-panel, #shalat-panel { width: auto; }
     #map::before, #same::before, #search::before, .panel::before { content: ""; flex: none; display: block; width: 38px; height: 5px; margin: 8px auto 0; border-radius: 3px; background: rgb(60 42 22 / 0.22); }
     .map-head, .same-head, .search-head, .panel-head { background: transparent; border-bottom: 1px solid var(--hair); touch-action: none; }
     .panel-head { border-bottom: 0; }
@@ -1289,6 +1327,19 @@
       <label class="ibadah-field" for="prayer-province"><span id="province-label">Provinsi</span><select id="prayer-province" disabled><option value="">Pilih provinsi</option></select></label>
       <label class="ibadah-field" for="prayer-city"><span id="city-label">Kabupaten/kota</span><select id="prayer-city" disabled><option value="">Pilih kabupaten/kota</option></select></label>
     </div>
+    <details class="prayer-settings">
+      <summary id="prayer-settings-label">Pengaturan perhitungan</summary>
+      <div class="ibadah-form-grid">
+        <label class="ibadah-field" for="prayer-method"><span id="prayer-method-label">Metode waktu salat</span><select id="prayer-method">
+          <option value="kemenag">Kemenag RI · 20°/18°</option>
+          <option value="singapore">Singapura · 20°/18°</option>
+          <option value="mwl">Muslim World League · 18°/17°</option>
+          <option value="egyptian">Otoritas Survei Mesir · 19,5°/17,5°</option>
+        </select></label>
+        <label class="ibadah-field" for="prayer-madhab"><span id="prayer-madhab-label">Metode Asar</span><select id="prayer-madhab"><option value="shafi">Syafi’i</option><option value="hanafi">Hanafi</option></select></label>
+      </div>
+      <p class="ibadah-note" id="prayer-settings-note"></p>
+    </details>
     <div class="prayer-month-tools" role="group" aria-label="Pilih bulan"><button id="prayer-prev" type="button" aria-label="Bulan sebelumnya">‹</button><b id="prayer-month-label"></b><button id="prayer-next" type="button" aria-label="Bulan berikutnya">›</button><button id="prayer-now" type="button">Kembali ke bulan ini</button></div>
     <p class="ibadah-status" id="prayer-status" role="status" aria-live="polite"></p>
     <div class="ibadah-results" id="prayer-results"></div>

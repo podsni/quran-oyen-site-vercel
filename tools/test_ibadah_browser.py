@@ -19,7 +19,7 @@ with sync_playwright() as p:
     )
     page = context.new_page()
     errors = []
-    calendar_requests = []
+    remote_prayer_calculation_requests = []
     page.on('pageerror', lambda error: errors.append(str(error)))
 
     def fulfill(route, payload):
@@ -39,17 +39,10 @@ with sync_playwright() as p:
                 'dzuhur': '11:35', 'ashar': '14:52', 'maghrib': '17:45', 'isya': '18:57'}],
         }})
 
-    def calendar(route):
-        calendar_requests.append(route.request.url)
-        fulfill(route, {'code': 200, 'status': 'OK', 'data': [{
-            'date': {'gregorian': {'date': TODAY, 'weekday': {'en': 'Thursday'}}},
-            'timings': {'Imsak': '03:55 (WIB)', 'Fajr': '04:05 (WIB)', 'Sunrise': '05:25 (WIB)', 'Dhuhr': '11:35 (WIB)', 'Asr': '14:52 (WIB)', 'Maghrib': '17:45 (WIB)', 'Isha': '18:57 (WIB)'},
-        }]})
-
     page.route('https://equran.id/api/v2/shalat/provinsi', provinces)
     page.route('https://equran.id/api/v2/shalat/kabkota', cities)
     page.route('https://equran.id/api/v2/shalat', manual_schedule)
-    page.route('https://api.aladhan.com/v1/calendar/**', calendar)
+    page.on('request', lambda request: remote_prayer_calculation_requests.append(request.url) if 'aladhan.com' in request.url else None)
     page.goto(BASE + '/', wait_until='domcontentloaded')
     page.locator('#feature-doa').wait_for(state='visible')
 
@@ -110,20 +103,33 @@ with sync_playwright() as p:
     assert page.locator('#ilm-book').input_value() == 'muslim'
     page.locator('#ilm-close').click()
 
+    context.set_offline(True)
+    assert page.evaluate('navigator.onLine') is False
     page.locator('#feature-prayer').click()
     page.locator('#prayer-use-location').click()
-    page.wait_for_function("document.querySelector('#prayer-status').textContent.includes('AlAdhan')")
+    page.wait_for_function("document.querySelector('#prayer-status').textContent.includes('Kemenag RI')")
     assert page.locator('#prayer-results .prayer-time').count() == 7
     assert 'Dhuha' not in page.locator('#prayer-results').inner_text()
-    assert calendar_requests and 'latitude=-6.2' in calendar_requests[0]
-    assert 'method=20' in calendar_requests[0]
-    assert 'timezonestring=Asia%2FJakarta' in calendar_requests[0]
+    assert page.locator('#prayer-results .prayer-step').count() == 5
+    assert page.locator('#prayer-countdown').inner_text() != '—'
+    assert page.locator('#prayer-next-name').inner_text()
+    assert page.locator('.prayer-qibla').count() == 1
+    assert not remote_prayer_calculation_requests, remote_prayer_calculation_requests
     assert not page.evaluate("Object.keys(localStorage).some((key) => key.includes('prayer-location'))")
+    page.locator('#prayer-settings-label').click()
+    page.locator('#prayer-method').select_option('mwl')
+    page.wait_for_function("document.querySelector('#prayer-status').textContent.includes('Muslim World League')")
+    page.locator('#prayer-madhab').select_option('hanafi')
+    assert page.evaluate("JSON.parse(localStorage.getItem('quran-oyen-prayer-settings')).madhab") == 'hanafi'
     page.locator('#prayer-results button[aria-label="Bagikan jadwal"]').click()
     gps_preview = page.locator('.share-content-dialog textarea').input_value()
     assert 'mode=coordinate' in gps_preview
     assert '-6.2' not in gps_preview and '106.8167' not in gps_preview
     page.locator('.share-content-dialog button').filter(has_text='Tutup').click()
+    context.set_offline(False)
+    page.locator('#shalat-close').click()
+    page.locator('#feature-prayer').click()
+    page.wait_for_function("!document.querySelector('#prayer-province').disabled")
     page.locator('#prayer-province').select_option('DKI Jakarta')
     page.wait_for_function("!document.querySelector('#prayer-city').disabled")
     page.locator('#prayer-city').select_option('Jakarta Selatan')
@@ -149,4 +155,4 @@ with sync_playwright() as p:
     context.close()
     browser.close()
 
-print('ibadah browser tests: ok · 227 local duas, local Maulid/Tahlil, source caveat, hadith, GPS and manual prayer times')
+print('ibadah browser tests: ok · local readings, hadith, offline adhan-js GPS calculations, Qibla, countdown, settings and manual city schedules')

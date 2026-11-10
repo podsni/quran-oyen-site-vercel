@@ -99,12 +99,14 @@ UmmahAPI menyatakan konten diambil dari sumber publik dan layanan disediakan gra
 
 Tes memeriksa allowlist endpoint, batas parameter, validasi origin, timeout, dan alur UI dengan respons API tiruan. Hal itu bukan jaminan uptime upstream. Nomor hadis, varian teks, provenance terjemahan, dan penilaian derajat perlu diverifikasi terhadap edisi ilmiah yang ditetapkan sebelum digunakan sebagai rujukan hukum atau fatwa. Fitur ini menampilkan sumber/nomor dan hanya menampilkan grade ketika API menyediakannya; teks/grade dari API tidak menggantikan pemeriksaan oleh ahli.
 
-## Jadwal sholat berbasis koordinat: AlAdhan
+## Jadwal salat: kalkulasi GPS lokal dengan adhan-js
 
-Pilihan **Gunakan lokasi saat ini** meminta izin melalui Geolocation API browser. Jika pengguna menyetujui, kalender bulanan diambil dari `GET https://api.aladhan.com/v1/calendar/{year}/{month}` dengan `latitude`, `longitude`, `timezonestring`, dan `method=20`. Endpoint `GET https://api.aladhan.com/v1/methods` mengidentifikasi metode 20 sebagai **Kementerian Agama Republik Indonesia**. Zona waktu berasal dari pengaturan zona waktu perangkat. Aplikasi tidak menyimpan koordinat dan permintaan kalender tersebut melewati cache IndexedDB; koordinat dikirim ke AlAdhan sebagai bagian dari permintaan untuk menghitung jadwal.
+Pilihan **Gunakan lokasi saat ini** meminta izin melalui Geolocation API browser. Setelah izin diberikan, aplikasi menghitung seluruh kalender bulanan di perangkat memakai `adhan-js` versi 4.4.6; lintang/bujur tidak dikirim ke layanan lain dan tidak disimpan ke `localStorage` atau IndexedDB. Zona waktu memakai zona IANA perangkat. Pustaka dan lisensi MIT disertakan di `vendor/adhan-4.4.6/` dan masuk cache service worker, sehingga kalkulasi dapat dipakai offline setelah aplikasi dimuat.
 
-- Dokumentasi: <https://aladhan.com/prayer-times-api>
-- Daftar metode API: <https://api.aladhan.com/v1/methods>
-- Contoh kalender Jakarta (parameter koordinat dan tanggal): <https://api.aladhan.com/v1/calendar/2026/11?latitude=-6.2&longitude=106.8167&method=20&timezonestring=Asia%2FJakarta>
+Metode awal menerapkan sudut Fajar 20° dan Isya 18° (parameter Kemenag RI), dengan Asar Syafi’i. Pengguna dapat memilih metode Singapore, Muslim World League, Egyptian, atau Asar Hanafi. Imsak ditampilkan 10 menit sebelum Subuh. Arah kiblat dan hitung mundur salat berikutnya juga dihitung lokal.
 
-Mode GPS menampilkan Imsak, Subuh/Fajr, Terbit/Sunrise, Dzuhur, Ashar, Maghrib, dan Isya. Endpoint kalender yang dipakai tidak menyediakan waktu Dhuha, sehingga kolom Dhuha hanya ada pada mode lokasi manual EQuran.id. Waktu dapat berbeda menurut lokasi, metode, zona waktu, atau koreksi yang digunakan penyedia; gunakan jadwal lokal otoritatif bila membutuhkan ketepatan khusus.
+- Kode dan panduan resmi: <https://github.com/batoulapps/adhan-js>
+- Paket tersemat: <https://www.npmjs.com/package/adhan/v/4.4.6>
+- Lisensi MIT: <https://github.com/batoulapps/adhan-js/blob/develop/LICENSE>
+
+Mode GPS menampilkan Imsak, Subuh/Fajr, Terbit/Sunrise, Dzuhur, Ashar, Maghrib, dan Isya. `adhan-js` tidak menghitung waktu Dhuha; kolom Dhuha tetap tersedia untuk jadwal kota manual EQuran.id. Waktu hasil perhitungan dapat berbeda menurut lokasi, metode, zona waktu, atau koreksi yang digunakan; gunakan jadwal lokal otoritatif jika memerlukan penyesuaian khusus.
