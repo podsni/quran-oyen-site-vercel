@@ -278,7 +278,7 @@
   .ibadah-panel button:disabled { opacity: .55; cursor: wait; }
   .ibadah-status { min-height: 18px; margin: 0; color: var(--ink-3); font: 400 12px/18px var(--sans); }
   .ibadah-status.is-error { color: var(--red); }
-  .ibadah-results { display: grid; gap: 10px; }
+  .ibadah-results { display: grid; min-width: 0; gap: 10px; }
   .ibadah-card { min-width: 0; padding: 14px; border: 1px solid var(--hair); border-radius: 16px; background: var(--sheet); box-shadow: 0 3px 12px rgb(var(--shadow-ink) / .035); }
   #daily-panel { width: min(720px, calc(100vw - 24px)); }
   #daily-panel .panel-body { gap: 12px; padding-inline: clamp(14px, 3vw, 24px); }
@@ -341,15 +341,18 @@
   .prayer-time:nth-child(8) { animation-delay: 245ms; }
   .prayer-time span { color: var(--ink-3); font: 500 10px/14px var(--sans); }
   .prayer-time b { font: 700 15px/19px var(--sans); font-variant-numeric: tabular-nums; }
-  .prayer-month { border: 1px solid var(--hair); border-radius: 13px; background: var(--sheet); padding: 11px 12px; }
+  .prayer-month { min-width: 0; border: 1px solid var(--hair); border-radius: 13px; background: var(--sheet); padding: 11px 12px; }
   .prayer-month summary { list-style-position: inside; }
-  .prayer-table-scroll { overflow: auto; margin-top: 10px; overscroll-behavior-x: contain; }
+  .prayer-table-hint { display: none; margin: 8px 0 0; color: var(--ink-3); font: 400 11px/16px var(--sans); }
+  .prayer-table-scroll { width: 100%; min-width: 0; max-width: 100%; overflow: auto; margin-top: 10px; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent; }
   .prayer-table { width: 100%; min-width: 610px; border-collapse: collapse; font: 400 12px/18px var(--sans); font-variant-numeric: tabular-nums; }
   .prayer-table th, .prayer-table td { padding: 7px 8px; border-bottom: 1px solid var(--hair); text-align: right; white-space: nowrap; }
   .prayer-table thead th { position: sticky; top: 0; background: var(--panel); color: var(--ink-2); font-weight: 650; }
-  .prayer-table th:first-child, .prayer-table td:first-child { text-align: left; }
+  .prayer-table th:first-child, .prayer-table td:first-child { position: sticky; left: 0; z-index: 1; background: var(--sheet); box-shadow: 1px 0 0 var(--hair); text-align: left; }
+  .prayer-table thead th:first-child { z-index: 3; background: var(--panel); }
   .prayer-table tbody th { font-weight: 550; }
   .prayer-table tr.is-today { background: var(--oyen-soft); color: var(--oyen-ink); font-weight: 700; }
+  .prayer-table tr.is-today th:first-child { background: var(--oyen-soft); }
   .prayer-hero { position: relative; isolation: isolate; overflow: hidden; display: grid; gap: 15px; padding: 17px; border: 1px solid color-mix(in srgb, var(--copper) 38%, var(--hair)); border-radius: 18px; background: radial-gradient(circle at 96% 0%, color-mix(in srgb, var(--oyen) 21%, transparent), transparent 36%), linear-gradient(145deg, var(--oyen-soft), var(--sheet) 76%); animation: prayer-rise .5s cubic-bezier(.2,.7,.25,1) both; }
   .prayer-hero::before { content: ""; position: absolute; z-index: 0; top: -155px; right: -72px; width: 270px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--oyen) 24%, transparent), transparent 68%); pointer-events: none; animation: prayer-glow 9s ease-in-out infinite alternate; }
   .prayer-hero > * { position: relative; z-index: 1; }
@@ -399,16 +402,30 @@
     .ibadah-shortcuts { grid-template-columns: 1fr; }
     .ibadah-form-grid, .prayer-location { grid-template-columns: 1fr; }
     .prayer-time-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .prayer-time { padding: 10px; }
+    .prayer-time span { font-size: 11px; line-height: 15px; }
+    .prayer-time b { font-size: 16px; line-height: 20px; }
     .prayer-settings .ibadah-form-grid { grid-template-columns: 1fr; }
     .prayer-hero { gap: 13px; padding: 14px 12px; }
-    .prayer-timeline { gap: 1px; }
-    .prayer-step-name { font-size: 10px; }
-    .prayer-step b { font-size: 11px; }
+    .prayer-timeline { gap: 2px; }
+    .prayer-step { gap: 4px; }
+    .prayer-step-name { display: grid; min-height: 26px; place-items: center; overflow: visible; font-size: 10px; line-height: 13px; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }
+    .prayer-step b { font-size: 12px; line-height: 16px; }
     .prayer-hero-meta { align-items: flex-start; }
+    .prayer-gps .btn { justify-self: stretch; }
+    .prayer-settings summary { display: flex; align-items: center; min-height: 44px; }
+    .prayer-table-hint { display: block; }
     .ibadah-panel .panel-head { padding-inline: 16px 12px; }
+    .ibadah-panel .panel-head h2 { font-size: 19px; }
+    .ibadah-panel .panel-body { gap: 10px; padding-inline: 14px; }
     .ibadah-panel input, .ibadah-panel select { font-size: 16px; }
     .reading-navigation { gap: 4px; }
     .reading-navigation .pill { padding-inline: 7px; font-size: 12px; }
+  }
+  @media (max-width: 359px) {
+    .prayer-hero-head { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 10px; }
+    .prayer-countdown-wrap { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; text-align: left; }
+    .prayer-countdown { font-size: 23px; }
   }
   @media (max-width: 480px) {
     .equran-tools { padding: 12px; border-radius: 17px; gap: 10px; }

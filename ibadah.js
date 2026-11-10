@@ -30,7 +30,7 @@ const TEXT = {
     prayerLoadingProvince: 'Memuat daftar provinsi…', prayerLoadingCity: 'Memuat kabupaten/kota…', prayerLoading: 'Menghitung jadwal di perangkat…', prayerError: 'Jadwal belum dapat dihitung. Periksa lokasi atau pilih kota secara manual.', chooseLocation: 'Gunakan lokasi saat ini atau pilih provinsi dan kabupaten/kota.',
     prayerSettings: 'Pengaturan perhitungan', prayerMethod: 'Metode waktu salat', prayerMadhab: 'Metode Asar', shafi: 'Syafi’i', hanafi: 'Hanafi', prayerSettingsNote: 'Pengaturan ini berlaku untuk lokasi GPS; jadwal kota mengikuti EQuran.id.', prayerNext: 'Salat berikutnya', prayerStartsIn: 'Menuju waktu salat', prayerTomorrow: 'besok', qibla: 'Arah kiblat', qiblaUnavailable: 'Tentukan lokasi GPS untuk menghitung arah kiblat.', onDevice: 'Dihitung di perangkat', noUpcoming: 'Jadwal salat berikutnya belum tersedia.',
     methodNames: { kemenag: 'Kemenag RI · 20°/18°', singapore: 'Singapura · 20°/18°', mwl: 'Muslim World League · 18°/17°', egyptian: 'Otoritas Survei Mesir · 19,5°/17,5°' },
-    today: 'Jadwal hari ini', monthSchedule: 'Jadwal satu bulan', todayNone: 'Tidak ada jadwal untuk tanggal ini pada bulan yang dipilih.', previousMonth: 'Bulan sebelumnya', nextMonth: 'Bulan berikutnya', currentMonth: 'Kembali ke bulan ini',
+    today: 'Jadwal hari ini', monthSchedule: 'Jadwal satu bulan', tableScrollHint: 'Geser tabel ke samping untuk melihat semua waktu salat.', todayNone: 'Tidak ada jadwal untuk tanggal ini pada bulan yang dipilih.', previousMonth: 'Bulan sebelumnya', nextMonth: 'Bulan berikutnya', currentMonth: 'Kembali ke bulan ini',
     prayers: ['Imsak', 'Subuh', 'Terbit', 'Dhuha', 'Dzuhur', 'Ashar', 'Maghrib', 'Isya'], date: 'Tanggal', source: 'Jadwal GPS dihitung lokal dengan adhan-js; metode awal Kemenag RI (20°/18°). Jadwal kota manual dari EQuran.id.',
     cached: 'Data ditampilkan dari cache perangkat; sambungkan internet untuk memperbarui.', cachedShort: 'Data tersimpan di perangkat.',
   },
@@ -49,7 +49,7 @@ const TEXT = {
     prayerLoadingProvince: 'Loading provinces…', prayerLoadingCity: 'Loading cities…', prayerLoading: 'Calculating prayer times on device…', prayerError: 'Prayer times could not be calculated. Check the location or choose a city manually.', chooseLocation: 'Use your current location or choose a province and city.',
     prayerSettings: 'Calculation settings', prayerMethod: 'Prayer time method', prayerMadhab: 'Asr method', shafi: 'Shafi', hanafi: 'Hanafi', prayerSettingsNote: 'These settings apply to GPS locations; city schedules use EQuran.id.', prayerNext: 'Next prayer', prayerStartsIn: 'Time until prayer', prayerTomorrow: 'tomorrow', qibla: 'Qibla direction', qiblaUnavailable: 'Set a GPS location to calculate the Qibla direction.', onDevice: 'Calculated on device', noUpcoming: 'The next prayer time is not available.',
     methodNames: { kemenag: 'Kemenag RI · 20°/18°', singapore: 'Singapore · 20°/18°', mwl: 'Muslim World League · 18°/17°', egyptian: 'Egyptian Survey Authority · 19.5°/17.5°' },
-    today: 'Today’s prayer times', monthSchedule: 'Monthly schedule', todayNone: 'No schedule for this date in the selected month.', previousMonth: 'Previous month', nextMonth: 'Next month', currentMonth: 'Back to this month',
+    today: 'Today’s prayer times', monthSchedule: 'Monthly schedule', tableScrollHint: 'Swipe the table sideways to see all prayer times.', todayNone: 'No schedule for this date in the selected month.', previousMonth: 'Previous month', nextMonth: 'Next month', currentMonth: 'Back to this month',
     prayers: ['Imsak', 'Fajr', 'Sunrise', 'Duha', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'], date: 'Date', source: 'GPS schedules are calculated locally with adhan-js; Kemenag RI (20°/18°) is the default. Manual city schedules use EQuran.id.',
     cached: 'Showing saved device data; connect to the internet to refresh.', cachedShort: 'Data saved on this device.',
   },
@@ -1122,6 +1122,7 @@ export function createIbadahFeatures({ sheets, onNavigate }) {
     }
     const details = el('details', { className: 'prayer-month' });
     details.append(el('summary', { textContent: w.monthSchedule }));
+    details.append(el('p', { className: 'prayer-table-hint', textContent: w.tableScrollHint }));
     const scroll = el('div', { className: 'prayer-table-scroll', tabindex: '0', ariaLabel: w.monthSchedule });
     const table = el('table', { className: 'prayer-table' });
     const header = el('tr');
