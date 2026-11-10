@@ -17,28 +17,48 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="./" aria-label="Quran Oyen, kembali ke beranda"><img src="icons/favicon.svg" width="32" height="32" alt=""><span>Quran Oyen</span></a>
-      <div class="topbar-actions"><a class="back-home" href="./"><span aria-hidden="true">←</span> <span>Beranda</span></a><button class="button secondary saved-open" id="saved-open" type="button" aria-controls="saved-view"><span aria-hidden="true">♡</span> Koleksiku <b id="saved-count">0</b></button></div>
+      <nav class="topbar-actions" aria-label="Navigasi halaman">
+        <a class="back-home" href="./"><span aria-hidden="true">←</span> <span>Beranda</span></a>
+        <button class="button secondary saved-open" id="saved-open" type="button" aria-controls="saved-view"><span aria-hidden="true">♡</span> Koleksiku <b id="saved-count">0</b></button>
+      </nav>
     </div>
   </header>
   <main id="main" tabindex="-1">
     <section class="hero" aria-labelledby="page-title">
-      <div class="hero-copy"><span class="eyebrow">BACA · PAHAMI · RENUNGKAN</span><h1 id="page-title">Jelajah Ayat <em>Tematik</em></h1><p>Temukan ayat untuk hal-hal yang dekat dengan hidupmu. Baca teksnya, lihat penjelasan dari tafsir, dan temukan hadis terkait.</p><div class="hero-meta"><span>10 tema</span><span>20 subtopik</span><span>Bahasa Indonesia</span><span>Tersimpan di perangkat</span></div></div>
+      <div class="hero-copy">
+        <span class="eyebrow">BACA · PAHAMI · RENUNGKAN</span>
+        <h1 id="page-title">Jelajah Ayat <em>Tematik</em></h1>
+        <p>Temukan ayat untuk hal-hal yang dekat dengan hidupmu. Baca teksnya, lihat penjelasan dari tafsir, dan temukan hadis terkait.</p>
+        <div class="hero-meta" aria-label="Cakupan materi">
+          <span><b id="theme-total">14</b> tema</span>
+          <span><b id="subtopic-total">28</b> subtopik</span>
+          <span><b id="verse-total">78</b> ayat pilihan</span>
+          <span>Progres tersimpan di perangkat</span>
+        </div>
+      </div>
       <div class="hero-art" aria-hidden="true"><span class="art-star">✦</span><span class="art-arabic">ٱقْرَأْ</span><span class="art-line"></span><span class="art-caption">Satu ayat, satu renungan</span></div>
     </section>
 
-    <section class="reflection-section" id="renungan" aria-labelledby="reflection-title">
-      <div class="section-heading"><div><span class="eyebrow">KEBIASAAN KECIL, SETIAP HARI</span><h2 id="reflection-title">Renungan 5 Menit</h2><p id="reflection-date"></p></div><span class="time-pill">± 5 menit</span></div>
-      <div class="reflection-progress" id="reflection-progress" aria-label="Progres renungan harian"></div>
-      <p class="status" id="reflection-status" role="status" aria-live="polite">Menyiapkan renungan hari ini…</p>
-      <div id="reflection-content"></div>
-      <div class="reflection-actions"><button class="button primary" id="reflection-done" type="button">Tandai renungan selesai</button><button class="button secondary" id="reflection-another" type="button">Pilih tema lain</button></div>
-      <p class="privacy-note">Progres dan catatan renungan disimpan hanya di browser perangkat ini. Tidak ada akun atau sinkronisasi.</p>
-    </section>
-
     <section class="topic-section" id="topic-explorer" aria-labelledby="topics-title">
-      <div class="section-heading"><div><span class="eyebrow">PILIH YANG SEDANG DEKAT DI HATI</span><h2 id="topics-title">Jelajahi berdasarkan tema</h2><p>Mulai dari satu tema, lalu pilih subtopik yang paling sesuai.</p></div></div>
-      <label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><input type="search" id="theme-search" autocomplete="off" placeholder="Cari tema, misalnya sabar atau keluarga" aria-label="Cari tema atau subtopik"></label>
-      <p class="status" id="theme-status" role="status" aria-live="polite"></p>
+      <div class="section-heading topic-heading">
+        <div><span class="eyebrow">PILIH YANG SEDANG DEKAT DI HATI</span><h2 id="topics-title">Jelajahi berdasarkan tema</h2><p>Mulai dari pencarian atau pilih tema, lalu temukan subtopik yang sesuai.</p></div>
+        <span class="browse-mark" aria-hidden="true">⌕</span>
+      </div>
+      <div class="search-panel">
+        <div class="search-field">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg>
+          <input type="search" id="theme-search" autocomplete="off" enterkeyhint="search" placeholder="Cari tema atau ayat…" aria-label="Cari tema atau subtopik" aria-describedby="theme-search-hint" aria-controls="theme-grid">
+          <button class="search-clear" id="theme-search-clear" type="button" aria-label="Hapus pencarian" hidden>×</button>
+        </div>
+        <p class="search-hint" id="theme-search-hint">Contoh: sabar, doa, keluarga, ilmu, atau sedekah</p>
+        <div class="search-chips" id="search-chips" aria-label="Pencarian cepat">
+          <button class="search-chip" type="button" data-search-query="sabar">Sabar</button>
+          <button class="search-chip" type="button" data-search-query="doa">Doa</button>
+          <button class="search-chip" type="button" data-search-query="keluarga">Keluarga</button>
+          <button class="search-chip" type="button" data-search-query="syukur">Syukur</button>
+        </div>
+      </div>
+      <p class="status theme-status" id="theme-status" role="status" aria-live="polite"></p>
       <div class="theme-grid" id="theme-grid" aria-label="Daftar tema Al-Qur’an"></div>
       <section class="topic-detail" id="topic-detail" aria-labelledby="topic-detail-title" hidden>
         <div class="detail-top"><button class="text-button" id="back-to-themes" type="button">← Semua tema</button><span class="topic-kicker" id="topic-kicker"></span></div>
@@ -51,6 +71,15 @@
         <section class="hadith-section" aria-labelledby="hadith-title"><div class="hadith-head"><div><span class="eyebrow">PELENGKAP BACAAN</span><h3 id="hadith-title">Hadis terkait</h3><p id="hadith-intro">Hadis dicari berdasarkan tema pilihan.</p></div><span class="hadith-mark" aria-hidden="true">حديث</span></div><p class="status" id="hadith-status" role="status" aria-live="polite"></p><div class="hadith-list" id="hadith-list"></div><p class="source-note">Hasil pencarian hadis mengikuti kata kunci dari penyedia API; tidak selalu merupakan syarah langsung atas ayat. Nomor dan redaksi dapat berbeda menurut edisi. Periksa rujukan sebelum mengutip.</p></section>
         <p class="source-note" id="topic-sources"></p>
       </section>
+    </section>
+
+    <section class="reflection-section" id="renungan" aria-labelledby="reflection-title">
+      <div class="section-heading"><div><span class="eyebrow">KEBIASAAN KECIL, SETIAP HARI</span><h2 id="reflection-title">Renungan 5 Menit</h2><p id="reflection-date"></p></div><span class="time-pill">± 5 menit</span></div>
+      <div class="reflection-progress" id="reflection-progress" aria-label="Progres renungan harian"></div>
+      <p class="status" id="reflection-status" role="status" aria-live="polite">Menyiapkan renungan hari ini…</p>
+      <div id="reflection-content"></div>
+      <div class="reflection-actions"><button class="button primary" id="reflection-done" type="button">Tandai renungan selesai</button><button class="button secondary" id="reflection-another" type="button">Pilih tema lain</button></div>
+      <p class="privacy-note">Progres dan catatan renungan disimpan hanya di browser perangkat ini. Tidak ada akun atau sinkronisasi.</p>
     </section>
 
     <section class="saved-section" id="saved-view" aria-labelledby="saved-title" hidden>

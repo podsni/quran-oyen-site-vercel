@@ -78,6 +78,34 @@ THEMES = [
             {"id": "menunaikan-hak", "title": "Menunaikan hak dan amanah", "intro": "Baca tentang pencatatan hak, ukuran yang jujur, dan balasan yang setara tanpa melampaui batas.", "hadithQuery": "hak", "refs": [[2,282],[17,35],[42,40]], "questions": ["Hak siapa yang perlu kamu pastikan tidak terabaikan?", "Catatan atau kesepakatan apa yang dapat mencegah kesalahpahaman?"]},
         ]
     },
+    {
+        "id": "ilmu", "title": "Ilmu dan Hikmah", "icon": "عِلْم", "isNew": True, "tags": ["belajar", "pengetahuan", "berpikir", "tabayyun"], "description": "Menumbuhkan semangat belajar, sikap rendah hati, dan kebiasaan memeriksa pengetahuan serta informasi.",
+        "subtopics": [
+            {"id": "mencari-ilmu", "title": "Belajar dan memohon ilmu", "intro": "Ayat-ayat ini mengajak terus belajar, menghargai ilmu, dan menyadari bahwa pengetahuan perlu disertai penghambaan serta kerendahan hati.", "hadithQuery": "ilmu", "refs": [[20,114],[58,11],[39,9]], "questions": ["Hal apa yang ingin kamu pelajari dengan niat yang baik?", "Siapa atau sumber tepercaya apa yang bisa membantumu belajar selangkah demi selangkah?"]},
+            {"id": "berpikir-dan-memeriksa", "title": "Berpikir dan memeriksa informasi", "intro": "Sebelum mengikuti atau menyebarkan sesuatu, Al-Qur’an mengingatkan tanggung jawab atas pengetahuan dan pentingnya memeriksa berita.", "hadithQuery": "ilmu", "refs": [[17,36],[49,6],[3,190]], "questions": ["Informasi apa yang perlu kamu cek sumber dan konteksnya sebelum mempercayainya?", "Apa yang dapat kamu amati hari ini untuk menumbuhkan rasa ingin tahu yang bermanfaat?"]},
+        ]
+    },
+    {
+        "id": "menjaga-lisan", "title": "Menjaga Lisan", "icon": "كَلَام", "isNew": True, "tags": ["ucapan", "bicara", "komunikasi", "ghibah", "prasangka"], "description": "Merenungi ucapan yang baik, jujur, dan tidak melukai martabat orang lain.",
+        "subtopics": [
+            {"id": "ucapan-baik", "title": "Berkata baik dan benar", "intro": "Ayat-ayat ini mengajak memilih kata yang lebih baik, berkata benar, dan menjaga hubungan melalui ucapan yang bertanggung jawab.", "hadithQuery": "berkata baik", "refs": [[2,83],[17,53],[33,70]], "questions": ["Kalimat apa yang bisa kamu sampaikan dengan lebih lembut dan tetap jujur?", "Kapan sebaiknya kamu berhenti sejenak sebelum menjawab?"]},
+            {"id": "menjauhi-ghibah", "title": "Menjauhi ejekan dan ghibah", "intro": "Baca pengingat agar tidak merendahkan, mencela, berprasangka buruk, atau membicarakan keburukan orang lain.", "hadithQuery": "ghibah", "refs": [[49,11],[49,12],[24,15]], "questions": ["Apakah ucapan yang ingin kamu bagikan bermanfaat dan sudah dipastikan benar?", "Bagaimana mengalihkan obrolan yang mulai merendahkan seseorang?"]},
+        ]
+    },
+    {
+        "id": "persaudaraan", "title": "Persaudaraan", "icon": "أُخُوَّة", "isNew": True, "tags": ["persatuan", "damai", "saling mengenal", "menghormati"], "description": "Merawat persatuan, memperbaiki hubungan, dan menghormati perbedaan serta martabat sesama.",
+        "subtopics": [
+            {"id": "persatuan-dan-damai", "title": "Menjaga persatuan dan perdamaian", "intro": "Ayat-ayat ini mengingatkan pentingnya berpegang pada kebaikan bersama, meredakan perselisihan, dan menghindari pertikaian.", "hadithQuery": "persaudaraan", "refs": [[49,10],[8,46],[3,103]], "questions": ["Apa titik temu yang bisa membantu memperbaiki hubungan yang sedang renggang?", "Langkah damai apa yang aman dan mungkin dilakukan oleh semua pihak?"]},
+            {"id": "menghormati-sesama", "title": "Mengenal dan menghormati sesama", "intro": "Keberagaman manusia menjadi ruang untuk saling mengenal; setiap orang tetap memiliki martabat yang perlu dihormati.", "hadithQuery": "sesama", "refs": [[49,13],[17,70],[4,36]], "questions": ["Apa yang bisa kamu pelajari dari seseorang yang latar belakangnya berbeda?", "Siapa di sekitarmu yang perlu didengar atau diperlakukan dengan lebih hormat?"]},
+        ]
+    },
+    {
+        "id": "berbagi", "title": "Berbagi dan Peduli", "icon": "عَطَاء", "isNew": True, "tags": ["sedekah", "infak", "yatim", "miskin", "kepedulian"], "description": "Menerjemahkan iman menjadi kepedulian, berbagi rezeki, dan perhatian kepada orang yang membutuhkan.",
+        "subtopics": [
+            {"id": "berbagi-harta", "title": "Berbagi dengan tulus", "intro": "Ayat-ayat ini mengajak memberi dari rezeki yang baik dan tidak hanya menunggu sampai sesuatu terasa berlebih.", "hadithQuery": "sedekah", "refs": [[2,261],[2,267],[3,92]], "questions": ["Apa yang bisa kamu bagikan—harta, waktu, tenaga, atau ilmu—dengan ikhlas?", "Bagaimana memastikan bantuan yang diberikan benar-benar bermanfaat dan menghormati penerimanya?"]},
+            {"id": "peduli-yatim-miskin", "title": "Peduli kepada yatim dan yang membutuhkan", "intro": "Al-Qur’an menautkan kepedulian kepada orang yang rentan dengan tanggung jawab sosial, bukan sekadar ucapan.", "hadithQuery": "anak yatim", "refs": [[2,215],[90,14],[107,3]], "questions": ["Adakah kebutuhan di lingkunganmu yang dapat kamu bantu dengan cara yang tepat?", "Bagaimana memberi bantuan tanpa merendahkan atau membuka privasi penerimanya?"]},
+        ]
+    },
 ]
 
 

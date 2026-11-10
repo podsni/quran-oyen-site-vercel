@@ -13,10 +13,10 @@ builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
 subprocess.run(["python3", str(BUILDER)], cwd=ROOT, check=True, capture_output=True, text=True)
 payload = json.loads((ROOT / "data" / "tema-tematik.json").read_text(encoding="utf-8"))
-expected = ["sabar", "ketenangan", "syukur", "pernikahan", "konflik-keluarga", "perceraian", "pengasuhan", "rezeki", "taubat", "keadilan"]
+expected = ["sabar", "ketenangan", "syukur", "pernikahan", "konflik-keluarga", "perceraian", "pengasuhan", "rezeki", "taubat", "keadilan", "ilmu", "menjaga-lisan", "persaudaraan", "berbagi"]
 assert [theme["id"] for theme in payload["themes"]] == expected
-assert sum(len(theme["subtopics"]) for theme in payload["themes"]) == 20
-assert len(payload["verses"]) == 56
+assert sum(len(theme["subtopics"]) for theme in payload["themes"]) == 28
+assert len(payload["verses"]) == 78
 index = {row["n"]: row for row in json.loads((ROOT / "data" / "index.json").read_text(encoding="utf-8"))}
 for theme in payload["themes"]:
     assert len(theme["subtopics"]) == 2
@@ -44,7 +44,9 @@ script = (ROOT / "tema.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 assert 'href="tema.html"' in html
 assert 'src="tema.js"' in page and 'href="tema.css"' in page
+assert page.index('id="theme-search"') < page.index('id="theme-grid"') < page.index('id="reflection-title"')
+assert 'id="search-chips"' in page and 'id="theme-search-clear"' in page
 assert "data/tema-tematik.json" in sw and "p === 'tema.html'" in sw and "p === 'tema.css'" in sw
 assert "fetch(`/api/ahmad-sanusi?${params}`" in script
 assert "AHMAD_SANUSI_API_KEY" not in script and "X-API-Key" not in script
-print("Thematic catalog checks passed: 10 themes, 20 subtopics, 56 source-verified verses, local tafsir, same-origin hadith search, and offline shell entries.")
+print("Thematic catalog checks passed: 14 themes, 28 subtopics, 78 source-verified verses, local tafsir, same-origin hadith search, and offline shell entries.")

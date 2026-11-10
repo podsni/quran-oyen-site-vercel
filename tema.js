@@ -87,10 +87,24 @@ function verseCard(ref, { daily = false } = {}) {
   </article>`;
 }
 function renderThemeGrid(query = $('theme-search').value) {
-  const term = normalize(query.trim());
-  const themes = catalog.themes.filter((theme) => !term || normalize([theme.title, theme.description, ...theme.subtopics.map((item) => item.title)].join(' ')).includes(term));
-  $('theme-grid').innerHTML = themes.map((theme) => `<button class="theme-card" type="button" data-theme="${esc(theme.id)}" aria-pressed="${activeTheme?.id === theme.id}"><span class="theme-icon" aria-hidden="true">${esc(theme.icon)}</span><strong>${esc(theme.title)}</strong><small>${esc(theme.subtopics.map((item) => item.title).join(' · '))}</small><span class="arrow" aria-hidden="true">›</span></button>`).join('');
-  setStatus('theme-status', themes.length ? '' : 'Tema atau subtopik belum ditemukan. Coba kata pencarian lain.');
+  const rawQuery = query.trim();
+  const term = normalize(rawQuery);
+  const themes = catalog.themes.filter((theme) => {
+    if (!term) return true;
+    const searchable = [theme.title, theme.description, ...(theme.tags || []), ...theme.subtopics.flatMap((item) => [item.title, item.intro, item.hadithQuery, ...item.refs, ...item.questions])].join(' ');
+    return normalize(searchable).includes(term);
+  });
+  $('theme-grid').innerHTML = themes.length ? themes.map((theme) => {
+    const verseCount = new Set(theme.subtopics.flatMap((item) => item.refs)).size;
+    return `<button class="theme-card" type="button" data-theme="${esc(theme.id)}" aria-label="Tema ${esc(theme.title)}, ${theme.subtopics.length} subtopik, ${verseCount} ayat pilihan" aria-pressed="${activeTheme?.id === theme.id}"><span class="theme-card-top"><span class="theme-icon" aria-hidden="true">${esc(theme.icon)}</span>${theme.isNew ? '<span class="new-badge">BARU</span>' : ''}</span><strong>${esc(theme.title)}</strong><small>${esc(theme.description)}</small><span class="theme-card-bottom"><span>${theme.subtopics.length} subtopik · ${verseCount} ayat</span><span class="arrow" aria-hidden="true">→</span></span></button>`;
+  }).join('') : `<div class="empty-results"><strong>Belum menemukan tema yang cocok</strong><p>Coba kata yang lebih umum seperti “doa”, “keluarga”, atau “ilmu”.</p><button type="button" data-reset-search>Hapus pencarian</button></div>`;
+  $('theme-search-clear').hidden = !rawQuery;
+  document.querySelectorAll('[data-search-query]').forEach((button) => button.setAttribute('aria-pressed', String(normalize(button.dataset.searchQuery) === term)));
+  const subtopicCount = themes.reduce((count, theme) => count + theme.subtopics.length, 0);
+  const status = rawQuery
+    ? (themes.length ? `${themes.length} tema dan ${subtopicCount} subtopik cocok dengan “${rawQuery}”.` : `Tidak ada tema yang cocok dengan “${rawQuery}”.`)
+    : `${catalog.themes.length} tema · ${catalog.themes.reduce((count, theme) => count + theme.subtopics.length, 0)} subtopik · ${Object.keys(catalog.verses).length} ayat pilihan.`;
+  setStatus('theme-status', status);
 }
 function renderTheme(theme) {
   activeTheme = theme;
@@ -336,8 +350,26 @@ function renderRoute() {
 function bind() {
   $('theme-search').addEventListener('input', () => renderThemeGrid());
   $('theme-grid').addEventListener('click', (event) => {
+    if (event.target.closest('[data-reset-search]')) {
+      $('theme-search').value = '';
+      renderThemeGrid('');
+      $('theme-search').focus({ preventScroll: true });
+      return;
+    }
     const button = event.target.closest('[data-theme]');
     if (button) location.hash = `tema/${button.dataset.theme}`;
+  });
+  $('search-chips').addEventListener('click', (event) => {
+    const button = event.target.closest('[data-search-query]');
+    if (!button) return;
+    $('theme-search').value = button.dataset.searchQuery;
+    renderThemeGrid();
+    $('theme-search').focus({ preventScroll: true });
+  });
+  $('theme-search-clear').addEventListener('click', () => {
+    $('theme-search').value = '';
+    renderThemeGrid('');
+    $('theme-search').focus({ preventScroll: true });
   });
   $('subtopic-list').addEventListener('click', (event) => {
     const button = event.target.closest('[data-subtopic]');
@@ -376,6 +408,9 @@ async function init() {
     if (!response.ok) throw new Error('Katalog tema belum dapat dimuat.');
     catalog = await response.json();
     if (catalog?.version !== 1 || !Array.isArray(catalog.themes) || !catalog.verses) throw new Error('Format katalog tema tidak valid.');
+    $('theme-total').textContent = String(catalog.themes.length);
+    $('subtopic-total').textContent = String(catalog.themes.reduce((count, theme) => count + theme.subtopics.length, 0));
+    $('verse-total').textContent = String(Object.keys(catalog.verses).length);
     bind();
     renderDaily();
     renderSaved();
