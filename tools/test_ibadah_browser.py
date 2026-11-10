@@ -114,6 +114,11 @@ with sync_playwright() as p:
     assert page.locator('#prayer-countdown').inner_text() != '—'
     assert page.locator('#prayer-next-name').inner_text()
     assert page.locator('.prayer-qibla').count() == 1
+    page.emulate_media(reduced_motion='no-preference')
+    assert page.locator('#prayer-results .prayer-hero').evaluate("element => getComputedStyle(element).animationName") == 'prayer-rise'
+    assert page.locator('#prayer-results .prayer-step.is-next .prayer-dot').evaluate("element => getComputedStyle(element).animationName") == 'prayer-dot-pulse'
+    page.emulate_media(reduced_motion='reduce')
+    assert page.locator('#prayer-results .prayer-hero').evaluate("element => getComputedStyle(element).animationName") == 'none'
     assert not remote_prayer_calculation_requests, remote_prayer_calculation_requests
     assert not page.evaluate("Object.keys(localStorage).some((key) => key.includes('prayer-location'))")
     page.locator('#prayer-settings-label').click()
