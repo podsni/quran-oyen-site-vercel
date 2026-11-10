@@ -13,13 +13,16 @@ builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
 subprocess.run(["python3", str(BUILDER)], cwd=ROOT, check=True, capture_output=True, text=True)
 payload = json.loads((ROOT / "data" / "tema-tematik.json").read_text(encoding="utf-8"))
-expected = ["sabar", "ketenangan", "syukur", "pernikahan", "konflik-keluarga", "perceraian", "pengasuhan", "rezeki", "taubat", "keadilan", "ilmu", "menjaga-lisan", "persaudaraan", "berbagi"]
+expected = ["sabar", "ketenangan", "syukur", "pernikahan", "konflik-keluarga", "perceraian", "pengasuhan", "rezeki", "taubat", "keadilan", "ilmu", "menjaga-lisan", "persaudaraan", "berbagi", "meminta-maaf", "amanah-kejujuran", "adab-bermasyarakat"]
 assert [theme["id"] for theme in payload["themes"]] == expected
-assert sum(len(theme["subtopics"]) for theme in payload["themes"]) == 28
-assert len(payload["verses"]) == 78
+assert sum(len(theme["subtopics"]) for theme in payload["themes"]) == 36
+assert len(payload["verses"]) == 89
+assert all(len(theme["subtopics"]) == (4 if theme["id"] == "meminta-maaf" else 2) for theme in payload["themes"])
+assert len({theme["id"] for theme in payload["themes"]}) == len(payload["themes"])
+assert "tidak mewajibkan seseorang memaafkan" in payload["sources"]["notice"]
+assert "utamakan keselamatan" in payload["sources"]["notice"]
 index = {row["n"]: row for row in json.loads((ROOT / "data" / "index.json").read_text(encoding="utf-8"))}
 for theme in payload["themes"]:
-    assert len(theme["subtopics"]) == 2
     for subtopic in theme["subtopics"]:
         assert 3 <= len(subtopic["refs"]) <= 5
         assert len(subtopic["questions"]) >= 2
@@ -49,4 +52,4 @@ assert 'id="search-chips"' in page and 'id="theme-search-clear"' in page
 assert "data/tema-tematik.json" in sw and "p === 'tema.html'" in sw and "p === 'tema.css'" in sw
 assert "fetch(`/api/ahmad-sanusi?${params}`" in script
 assert "AHMAD_SANUSI_API_KEY" not in script and "X-API-Key" not in script
-print("Thematic catalog checks passed: 14 themes, 28 subtopics, 78 source-verified verses, local tafsir, same-origin hadith search, and offline shell entries.")
+print("Thematic catalog checks passed: 17 themes, 36 subtopics, 89 source-verified verses, local tafsir, consent-aware forgiveness guidance, same-origin hadith search, and offline shell entries.")

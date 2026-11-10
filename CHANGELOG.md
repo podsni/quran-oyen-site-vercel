@@ -2,6 +2,13 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 11 November 2026 — Tema pemaafan dan adab bermasyarakat
+
+- **Katalog diperluas:** Jelajah Ayat Tematik kini memiliki 17 tema, 36 subtopik, dan 89 ayat pilihan yang dirakit dari teks Arab, terjemahan Kemenag, serta Tafsir al-Muntakhab/Jalalayn lokal.
+- **Tema baru:** Ditambahkan Meminta Maaf dan Memaafkan (empat subtopik), Amanah dan Kejujuran, serta Adab Bermasyarakat; fitur audio, hadis terkait, simpan/bagikan, dan progres lokal tetap digunakan.
+- **Konteks dan keselamatan:** Bacaan pemaafan tidak mewajibkan seseorang memaafkan atau berdamai, dan tidak menghapus tanggung jawab maupun hak pihak yang dirugikan. Mediasi dianjurkan dengan konteks, kerelaan, keadilan, dan keselamatan.
+- **Pengembang:** Jalankan `python3 tools/test_tema_data.py` dan tes regresi terkait sebelum menerbitkan.
+
 ## 10 November 2026 — Jadwal salat lokal dengan adhan-js
 
 - **Kalkulasi lokal:** Jadwal GPS bulanan dihitung di perangkat dengan adhan-js 4.4.6; koordinat tidak dikirim ke layanan lain atau disimpan. Metode awal memakai sudut Fajar 20°/Isya 18° dengan Asar Syafi’i, dan tersedia pilihan metode serta Hanafi.

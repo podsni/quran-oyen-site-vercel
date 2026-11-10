@@ -106,6 +106,29 @@ THEMES = [
             {"id": "peduli-yatim-miskin", "title": "Peduli kepada yatim dan yang membutuhkan", "intro": "Al-Qur’an menautkan kepedulian kepada orang yang rentan dengan tanggung jawab sosial, bukan sekadar ucapan.", "hadithQuery": "anak yatim", "refs": [[2,215],[90,14],[107,3]], "questions": ["Adakah kebutuhan di lingkunganmu yang dapat kamu bantu dengan cara yang tepat?", "Bagaimana memberi bantuan tanpa merendahkan atau membuka privasi penerimanya?"]},
         ]
     },
+    {
+        "id": "meminta-maaf", "title": "Meminta Maaf dan Memaafkan", "icon": "عَفْو", "isNew": True, "tags": ["maaf", "pemaafan", "kesalahan", "ampunan", "islah", "rekonsiliasi"], "description": "Merenungi pemaafan, keberanian mengakui kesalahan, tanggung jawab untuk memperbaiki dampak, dan perdamaian yang aman.",
+        "subtopics": [
+            {"id": "melapangkan-hati", "title": "Melapangkan hati dan memaafkan", "intro": "Ayat-ayat ini memuji menahan amarah dan memberi maaf. Memaafkan adalah pilihan hati; itu tidak otomatis berarti melupakan, memulihkan kepercayaan, atau kembali ke hubungan yang tidak aman.", "hadithQuery": "memaafkan", "refs": [[3,134],[42,40],[24,22]], "questions": ["Apa arti memaafkan bagimu, tanpa meniadakan pengalaman atau hakmu?", "Batas apa yang tetap perlu dijaga agar kamu merasa aman?"]},
+            {"id": "mengakui-kesalahan", "title": "Mengakui kesalahan dan memohon ampun", "intro": "Kisah dan tuntunan ini mengajak jujur mengakui kesalahan serta kembali kepada Allah. Ayat-ayatnya bukan tata cara baku meminta maaf kepada seseorang; dengarkan pihak yang terdampak dan jangan menuntut mereka segera memaafkan.", "hadithQuery": "taubat", "refs": [[3,135],[7,23],[28,16]], "questions": ["Bagaimana mengakui bagianmu dengan jelas tanpa menyalahkan orang yang terluka?", "Bisakah kamu meminta maaf dengan tulus, tanpa menuntut pengampunan atau jawaban tertentu?"]},
+            {"id": "memperbaiki-dampak", "title": "Bertanggung jawab dan memperbaiki dampak", "intro": "Taubat dikaitkan dengan berhenti dari kesalahan dan melakukan perbaikan. Jika ada orang yang dirugikan, renungkan langkah tanggung jawab yang aman dan patut; bacaan ini tidak menggantikan pemulihan hak atau nasihat ahli.", "hadithQuery": "memperbaiki kesalahan", "refs": [[2,160],[25,70],[2,263]], "questions": ["Kerugian atau dampak apa yang perlu kamu akui dan, bila mungkin, perbaiki?", "Siapa pihak tepercaya yang dapat membantu memastikan langkah perbaikan ini aman dan adil?"]},
+            {"id": "mendamaikan-hubungan", "title": "Mendamaikan hubungan dengan adil", "intro": "Al-Qur’an mengajak mendamaikan pihak yang berselisih secara adil. Ayat 4:35 berbicara khusus tentang persengketaan suami-istri; mediasi sebaiknya sukarela, aman, dan tidak menekan pihak yang rentan.", "hadithQuery": "perdamaian", "refs": [[49,9],[49,10],[4,35]], "questions": ["Apakah semua pihak menginginkan percakapan atau mediasi dan merasa cukup aman untuk ikut?", "Pihak netral siapa yang dapat membantu tanpa memihak atau memaksa rujuk?"]},
+        ]
+    },
+    {
+        "id": "amanah-kejujuran", "title": "Amanah dan Kejujuran", "icon": "أَمَانَة", "isNew": True, "tags": ["jujur", "amanah", "janji", "tanggung jawab", "hak"], "description": "Membangun kepercayaan melalui perkataan yang benar, menepati amanah, dan menjaga hak orang lain.",
+        "subtopics": [
+            {"id": "berkata-benar", "title": "Berkata jujur dan bersikap benar", "intro": "Ayat-ayat ini menyeru perkataan yang benar dan kesaksian yang adil, termasuk ketika kebenaran tidak menguntungkan diri sendiri.", "hadithQuery": "jujur", "refs": [[33,70],[9,119],[4,135]], "questions": ["Apa yang perlu kamu sampaikan dengan jujur, tanpa menambah atau menyembunyikan hal penting?", "Bagaimana memastikan kabar yang akan kamu teruskan benar dan tidak merugikan orang?"]},
+            {"id": "menjaga-amanah", "title": "Menjaga amanah, janji, dan hak", "intro": "Al-Qur’an mengingatkan agar amanah diserahkan kepada yang berhak dan janji dijaga. Sebagian ayat memiliki konteks khusus, seperti tanggung jawab atas harta anak yatim.", "hadithQuery": "amanah", "refs": [[4,58],[23,8],[17,34]], "questions": ["Amanah atau janji apa yang perlu kamu penuhi atau bicarakan ulang secara terbuka?", "Bagaimana menjaga kepentingan orang yang mempercayakan sesuatu kepadamu?"]},
+        ]
+    },
+    {
+        "id": "adab-bermasyarakat", "title": "Adab Bermasyarakat", "icon": "جِيرَان", "isNew": True, "tags": ["tetangga", "privasi", "menghormati", "martabat", "pergaulan"], "description": "Merawat kehidupan bersama dengan menghormati martabat, privasi, dan hak orang di sekitar.",
+        "subtopics": [
+            {"id": "menjaga-martabat", "title": "Menjaga martabat dan menghindari prasangka", "intro": "Ayat-ayat ini mengingatkan agar tidak mengejek, memberi julukan yang merendahkan, berprasangka buruk, atau menggunjing.", "hadithQuery": "menjaga lisan", "refs": [[49,11],[49,12],[17,70]], "questions": ["Adakah candaan atau julukan yang mungkin merendahkan seseorang?", "Bagaimana kamu bisa menghentikan obrolan yang membuka aib atau menyebarkan prasangka?"]},
+            {"id": "privasi-dan-tetangga", "title": "Menghormati privasi dan berbuat baik kepada tetangga", "intro": "Ayat-ayat ini mengajarkan meminta izin sebelum memasuki rumah dan berbuat baik kepada tetangga dekat maupun jauh.", "hadithQuery": "tetangga", "refs": [[24,27],[4,36],[49,13]], "questions": ["Batas privasi apa yang perlu kamu hormati dalam interaksi sehari-hari?", "Kebaikan sederhana apa yang dapat membuat tetangga merasa dihargai?"]},
+        ]
+    },
 ]
 
 
@@ -156,7 +179,7 @@ def main() -> None:
             "translation": "Terjemahan Kementerian Agama Republik Indonesia, melalui Tanzil.",
             "tafsir": "Tafsir al-Muntakhab (Muhammad Quraish Shihab et al.) dan Tafsir Jalalayn, salinan Indonesia dari Tanzil.",
             "hadith": "Hadis terkait dicari secara langsung melalui proxy server-side Ahmad Sanusi Open API; hasil bergantung pada ketersediaan dan pencarian API.",
-            "notice": "Konten Quran/tafsir adalah bacaan tematik awal, bukan fatwa atau pengganti bimbingan ahli. Rincian hukum keluarga, talak, nafkah, dan hak anak perlu dikonsultasikan kepada ahli yang kompeten dan mempertimbangkan keadaan setempat.",
+            "notice": "Konten Quran/tafsir adalah bacaan tematik awal, bukan fatwa atau pengganti bimbingan ahli. Tema pemaafan tidak mewajibkan seseorang memaafkan, berdamai, atau kembali ke hubungan yang tidak aman; pemaafan tidak otomatis menghapus tanggung jawab dan hak pihak yang dirugikan. Rincian hukum keluarga, talak, nafkah, dan hak anak perlu dikonsultasikan kepada ahli yang kompeten dan mempertimbangkan keadaan setempat. Jika ada ancaman atau kekerasan, utamakan keselamatan dan bantuan tepercaya.",
         },
         "themes": THEMES,
         "verses": verse_cache,
