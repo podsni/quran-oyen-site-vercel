@@ -72,6 +72,14 @@ Dokumentasi resmi menyediakan endpoint Kitab Kuning `GET /v1/kitab`, `/v1/kitab/
 - OpenAPI: <https://api.ahmadsanusi.com/openapi.json>
 - Base URL: <https://api.ahmadsanusi.com>
 
+## Jelajah Ayat Tematik dan Renungan 5 Menit
+
+Katalog 10 tema dan 20 subtopik memilih 56 ayat unik dari teks Quran Utsmani dan terjemahan Kementerian Agama RI yang sudah ada di repositori. Teks yang diperlukan untuk topik, termasuk teks lengkap tafsir per ayat, dibangun dari data Quran Oyen di `data/s*.json`, `data/id/t*.json`, `tafsir/muntakhab/`, dan `tafsir/jalalayn/` oleh `tools/build_tema_data.py`, lalu disimpan di `data/tema-tematik.json` agar bagian inti tetap dapat dibaca offline. Cuplikan penjelasan adalah awal teks Tafsir al-Muntakhab; tidak ditulis ulang sebagai tafsir baru. Audio ayat diputar melalui data audio EQuran.id yang sudah dipakai pembaca.
+
+Hadis terkait dicari ketika pengguna membuka subtopik melalui `GET /api/ahmad-sanusi?resource=hadits-search&q=...&page=1&limit=3`. Kata pencarian adalah istilah umum yang dipilih untuk subtopik, bukan catatan pribadi pengguna. API key hanya diteruskan server-side sebagai `AHMAD_SANUSI_API_KEY`; browser memanggil endpoint same-origin dan tidak pernah menerima key. Ketersediaan, hasil pencarian, nomor, dan derajat hadis mengikuti upstream, sehingga hadis yang muncul adalah hasil pencarian terkait kata kunci, bukan tafsir ayat. Panel menyatakan batas ini dan menyarankan pemeriksaan edisi sumber.
+
+Renungan harian dan seluruh koleksi/catatan disimpan di `localStorage` perangkat. Tidak ada pengiriman catatan atau progres ke server; progres tidak disinkronkan antarperangkat. Ayat untuk renungan dipilih deterministik berdasarkan tanggal lokal. Bahan bertema pernikahan, konflik keluarga, perceraian, nafkah, dan pengasuhan bersifat bacaan awal, bukan fatwa atau pengganti nasihat profesional; penerapan hukum memerlukan ahli yang memahami konteks dan aturan setempat.
+
 ## Konten harian dan 10 koleksi hadis: UmmahAPI
 
 Konten harian dan tab **10 Koleksi** memakai endpoint baca-saja UmmahAPI lewat proxy same-origin Quran Oyen `/api/ummahapi`. Proxy hanya mengizinkan rute `GET` yang diperlukan, membatasi nama koleksi dan parameter, memakai timeout serta batas ukuran respons, dan tidak meneruskan cookie, API key, atau alamat IP pengunjung ke upstream. Bundel harian mengambil ayat acak, satu Asmaul Husna, dan hadis pilihan; URL memakai tanggal Asia/Jakarta agar cache CDN berlaku per hari. Tombol ayat membuka pembaca internal Quran Oyen.
